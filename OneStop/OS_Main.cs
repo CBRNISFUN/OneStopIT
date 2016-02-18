@@ -1,4 +1,22 @@
-﻿using System;
+﻿//OneStopIT - The Open Source All-In-One tool for technicians.
+//Copyright (C) 2016 CollectiveIT.org
+
+//This program is free software: you can redistribute it and/or modify
+//it under the terms of the GNU General Public License as published by
+//the Free Software Foundation, either version 3 of the License, or
+//(at your option) any later version.
+
+//This program is distributed in the hope that it will be useful,
+//but WITHOUT ANY WARRANTY; without even the implied warranty of
+//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//GNU General Public License for more details.
+
+//You should have received a copy of the GNU General Public License
+//along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+//Developers: staticextasy, CBRN_IS_FUN (Garren King) - Find us on http://www.reddit.com/r/OneStopIT
+
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -19,11 +37,19 @@ namespace OneStop
         public bool BoolAdminStatus;
 
         public string StrTronPath = "";
+        private TextBox tb_Console;
         public string StrTronStatus = "";
 
         private void OS_Main_Load(object sender, EventArgs e)
         {
             #region Startup
+
+
+            Console("OS_GPL");
+
+
+
+
 
             // Load Settings
             Settings.Default.Reload();
@@ -129,6 +155,48 @@ namespace OneStop
             PopulateTronCBs();
 
             #endregion
+        }
+
+        public void Console(string input)
+        {
+            if (input == "OS_GPL")
+            {
+                tb_Console.AppendText(@"OneStopIT - The Open Source All-In-One tool for technicians." +
+                                      Environment.NewLine +
+                                      "Copyright (C)2016 CollectiveIT.org" + 
+                                      Environment.NewLine + 
+                                      Environment.NewLine +
+                                      "This program is free software: you can redistribute it and/or modify" +
+                                      Environment.NewLine +
+                                      "it under the terms of the GNU General Public License as published by" +
+                                      Environment.NewLine +
+                                      "the Free Software Foundation, either version 3 of the License, or" +
+                                      Environment.NewLine +
+                                      "(at your option) any later version." + 
+                                      Environment.NewLine + 
+                                      Environment.NewLine +
+                                      "This program is distributed in the hope that it will be useful," +
+                                      Environment.NewLine +
+                                      "but WITHOUT ANY WARRANTY; without even the implied warranty of" +
+                                      Environment.NewLine +
+                                      "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the" +
+                                      Environment.NewLine +
+                                      "GNU General Public License for more details." + 
+                                      Environment.NewLine +
+                                      Environment.NewLine +
+                                      "You should have received a copy of the GNU General Public License" +
+                                      Environment.NewLine +
+                                      "along with this program.  If not, see <http://www.gnu.org/licenses/>." +
+                                      Environment.NewLine +
+                                      "Developers: staticextasy, CBRN_IS_FUN (Garren King) - Find us on reddit.com/r/OneStopIT" +
+                                      Environment.NewLine);
+            }
+            else
+            {
+                tb_Console.AppendText(input);
+            }
+            
+            
         }
 
 
@@ -1629,9 +1697,11 @@ namespace OneStop
             this._label1 = new System.Windows.Forms.Label();
             this._lblInfoAdapterDesc = new System.Windows.Forms.Label();
             this._ofdTron = new System.Windows.Forms.OpenFileDialog();
+            this.tb_Console = new System.Windows.Forms.TextBox();
             this._tsBottomToolbar.SuspendLayout();
             this._menuPrimary.SuspendLayout();
             this._tcPrimaryTabs.SuspendLayout();
+            this._tpWelcome.SuspendLayout();
             this._tpOneStopMain.SuspendLayout();
             this._tpTronCli.SuspendLayout();
             this._tpTronSettings.SuspendLayout();
@@ -3371,6 +3441,7 @@ namespace OneStop
             // 
             // _tpWelcome
             // 
+            this._tpWelcome.Controls.Add(this.tb_Console);
             this._tpWelcome.Location = new System.Drawing.Point(4, 22);
             this._tpWelcome.Name = "_tpWelcome";
             this._tpWelcome.Padding = new System.Windows.Forms.Padding(3);
@@ -4498,6 +4569,15 @@ namespace OneStop
             // 
             this._ofdTron.FileName = "Tron.bat";
             // 
+            // tb_Console
+            // 
+            this.tb_Console.Location = new System.Drawing.Point(353, 6);
+            this.tb_Console.Multiline = true;
+            this.tb_Console.Name = "tb_Console";
+            this.tb_Console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tb_Console.Size = new System.Drawing.Size(385, 379);
+            this.tb_Console.TabIndex = 0;
+            // 
             // OsMain
             // 
             this.ClientSize = new System.Drawing.Size(754, 531);
@@ -4535,6 +4615,8 @@ namespace OneStop
             this._menuPrimary.ResumeLayout(false);
             this._menuPrimary.PerformLayout();
             this._tcPrimaryTabs.ResumeLayout(false);
+            this._tpWelcome.ResumeLayout(false);
+            this._tpWelcome.PerformLayout();
             this._tpOneStopMain.ResumeLayout(false);
             this._tpOneStopMain.PerformLayout();
             this._tpTronCli.ResumeLayout(false);

@@ -1,10 +1,22 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: OneStop.OS_Network
-// Assembly: OneStop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 5BE87A31-83AB-43B7-BB01-CFC02D4F018E
-// Assembly location: C:\Users\Garren\Documents\Visual Studio 2013\Projects\OneStop\OneStop\bin\Debug\OneStop.exe
+﻿//OneStopIT - The Open Source All-In-One tool for technicians.
+//Copyright (C) 2016 CollectiveIT.org
 
-//OMG THANK YOU JETBRAINS FOR SAVING MY STUPID ASS.
+//This program is free software: you can redistribute it and/or modify
+//it under the terms of the GNU General Public License as published by
+//the Free Software Foundation, either version 3 of the License, or
+//(at your option) any later version.
+
+//This program is distributed in the hope that it will be useful,
+//but WITHOUT ANY WARRANTY; without even the implied warranty of
+//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//GNU General Public License for more details.
+
+//You should have received a copy of the GNU General Public License
+//along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+//Developers: staticextasy, CBRN_IS_FUN (Garren King) - Find us on http://www.reddit.com/r/OneStopIT
+
+//OMG THANK YOU JETBRAINS FOR SAVING MY STUPID ASS - CBRN_IS_FUN
 
 using System.Collections.Generic;
 using System.Net;
