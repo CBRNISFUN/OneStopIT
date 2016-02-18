@@ -1,0 +1,7 @@
+﻿namespace OneStop
+{
+    class OsTweaks
+    {
+        
+    }
+}
