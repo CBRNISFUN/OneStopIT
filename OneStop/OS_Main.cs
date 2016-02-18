@@ -44,31 +44,46 @@ namespace OneStop
         {
             #region Startup
 
-
+            Console("OS_HR");
+            Console("Begin  ONESTOP STARTUP");
+            Console("OS_HR");
+            Console("OS_BR");
             Console("OS_GPL");
 
 
 
 
-
+            Console("OS_HR");
+            Console("Loading Settings...");
+            Console("OS_BR");
             // Load Settings
             Settings.Default.Reload();
 
             //Tron not found by default
             TronDisable("Not Initialized - ");
 
-
+            Console("Searching for Tron.bat");
             //Determine if Tron is located on load.
             var strFileName = "Tron.bat";
             var strCurDir = Directory.GetCurrentDirectory();
             var strFilePaths = Directory.GetFiles(strCurDir);
 
-            if (File.Exists(strCurDir + "\\" + strFileName))
+            if (File.Exists(strCurDir + "\\Tron\\" + strFileName))
             {
                 //Tron Was Found in Current Directory, enable all of the disabled functions (ConfigDump Button, 
                 TronEnable("Tron Found (Current) - ", strCurDir + "\\" + strFileName);
                 BoolLocalDir = true;
                 BoolPrevDir = false;
+                Console("Tron.bat Found in Local Directory");
+
+            }
+            else if (File.Exists(strCurDir + "\\" + strFileName))
+            {
+                //Tron Was Found in Current Directory, enable all of the disabled functions (ConfigDump Button, 
+                TronEnable("Tron Found (Current) - ", strCurDir + "\\" + strFileName);
+                BoolLocalDir = true;
+                BoolPrevDir = false;
+                Console("Tron.bat Found in Local Directory Root");
             }
             else if (Settings.Default.str_LastTronDirectory != null)
             {
@@ -79,6 +94,7 @@ namespace OneStop
                     TronEnable("Tron Found (Previous) - ", Settings.Default.str_LastTronDirectory + "\\" + strFileName);
                     BoolLocalDir = false;
                     BoolPrevDir = true;
+                    Console("Tron.bat Found in previously used location");
                 }
                 else
                 {
@@ -86,6 +102,8 @@ namespace OneStop
                     TronDisable("Tron Not Found - ");
                     BoolLocalDir = false;
                     BoolPrevDir = false;
+                    Console("Tron.bat not found");
+
                 }
             }
             else
@@ -94,23 +112,35 @@ namespace OneStop
                 TronDisable("Tron Not Found - ");
                 BoolLocalDir = false;
                 BoolPrevDir = false;
+                Console("Tron.bat not found");
             }
 
             //Determine if We are Administrators.
             var strAdminStatus = "";
-            var isElevated = OsSystem.GetElevatedStatus();
+            
+            try
+            {
+                var isElevated = OsSystem.GetElevatedStatus();
 
-            if (isElevated)
-            {
-                strAdminStatus = "ADMIN";
-                _lblOneStopStatus.ForeColor = Color.Green;
-                BoolAdminStatus = true;
+                if (isElevated)
+                {
+                    strAdminStatus = "ADMIN";
+                    _lblOneStopStatus.ForeColor = Color.Green;
+                    BoolAdminStatus = true;
+                    Console("OneStop is running as Administrator");
+                }
+                if (!isElevated)
+                {
+                    strAdminStatus = "NOT ADMIN";
+                    _lblOneStopStatus.ForeColor = Color.Red;
+                    BoolAdminStatus = false;
+                    Console("OS_BR");
+                    Console("ONE STOP IS NOT RUNNING AS ADMINISTRATOR - SOME FUNCTIONALITY, INCLUDING TRON CANNOT RUN");
+                }
             }
-            if (!isElevated)
+            catch (Exception exception)
             {
-                strAdminStatus = "NOT ADMIN";
-                _lblOneStopStatus.ForeColor = Color.Red;
-                BoolAdminStatus = false;
+                Console("Exeption while checking administrator status" + exception);
             }
 
 
@@ -125,17 +155,25 @@ namespace OneStop
             _lnkInfoGateway.Text = "";
             _lnkInfoPrimDns.Text = "";
             _lblInfoAdapterDesc.Text = "";
-
-
+            Console("Getting Current Stystem Status");
+            Console("C Drive Space: " + OsSystem.GetCDriveSpace());
+            Console("OS Friendly Name / Arch: "  + OsSystem.GetOsFriendlyName() + OsSystem.GetArch());
+            Console("Installed Memory: " + OsSystem.GetInstalledMemory());
+            Console("Machine Name: " + OsSystem.GetMachineName());
+            Console("OS_HR");
+            
             //Network Adapters
-
+            Console("Getting Network Adapters");
             var adapters = NetworkInterface.GetAllNetworkInterfaces();
             foreach (var adapter in adapters)
             {
                 _ddlInfoNetworkAdapters.Items.Add(adapter.Name);
+                Console("Adapter Found" + adapter.Name + " - " + adapter.Description);
             }
 
             //Load Quick Launch Menu
+
+            Console("Loading Quick Launch Menu Settings");
             LoadMenuatStart();
 
             string strCurrentDirectory = Directory.GetCurrentDirectory();
@@ -148,12 +186,16 @@ namespace OneStop
             //Enumerate Docs Quick Launch
             EnumerateDocs(strDocsDirectory);
 
+            Console("Loading Customization Settings");
             //Load Settings Panel
             LoadShopSettings();
 
             //Load Tron Flags
+            Console("Loading Previous Configuration Settings");
             PopulateTronCBs();
-
+            Console("OS_HR");
+            Console("END ONESTOP STARTUP");
+            Console("OS_HR");
             #endregion
         }
 
@@ -180,7 +222,6 @@ namespace OneStop
                                       "but WITHOUT ANY WARRANTY; without even the implied warranty of" +
                                       Environment.NewLine +
                                       "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the" +
-                                      Environment.NewLine +
                                       "GNU General Public License for more details." + 
                                       Environment.NewLine +
                                       Environment.NewLine +
@@ -191,9 +232,17 @@ namespace OneStop
                                       "Developers: staticextasy, CBRN_IS_FUN (Garren King) - Find us on reddit.com/r/OneStopIT" +
                                       Environment.NewLine);
             }
+            else if (input == "OS_HR")
+            {
+                tb_Console.AppendText(Environment.NewLine + @"===========================================");
+            }
+            else if (input == "OS_BR")
+            {
+                tb_Console.AppendText(Environment.NewLine + Environment.NewLine);
+            }
             else
             {
-                tb_Console.AppendText(input);
+                tb_Console.AppendText(Environment.NewLine + input);
             }
             
             
@@ -202,67 +251,75 @@ namespace OneStop
 
         private void ddl_info_NetworkAdapters_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var selectedAdapter = _ddlInfoNetworkAdapters.SelectedText;
-
-            var adapters = NetworkInterface.GetAllNetworkInterfaces();
-            foreach (var adapter in adapters)
+            try
             {
-                if (adapter.Name == _ddlInfoNetworkAdapters.Text)
+                var selectedAdapter = _ddlInfoNetworkAdapters.SelectedText;
+
+                var adapters = NetworkInterface.GetAllNetworkInterfaces();
+                foreach (var adapter in adapters)
                 {
-                    _lblInfoAdapterDesc.Text = adapter.Description;
-
-                    var adapterProperties = adapter.GetIPProperties();
-
-                    //DNS Server
-                    var dnsServers = adapterProperties.DnsAddresses;
-                    var strDnsOut = "";
-                    if (dnsServers.Count > 0)
+                    if (adapter.Name == _ddlInfoNetworkAdapters.Text)
                     {
-                        foreach (var dns in dnsServers)
+                        _lblInfoAdapterDesc.Text = adapter.Description;
+
+                        var adapterProperties = adapter.GetIPProperties();
+
+                        //DNS Server
+                        var dnsServers = adapterProperties.DnsAddresses;
+                        var strDnsOut = "";
+                        if (dnsServers.Count > 0)
                         {
-                            if (dns.ToString() == "fec0:0:0:ffff::1%1")
+                            foreach (var dns in dnsServers)
                             {
+                                if (dns.ToString() == "fec0:0:0:ffff::1%1")
+                                {
+                                }
+                                else if (dns.ToString() == "fec0:0:0:ffff::2%1")
+                                {
+                                }
+                                else if (dns.ToString() == "fec0:0:0:ffff::3%1")
+                                {
+                                }
+                                else
+                                {
+                                    strDnsOut = strDnsOut + dns + " ";
+                                }
                             }
-                            else if (dns.ToString() == "fec0:0:0:ffff::2%1")
+                            _lnkInfoPrimDns.Text = strDnsOut;
+                        }
+
+
+                        //Gateway
+                        if (adapter.OperationalStatus == OperationalStatus.Up)
+                        {
+                            var strOutput = "";
+                            foreach (var g in adapter.GetIPProperties().GatewayAddresses)
                             {
-                            }
-                            else if (dns.ToString() == "fec0:0:0:ffff::3%1")
-                            {
-                            }
-                            else
-                            {
-                                strDnsOut = strDnsOut + dns + " ";
+                                strOutput = strOutput + g.Address + " ";
+                                _lnkInfoGateway.Text = strOutput;
                             }
                         }
-                        _lnkInfoPrimDns.Text = strDnsOut;
-                    }
-
-
-                    //Gateway
-                    if (adapter.OperationalStatus == OperationalStatus.Up)
-                    {
-                        var strOutput = "";
-                        foreach (var g in adapter.GetIPProperties().GatewayAddresses)
+                        else
                         {
-                            strOutput = strOutput + g.Address + " ";
-                            _lnkInfoGateway.Text = strOutput;
+                            _lnkInfoGateway.Text = "Status is Down";
                         }
-                    }
-                    else
-                    {
-                        _lnkInfoGateway.Text = "Status is Down";
-                    }
 
-                    //Internal IP
-                    var strIpOut = "";
-                    foreach (var ip in adapter.GetIPProperties().UnicastAddresses)
-                    {
-                        if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
+                        //Internal IP
+                        var strIpOut = "";
+                        foreach (var ip in adapter.GetIPProperties().UnicastAddresses)
                         {
-                            strIpOut = strIpOut + ip.Address + " ";
+                            if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
+                            {
+                                strIpOut = strIpOut + ip.Address + " ";
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception)
+            {
+                Console("Exeption Thrown - Network Adapter Selection");
+                throw;
             }
         }
 
@@ -4869,7 +4926,10 @@ namespace OneStop
         {
             try
             {
+                if(new DirectoryInfo(strScriptsDirectory).Exists)
+                { 
                 var s = new DirectoryInfo(strScriptsDirectory);
+ 
                 var files = s.GetFiles("*.*");
                 foreach (var file in files)
                 {
@@ -4889,14 +4949,23 @@ namespace OneStop
                         _scriptsToolStripMenuItem.DropDownItems.Add(subItem);
                     }
                 }
+                }
+                else
+                {
+                    Console("Scripts Directory Does not Exist");
+                }
             }
             catch (UnauthorizedAccessException uaEx)
             {
-                MessageBox.Show(uaEx.Message);
+                Console("Exeption Thrown: Enumerating Scripts Directory - " + uaEx.Message);
             }
             catch (PathTooLongException pathEx)
             {
-                MessageBox.Show(pathEx.Message);
+                Console("Exeption Thrown: Enumerating Scripts Directory - " + pathEx.Message);
+            }
+            catch
+            {
+                Console("Exeption Thrown: Enumerating Scripts Directory - Unknown");
             }
         }
 
@@ -4904,34 +4973,45 @@ namespace OneStop
         {
             try
             {
-                var d = new DirectoryInfo(strDocsDirectory);
-                var filesDocs = d.GetFiles("*.*", SearchOption.TopDirectoryOnly);
-                foreach (var fileDoc in filesDocs)
+                if (new DirectoryInfo(strDocsDirectory).Exists)
                 {
-                    var extension = Path.GetExtension(Convert.ToString(fileDoc).ToUpper());
-
-                    if (extension == ".602" || extension == ".ABW" || extension == ".ANS" || extension == ".ASC" ||
-                        extension == ".CSV" || extension == ".DOC" || extension == ".DOCM" || extension == ".DOCX" ||
-                        extension == ".DOT" || extension == ".DOTX" || extension == ".EPUB" || extension == ".GDOC" ||
-                        extension == ".HTML" || extension == ".LOG" || extension == ".Mobi" || extension == ".ODM" ||
-                        extension == ".ODT" || extension == ".OTT" || extension == ".PDF" || extension == ".RTF" ||
-                        extension == ".INFO" || extension == ".TXT" || extension == ".WPS" || extension == ".WPT" ||
-                        extension == ".XHTML" || extension == ".XHT" || extension == ".XML" || extension == ".XPS")
+                    var d = new DirectoryInfo(strDocsDirectory);
+                    var filesDocs = d.GetFiles("*.*", SearchOption.TopDirectoryOnly);
+                    foreach (var fileDoc in filesDocs)
                     {
-                        ToolStripItem subItem = new ToolStripMenuItem();
-                        subItem.Click += MenuClickedDocuments;
-                        subItem.Text = Convert.ToString(fileDoc);
-                        _documentsToolStripMenuItem.DropDownItems.Add(subItem);
+                        var extension = Path.GetExtension(Convert.ToString(fileDoc).ToUpper());
+
+                        if (extension == ".602" || extension == ".ABW" || extension == ".ANS" || extension == ".ASC" ||
+                            extension == ".CSV" || extension == ".DOC" || extension == ".DOCM" || extension == ".DOCX" ||
+                            extension == ".DOT" || extension == ".DOTX" || extension == ".EPUB" || extension == ".GDOC" ||
+                            extension == ".HTML" || extension == ".LOG" || extension == ".Mobi" || extension == ".ODM" ||
+                            extension == ".ODT" || extension == ".OTT" || extension == ".PDF" || extension == ".RTF" ||
+                            extension == ".INFO" || extension == ".TXT" || extension == ".WPS" || extension == ".WPT" ||
+                            extension == ".XHTML" || extension == ".XHT" || extension == ".XML" || extension == ".XPS")
+                        {
+                            ToolStripItem subItem = new ToolStripMenuItem();
+                            subItem.Click += MenuClickedDocuments;
+                            subItem.Text = Convert.ToString(fileDoc);
+                            _documentsToolStripMenuItem.DropDownItems.Add(subItem);
+                        }
                     }
+                }
+                else
+                {
+                    Console("Scripts Directory Does not Exist");
                 }
             }
             catch (UnauthorizedAccessException uaEx)
             {
-                MessageBox.Show(uaEx.Message);
+                Console("Exeption Thrown: Enumerating Documents Directory -" + uaEx.Message);
             }
             catch (PathTooLongException pathEx)
             {
-                MessageBox.Show(pathEx.Message);
+                Console("Exeption Thrown: Enumerating Documents Directory -" + pathEx.Message);
+            }
+            catch
+            {
+                Console("Exeption Thrown: Enumerating Documents Directory - Unknown");
             }
         }
 
