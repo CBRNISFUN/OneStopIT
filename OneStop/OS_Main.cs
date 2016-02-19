@@ -38,6 +38,8 @@ namespace OneStop
 
         public string StrTronPath = "";
         private TextBox tb_Console;
+        private ToolStripMenuItem oneStopToolGetFileInfoToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator1;
         public string StrTronStatus = "";
 
         private void OS_Main_Load(object sender, EventArgs e)
@@ -1649,6 +1651,7 @@ namespace OneStop
             this._cBrnisfunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._tcPrimaryTabs = new System.Windows.Forms.TabControl();
             this._tpWelcome = new System.Windows.Forms.TabPage();
+            this.tb_Console = new System.Windows.Forms.TextBox();
             this._tpOneStopMain = new System.Windows.Forms.TabPage();
             this._lblOsmExecuteOrder = new System.Windows.Forms.Label();
             this._lblOsmProgramSelect = new System.Windows.Forms.Label();
@@ -1754,7 +1757,8 @@ namespace OneStop
             this._label1 = new System.Windows.Forms.Label();
             this._lblInfoAdapterDesc = new System.Windows.Forms.Label();
             this._ofdTron = new System.Windows.Forms.OpenFileDialog();
-            this.tb_Console = new System.Windows.Forms.TextBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.oneStopToolGetFileInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._tsBottomToolbar.SuspendLayout();
             this._menuPrimary.SuspendLayout();
             this._tcPrimaryTabs.SuspendLayout();
@@ -1860,6 +1864,8 @@ namespace OneStop
             this._oneStopSettingsToolStripMenuItem,
             this._tRonToolStripMenuItem,
             this._toolStripSeparator22,
+            this.oneStopToolGetFileInfoToolStripMenuItem,
+            this.toolStripSeparator1,
             this._quitToolStripMenuItem});
             this._oneStopToolStripMenuItem.Name = "_oneStopToolStripMenuItem";
             this._oneStopToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
@@ -3507,6 +3513,15 @@ namespace OneStop
             this._tpWelcome.Text = "Welcome";
             this._tpWelcome.UseVisualStyleBackColor = true;
             // 
+            // tb_Console
+            // 
+            this.tb_Console.Location = new System.Drawing.Point(353, 6);
+            this.tb_Console.Multiline = true;
+            this.tb_Console.Name = "tb_Console";
+            this.tb_Console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tb_Console.Size = new System.Drawing.Size(385, 379);
+            this.tb_Console.TabIndex = 0;
+            // 
             // _tpOneStopMain
             // 
             this._tpOneStopMain.Controls.Add(this._lblOsmExecuteOrder);
@@ -4626,14 +4641,17 @@ namespace OneStop
             // 
             this._ofdTron.FileName = "Tron.bat";
             // 
-            // tb_Console
+            // toolStripSeparator1
             // 
-            this.tb_Console.Location = new System.Drawing.Point(353, 6);
-            this.tb_Console.Multiline = true;
-            this.tb_Console.Name = "tb_Console";
-            this.tb_Console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tb_Console.Size = new System.Drawing.Size(385, 379);
-            this.tb_Console.TabIndex = 0;
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(212, 6);
+            // 
+            // oneStopToolGetFileInfoToolStripMenuItem
+            // 
+            this.oneStopToolGetFileInfoToolStripMenuItem.Name = "oneStopToolGetFileInfoToolStripMenuItem";
+            this.oneStopToolGetFileInfoToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.oneStopToolGetFileInfoToolStripMenuItem.Text = "OneStop Tool: Get File Info";
+            this.oneStopToolGetFileInfoToolStripMenuItem.Click += new System.EventHandler(this.oneStopToolGetFileInfoToolStripMenuItem_Click);
             // 
             // OsMain
             // 
@@ -5294,6 +5312,12 @@ namespace OneStop
         private void _btnClear_Click(object sender, EventArgs e)
         {
             //Clear all flags
+        }
+
+        private void oneStopToolGetFileInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OS_FileInfo OS_FileInfo = new OS_FileInfo();
+            OS_FileInfo.Show();
         }
     }
 }
