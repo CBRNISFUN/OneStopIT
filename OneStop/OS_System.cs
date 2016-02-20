@@ -189,7 +189,7 @@ namespace OneStop
                 UInt32 sizeinMb = sizeinKb / 1024;
                 UInt32 sizeinGb = sizeinMb / 1024;
                 result = sizeinGb + " GB (" + sizeinMb + " MB)";
-                //Console.WriteLine("Size in KB: {0}, Size in MB: {1}, Size in GB: {2}", SizeinKB, SizeinMB, SizeinGB);
+                //OSConsole.WriteLine("Size in KB: {0}, Size in MB: {1}, Size in GB: {2}", SizeinKB, SizeinMB, SizeinGB);
             }
             return result;
 

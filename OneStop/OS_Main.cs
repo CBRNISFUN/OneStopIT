@@ -26,6 +26,8 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Windows.Forms;
 using OneStop.Properties;
+using System.Threading.Tasks;
+using Microsoft.Win32;
 
 namespace OneStop
 {
@@ -37,34 +39,98 @@ namespace OneStop
         public bool BoolAdminStatus;
 
         public string StrTronPath = "";
-        private TextBox tb_Console;
+        public TextBox tb_Console;
         private ToolStripMenuItem oneStopToolGetFileInfoToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem testBrowserToolStripMenuItem;
+        private ToolStripMenuItem oneStopInternalToolStripMenuItem;
+        private ToolStripMenuItem launchPortableBrowsersetInConfigToolStripMenuItem;
+        private ToolStripMenuItem forceLogoffToolStripMenuItem;
+        private ToolStripMenuItem connectivityToDefaultGatewayToolStripMenuItem;
+        private Button button6;
+        private Button button5;
+        private LinkLabel linkLabel2;
+        private TabControl tabControl1;
+        private TabPage tpSystemReport;
+        private TabPage tpNetwork;
+        private TextBox netBox;
+        private Button clearSslBTN;
+        private Button setGoogleDnsBTN;
+        private Button winsockRepBTN;
+        private Button clearStaticBTN;
+        private Button dnsFlushBTN;
+        private Button releaseRenewBTN;
+        private ComboBox netCombo;
+        private Button button7;
+        private Label label10;
+        private GroupBox groupBox3;
+        private FlowLayoutPanel flowLayoutPanel3;
+        private Label label11;
+        private TextBox hostNameTextB;
+        private Label label12;
+        private TextBox textBox8;
+        private Label label13;
+        private TextBox textBox9;
+        private Label label14;
+        private TextBox textBox10;
+        private Label label15;
+        private TextBox textBox11;
+        private Label label16;
+        private TextBox textBox12;
+        private Label label17;
+        private TextBox textBox13;
+        private Label label18;
+        private TextBox pubIPTextB;
+        private TabPage tpServers;
+        private GroupBox groupBox1;
+        private GroupBox mailGroupBox;
+        private Button button2;
+        private Button button4;
+        private Button button1;
+        private ComboBox comboBox2;
+        private Button button3;
+        private ComboBox comboBox1;
+        private TextBox textBox7;
+        private TextBox textBox6;
+        private Label label9;
+        private Label label8;
+        private Label label7;
+        private Label label6;
+        private Label label5;
+        private TextBox textBox5;
+        private TextBox textBox4;
+        private Label label4;
+        private TextBox textBox3;
+        private Label label3;
+        private Label label2;
+        private TextBox textBox2;
+        private Label label1;
+        private TextBox textBox1;
         public string StrTronStatus = "";
 
         private void OS_Main_Load(object sender, EventArgs e)
         {
             #region Startup
 
-            Console("OS_HR");
-            Console("Begin  ONESTOP STARTUP");
-            Console("OS_HR");
-            Console("OS_BR");
-            Console("OS_GPL");
+            OSConsole("OS_HR", 0);
+            OSConsole("Begin  ONESTOP STARTUP", 0);
+            OSConsole("OS_HR", 0);
+            OSConsole("OS_BR", 0);
+            OSConsole("OS_GPL", 0);
+
+            OSConsole("Onestop begain initial startup at: " + DateTime.Now.ToString(), 2);
 
 
-
-
-            Console("OS_HR");
-            Console("Loading Settings...");
-            Console("OS_BR");
+            OSConsole("OS_HR", 0);
+            OSConsole("Loading Settings...", 0);
+            OSConsole("OS_BR", 0);
             // Load Settings
             Settings.Default.Reload();
 
             //Tron not found by default
             TronDisable("Not Initialized - ");
 
-            Console("Searching for Tron.bat");
+            OSConsole("Searching for Tron.bat", 1);
             //Determine if Tron is located on load.
             var strFileName = "Tron.bat";
             var strCurDir = Directory.GetCurrentDirectory();
@@ -76,7 +142,7 @@ namespace OneStop
                 TronEnable("Tron Found (Current) - ", strCurDir + "\\" + strFileName);
                 BoolLocalDir = true;
                 BoolPrevDir = false;
-                Console("Tron.bat Found in Local Directory");
+                OSConsole("Tron.bat Found in Local Directory", 1);
 
             }
             else if (File.Exists(strCurDir + "\\" + strFileName))
@@ -85,7 +151,7 @@ namespace OneStop
                 TronEnable("Tron Found (Current) - ", strCurDir + "\\" + strFileName);
                 BoolLocalDir = true;
                 BoolPrevDir = false;
-                Console("Tron.bat Found in Local Directory Root");
+                OSConsole("Tron.bat Found in Local Directory Root", 1);
             }
             else if (Settings.Default.str_LastTronDirectory != null)
             {
@@ -96,7 +162,7 @@ namespace OneStop
                     TronEnable("Tron Found (Previous) - ", Settings.Default.str_LastTronDirectory + "\\" + strFileName);
                     BoolLocalDir = false;
                     BoolPrevDir = true;
-                    Console("Tron.bat Found in previously used location");
+                    OSConsole("Tron.bat Found in previously used location", 1);
                 }
                 else
                 {
@@ -104,7 +170,7 @@ namespace OneStop
                     TronDisable("Tron Not Found - ");
                     BoolLocalDir = false;
                     BoolPrevDir = false;
-                    Console("Tron.bat not found");
+                    OSConsole("Tron.bat not found", 1);
 
                 }
             }
@@ -114,7 +180,7 @@ namespace OneStop
                 TronDisable("Tron Not Found - ");
                 BoolLocalDir = false;
                 BoolPrevDir = false;
-                Console("Tron.bat not found");
+                OSConsole("Tron.bat not found", 1);
             }
 
             //Determine if We are Administrators.
@@ -129,20 +195,20 @@ namespace OneStop
                     strAdminStatus = "ADMIN";
                     _lblOneStopStatus.ForeColor = Color.Green;
                     BoolAdminStatus = true;
-                    Console("OneStop is running as Administrator");
+                    OSConsole("OneStop is running as Administrator", 1);
                 }
                 if (!isElevated)
                 {
                     strAdminStatus = "NOT ADMIN";
                     _lblOneStopStatus.ForeColor = Color.Red;
                     BoolAdminStatus = false;
-                    Console("OS_BR");
-                    Console("ONE STOP IS NOT RUNNING AS ADMINISTRATOR - SOME FUNCTIONALITY, INCLUDING TRON CANNOT RUN");
+                    OSConsole("OS_BR", 0);
+                    OSConsole("ONE STOP IS NOT RUNNING AS ADMINISTRATOR - SOME FUNCTIONALITY, INCLUDING TRON CANNOT RUN", 1);
                 }
             }
             catch (Exception exception)
             {
-                Console("Exeption while checking administrator status" + exception);
+                OSConsole("Exeption while checking administrator status" + exception, 0);
             }
 
 
@@ -157,25 +223,25 @@ namespace OneStop
             _lnkInfoGateway.Text = "";
             _lnkInfoPrimDns.Text = "";
             _lblInfoAdapterDesc.Text = "";
-            Console("Getting Current Stystem Status");
-            Console("C Drive Space: " + OsSystem.GetCDriveSpace());
-            Console("OS Friendly Name / Arch: "  + OsSystem.GetOsFriendlyName() + OsSystem.GetArch());
-            Console("Installed Memory: " + OsSystem.GetInstalledMemory());
-            Console("Machine Name: " + OsSystem.GetMachineName());
-            Console("OS_HR");
+            OSConsole("Getting Current Stystem Status", 1);
+            OSConsole("C Drive Space: " + OsSystem.GetCDriveSpace(), 1);
+            OSConsole("OS Friendly Name / Arch: "  + OsSystem.GetOsFriendlyName() + OsSystem.GetArch(), 1);
+            OSConsole("Installed Memory: " + OsSystem.GetInstalledMemory(), 1);
+            OSConsole("Machine Name: " + OsSystem.GetMachineName(), 1);
+            OSConsole("OS_HR", 0);
             
             //Network Adapters
-            Console("Getting Network Adapters");
+            OSConsole("Getting Network Adapters", 1);
             var adapters = NetworkInterface.GetAllNetworkInterfaces();
             foreach (var adapter in adapters)
             {
                 _ddlInfoNetworkAdapters.Items.Add(adapter.Name);
-                Console("Adapter Found" + adapter.Name + " - " + adapter.Description);
+                OSConsole("Adapter Found" + adapter.Name + " - " + adapter.Description, 1);
             }
 
             //Load Quick Launch Menu
 
-            Console("Loading Quick Launch Menu Settings");
+            OSConsole("Loading Quick Launch Menu Settings", 0);
             LoadMenuatStart();
 
             string strCurrentDirectory = Directory.GetCurrentDirectory();
@@ -188,66 +254,169 @@ namespace OneStop
             //Enumerate Docs Quick Launch
             EnumerateDocs(strDocsDirectory);
 
-            Console("Loading Customization Settings");
+            OSConsole("Loading Customization Settings", 0);
             //Load Settings Panel
             LoadShopSettings();
 
             //Load Tron Flags
-            Console("Loading Previous Configuration Settings");
+            OSConsole("Loading Previous Configuration Settings", 0);
             PopulateTronCBs();
-            Console("OS_HR");
-            Console("END ONESTOP STARTUP");
-            Console("OS_HR");
+            OSConsole("OS_HR", 0);
+            OSConsole("END ONESTOP STARTUP", 0);
+            OSConsole("OS_HR", 0);
+
+            OSConsole("Onestop completed initial startup at: " + DateTime.Now.ToString(), 2);
             #endregion
         }
 
-        public void Console(string input)
+        public void OSConsole(string input, int mode)
         {
+            //mode = 0 or null -> OSConsole, 1 -> OSConsole plus log, 2-> Log Only
+            string logfile = Directory.GetCurrentDirectory() + "\\Logs\\onestoplog.txt";
+            string logfiledir = Directory.GetCurrentDirectory() + "\\Logs\\";
+            
+            var directoryInfo = new FileInfo(logfiledir).Directory;
+            if (directoryInfo != null) directoryInfo.Create();
+
             if (input == "OS_GPL")
             {
+                if(mode == 1 || mode ==0)
+                { 
                 tb_Console.AppendText(@"OneStopIT - The Open Source All-In-One tool for technicians." +
-                                      Environment.NewLine +
-                                      "Copyright (C)2016 CollectiveIT.org" + 
-                                      Environment.NewLine + 
-                                      Environment.NewLine +
-                                      "This program is free software: you can redistribute it and/or modify" +
-                                      Environment.NewLine +
-                                      "it under the terms of the GNU General Public License as published by" +
-                                      Environment.NewLine +
-                                      "the Free Software Foundation, either version 3 of the License, or" +
-                                      Environment.NewLine +
-                                      "(at your option) any later version." + 
-                                      Environment.NewLine + 
-                                      Environment.NewLine +
-                                      "This program is distributed in the hope that it will be useful," +
-                                      Environment.NewLine +
-                                      "but WITHOUT ANY WARRANTY; without even the implied warranty of" +
-                                      Environment.NewLine +
-                                      "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the" +
-                                      "GNU General Public License for more details." + 
-                                      Environment.NewLine +
-                                      Environment.NewLine +
-                                      "You should have received a copy of the GNU General Public License" +
-                                      Environment.NewLine +
-                                      "along with this program.  If not, see <http://www.gnu.org/licenses/>." +
-                                      Environment.NewLine +
-                                      "Developers: staticextasy, CBRN_IS_FUN (Garren King) - Find us on reddit.com/r/OneStopIT" +
-                                      Environment.NewLine);
+                                        Environment.NewLine +
+                                        "Copyright (C)2016 CollectiveIT.org" +
+                                        Environment.NewLine +
+                                        Environment.NewLine +
+                                        "This program is free software: you can redistribute it and/or modify" +
+                                        Environment.NewLine +
+                                        "it under the terms of the GNU General Public License as published by" +
+                                        Environment.NewLine +
+                                        "the Free Software Foundation, either version 3 of the License, or" +
+                                        Environment.NewLine +
+                                        "(at your option) any later version." +
+                                        Environment.NewLine +
+                                        Environment.NewLine +
+                                        "This program is distributed in the hope that it will be useful," +
+                                        Environment.NewLine +
+                                        "but WITHOUT ANY WARRANTY; without even the implied warranty of" +
+                                        Environment.NewLine +
+                                        "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the" +
+                                        "GNU General Public License for more details." +
+                                        Environment.NewLine +
+                                        Environment.NewLine +
+                                        "You should have received a copy of the GNU General Public License" +
+                                        Environment.NewLine +
+                                        "along with this program.  If not, see <http://www.gnu.org/licenses/>." +
+                                        Environment.NewLine +
+                                        "Developers: staticextasy, CBRN_IS_FUN (Garren King) - Find us on reddit.com/r/OneStopIT" +
+                                        Environment.NewLine);
+                }
             }
-            else if (input == "OS_HR")
+
+            if (input == "OS_HR" && (mode == 0 || mode == 1))
             {
-                tb_Console.AppendText(Environment.NewLine + @"===========================================");
+            tb_Console.AppendText(Environment.NewLine + @"===========================================");
             }
-            else if (input == "OS_BR")
+            if (input == "OS_BR" && (mode == 0 || mode == 1))
             {
-                tb_Console.AppendText(Environment.NewLine + Environment.NewLine);
+            tb_Console.AppendText(Environment.NewLine + Environment.NewLine);
+            }
+            if ((mode == 0 || mode == 1) &&
+                (input.Contains("OS_BR") || input.Contains("OS_GPL") || input.Contains("OS_HR")))
+            {
             }
             else
             {
-                tb_Console.AppendText(Environment.NewLine + input);
+                if (mode == 0 || mode == 1)
+                {
+                    tb_Console.AppendText(Environment.NewLine + input);
+                }
             }
-            
-            
+
+            if (input == "OS_GPL")
+            {
+                if (mode == 1 || mode == 0)
+                {
+
+                    try
+                    {
+                        File.AppendAllText(logfile, @"OneStopIT - The Open Source All-In-One tool for technicians." +
+                                                    Environment.NewLine +
+                                                    "Copyright (C)2016 CollectiveIT.org" +
+                                                    Environment.NewLine +
+                                                    Environment.NewLine +
+                                                    "This program is free software: you can redistribute it and/or modify" +
+                                                    Environment.NewLine +
+                                                    "it under the terms of the GNU General Public License as published by" +
+                                                    Environment.NewLine +
+                                                    "the Free Software Foundation, either version 3 of the License, or" +
+                                                    Environment.NewLine +
+                                                    "(at your option) any later version." +
+                                                    Environment.NewLine +
+                                                    Environment.NewLine +
+                                                    "This program is distributed in the hope that it will be useful," +
+                                                    Environment.NewLine +
+                                                    "but WITHOUT ANY WARRANTY; without even the implied warranty of" +
+                                                    Environment.NewLine +
+                                                    "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the" +
+                                                    "GNU General Public License for more details." +
+                                                    Environment.NewLine +
+                                                    Environment.NewLine +
+                                                    "You should have received a copy of the GNU General Public License" +
+                                                    Environment.NewLine +
+                                                    "along with this program.  If not, see <http://www.gnu.org/licenses/>." +
+                                                    Environment.NewLine +
+                                                    "Developers: staticextasy, CBRN_IS_FUN (Garren King) - Find us on reddit.com/r/OneStopIT" +
+                                                    Environment.NewLine);
+
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(@"Problem writing log file" + Environment.NewLine + Environment.NewLine + e);
+                    }
+                }
+
+            }
+            if (input == "OS_HR" && mode == 1 || mode == 2)
+            {
+                try
+                {
+                    File.AppendAllText(logfile,Environment.NewLine + @"===========================================");
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(@"Problem writing log file" + Environment.NewLine + Environment.NewLine + e);
+                }
+            }
+            if (input == "OS_BR" && mode == 1 || mode == 2)
+            {
+                try
+                {
+                    File.AppendAllText(logfile,Environment.NewLine + Environment.NewLine);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(@"Problem writing log file" + Environment.NewLine + Environment.NewLine + e);
+                }
+            }
+            if (mode == 1 || mode == 2)
+            {
+                if(input.Contains("OS_BR") || input.Contains("OS_GPL") || input.Contains("OS_HR"))
+                {
+                    
+                }
+                else 
+                { 
+                    try
+                    {
+                        File.AppendAllText(logfile, Environment.NewLine + input);
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(@"Problem writing log file" + Environment.NewLine + Environment.NewLine + e);
+                    }
+                }
+            }
         }
 
 
@@ -320,7 +489,7 @@ namespace OneStop
             }
             catch (Exception)
             {
-                Console("Exeption Thrown - Network Adapter Selection");
+                OSConsole("Exeption Thrown - Network Adapter Selection", 0);
                 throw;
             }
         }
@@ -1129,7 +1298,7 @@ namespace OneStop
         private ToolStripMenuItem _traceRouteToolStripMenuItem;
         private ToolStripMenuItem _pingPathIp4ToolStripMenuItem;
         private ToolStripMenuItem _pingPathIp6ToolStripMenuItem;
-        private ToolStripMenuItem _connectivityToDefaultGatewayToolStripMenuItem;
+        private ToolStripMenuItem _ipconfigalltoolstripmenuitem;
         private ToolStripMenuItem _releaseDhcpToolStripMenuItem;
         private ToolStripMenuItem _renewDhcpToolStripMenuItem;
         private ToolStripSeparator _toolStripSeparator9;
@@ -1289,7 +1458,6 @@ namespace OneStop
         private ToolStripMenuItem _staticToolStripMenuItem;
         private ToolStripMenuItem _cBrnisfunToolStripMenuItem;
         private TabPage _tpSystemInfo;
-        private TabPage _tpTestBrowser;
         private TabPage _tpUninstaller;
         private TabPage _tpWmiExplorer;
         private TabPage _tpConfigurator;
@@ -1436,6 +1604,8 @@ namespace OneStop
             this._setConfigurationOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._deployTronToNewLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
+            this.oneStopToolGetFileInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this._quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._runPromptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._windowsRunCommandToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1488,7 +1658,7 @@ namespace OneStop
             this._traceRouteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._pingPathIp4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._pingPathIp6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this._connectivityToDefaultGatewayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._ipconfigalltoolstripmenuitem = new System.Windows.Forms.ToolStripMenuItem();
             this._releaseDhcpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._renewDhcpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
@@ -1698,7 +1868,6 @@ namespace OneStop
             this._tpSetFlags = new System.Windows.Forms.TabPage();
             this._tpTime = new System.Windows.Forms.TabPage();
             this._tpSystemInfo = new System.Windows.Forms.TabPage();
-            this._tpTestBrowser = new System.Windows.Forms.TabPage();
             this._tpUninstaller = new System.Windows.Forms.TabPage();
             this._tpWmiExplorer = new System.Windows.Forms.TabPage();
             this._tpConfigurator = new System.Windows.Forms.TabPage();
@@ -1757,8 +1926,70 @@ namespace OneStop
             this._label1 = new System.Windows.Forms.Label();
             this._lblInfoAdapterDesc = new System.Windows.Forms.Label();
             this._ofdTron = new System.Windows.Forms.OpenFileDialog();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.oneStopToolGetFileInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oneStopInternalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.launchPortableBrowsersetInConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.forceLogoffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.connectivityToDefaultGatewayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tpServers = new System.Windows.Forms.TabPage();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.mailGroupBox = new System.Windows.Forms.GroupBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tpNetwork = new System.Windows.Forms.TabPage();
+            this.tpSystemReport = new System.Windows.Forms.TabPage();
+            this.netBox = new System.Windows.Forms.TextBox();
+            this.clearSslBTN = new System.Windows.Forms.Button();
+            this.setGoogleDnsBTN = new System.Windows.Forms.Button();
+            this.winsockRepBTN = new System.Windows.Forms.Button();
+            this.clearStaticBTN = new System.Windows.Forms.Button();
+            this.dnsFlushBTN = new System.Windows.Forms.Button();
+            this.releaseRenewBTN = new System.Windows.Forms.Button();
+            this.netCombo = new System.Windows.Forms.ComboBox();
+            this.button7 = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label11 = new System.Windows.Forms.Label();
+            this.hostNameTextB = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.pubIPTextB = new System.Windows.Forms.TextBox();
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this._tsBottomToolbar.SuspendLayout();
             this._menuPrimary.SuspendLayout();
             this._tcPrimaryTabs.SuspendLayout();
@@ -1767,12 +1998,19 @@ namespace OneStop
             this._tpTronCli.SuspendLayout();
             this._tpTronSettings.SuspendLayout();
             this._tpLaunchTron.SuspendLayout();
+            this._tpSystemInfo.SuspendLayout();
             this._tpConfigurator.SuspendLayout();
             this._tcConfigurator.SuspendLayout();
             this._tpSetup.SuspendLayout();
             this._tabControl2.SuspendLayout();
             this._tpQuickLaunche.SuspendLayout();
             this._tpShopSettings.SuspendLayout();
+            this.tpServers.SuspendLayout();
+            this.mailGroupBox.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tpNetwork.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.flowLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // _tsBottomToolbar
@@ -1841,19 +2079,19 @@ namespace OneStop
             // _scriptsToolStripMenuItem
             // 
             this._scriptsToolStripMenuItem.Name = "_scriptsToolStripMenuItem";
-            this._scriptsToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this._scriptsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this._scriptsToolStripMenuItem.Text = "Scripts";
             // 
             // _documentsToolStripMenuItem
             // 
             this._documentsToolStripMenuItem.Name = "_documentsToolStripMenuItem";
-            this._documentsToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this._documentsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this._documentsToolStripMenuItem.Text = "Documents";
             // 
             // _toolStripSeparator23
             // 
             this._toolStripSeparator23.Name = "_toolStripSeparator23";
-            this._toolStripSeparator23.Size = new System.Drawing.Size(132, 6);
+            this._toolStripSeparator23.Size = new System.Drawing.Size(149, 6);
             // 
             // _oneStopToolStripMenuItem
             // 
@@ -1874,24 +2112,24 @@ namespace OneStop
             // _startAtRunToolStripMenuItem
             // 
             this._startAtRunToolStripMenuItem.Name = "_startAtRunToolStripMenuItem";
-            this._startAtRunToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this._startAtRunToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this._startAtRunToolStripMenuItem.Text = "Start at Run";
             // 
             // _restartAsAdminToolStripMenuItem
             // 
             this._restartAsAdminToolStripMenuItem.Name = "_restartAsAdminToolStripMenuItem";
-            this._restartAsAdminToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this._restartAsAdminToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this._restartAsAdminToolStripMenuItem.Text = "Restart as Admin";
             // 
             // _toolStripSeparator2
             // 
             this._toolStripSeparator2.Name = "_toolStripSeparator2";
-            this._toolStripSeparator2.Size = new System.Drawing.Size(162, 6);
+            this._toolStripSeparator2.Size = new System.Drawing.Size(212, 6);
             // 
             // _oneStopSettingsToolStripMenuItem
             // 
             this._oneStopSettingsToolStripMenuItem.Name = "_oneStopSettingsToolStripMenuItem";
-            this._oneStopSettingsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this._oneStopSettingsToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this._oneStopSettingsToolStripMenuItem.Text = "OneStop Settings";
             // 
             // _tRonToolStripMenuItem
@@ -1901,7 +2139,7 @@ namespace OneStop
             this._setConfigurationOptionsToolStripMenuItem,
             this._deployTronToNewLocationToolStripMenuItem});
             this._tRonToolStripMenuItem.Name = "_tRonToolStripMenuItem";
-            this._tRonToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this._tRonToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this._tRonToolStripMenuItem.Text = "TRON Settings";
             // 
             // _foldersToolStripMenuItem
@@ -1925,54 +2163,63 @@ namespace OneStop
             this._prepToolStripMenuItem.Name = "_prepToolStripMenuItem";
             this._prepToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this._prepToolStripMenuItem.Text = "0 - Prep";
+            this._prepToolStripMenuItem.Click += new System.EventHandler(this._prepToolStripMenuItem_Click);
             // 
             // _tempcleanToolStripMenuItem
             // 
             this._tempcleanToolStripMenuItem.Name = "_tempcleanToolStripMenuItem";
             this._tempcleanToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this._tempcleanToolStripMenuItem.Text = "1 - Tempclean";
+            this._tempcleanToolStripMenuItem.Click += new System.EventHandler(this._tempcleanToolStripMenuItem_Click);
             // 
             // _dToolStripMenuItem
             // 
             this._dToolStripMenuItem.Name = "_dToolStripMenuItem";
             this._dToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this._dToolStripMenuItem.Text = "2 - Debloat";
+            this._dToolStripMenuItem.Click += new System.EventHandler(this._dToolStripMenuItem_Click);
             // 
             // _disinfectToolStripMenuItem
             // 
             this._disinfectToolStripMenuItem.Name = "_disinfectToolStripMenuItem";
             this._disinfectToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this._disinfectToolStripMenuItem.Text = "3 - Disinfect";
+            this._disinfectToolStripMenuItem.Click += new System.EventHandler(this._disinfectToolStripMenuItem_Click);
             // 
             // _repairToolStripMenuItem
             // 
             this._repairToolStripMenuItem.Name = "_repairToolStripMenuItem";
             this._repairToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this._repairToolStripMenuItem.Text = "4 - Repair";
+            this._repairToolStripMenuItem.Click += new System.EventHandler(this._repairToolStripMenuItem_Click);
             // 
             // _patchToolStripMenuItem
             // 
             this._patchToolStripMenuItem.Name = "_patchToolStripMenuItem";
             this._patchToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this._patchToolStripMenuItem.Text = "5 - Patch";
+            this._patchToolStripMenuItem.Click += new System.EventHandler(this._patchToolStripMenuItem_Click);
             // 
             // _optimizeToolStripMenuItem
             // 
             this._optimizeToolStripMenuItem.Name = "_optimizeToolStripMenuItem";
             this._optimizeToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this._optimizeToolStripMenuItem.Text = "6 - Optimize";
+            this._optimizeToolStripMenuItem.Click += new System.EventHandler(this._optimizeToolStripMenuItem_Click);
             // 
             // _wrapUpToolStripMenuItem
             // 
             this._wrapUpToolStripMenuItem.Name = "_wrapUpToolStripMenuItem";
             this._wrapUpToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this._wrapUpToolStripMenuItem.Text = "7 - Wrap-Up";
+            this._wrapUpToolStripMenuItem.Click += new System.EventHandler(this._wrapUpToolStripMenuItem_Click);
             // 
             // _manualToolsToolStripMenuItem
             // 
             this._manualToolsToolStripMenuItem.Name = "_manualToolsToolStripMenuItem";
             this._manualToolsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this._manualToolsToolStripMenuItem.Text = "8 - Manual Tools";
+            this._manualToolsToolStripMenuItem.Click += new System.EventHandler(this._manualToolsToolStripMenuItem_Click);
             // 
             // _setConfigurationOptionsToolStripMenuItem
             // 
@@ -1989,12 +2236,24 @@ namespace OneStop
             // _toolStripSeparator22
             // 
             this._toolStripSeparator22.Name = "_toolStripSeparator22";
-            this._toolStripSeparator22.Size = new System.Drawing.Size(162, 6);
+            this._toolStripSeparator22.Size = new System.Drawing.Size(212, 6);
+            // 
+            // oneStopToolGetFileInfoToolStripMenuItem
+            // 
+            this.oneStopToolGetFileInfoToolStripMenuItem.Name = "oneStopToolGetFileInfoToolStripMenuItem";
+            this.oneStopToolGetFileInfoToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.oneStopToolGetFileInfoToolStripMenuItem.Text = "OneStop Tool: Get File Info";
+            this.oneStopToolGetFileInfoToolStripMenuItem.Click += new System.EventHandler(this.oneStopToolGetFileInfoToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(212, 6);
             // 
             // _quitToolStripMenuItem
             // 
             this._quitToolStripMenuItem.Name = "_quitToolStripMenuItem";
-            this._quitToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this._quitToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this._quitToolStripMenuItem.Text = "Quit";
             // 
             // _runPromptToolStripMenuItem
@@ -2041,6 +2300,7 @@ namespace OneStop
             // _networkToolStripMenuItem
             // 
             this._networkToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.testBrowserToolStripMenuItem,
             this._openRouterInterfaceToolStripMenuItem,
             this._dNsSettingsToolStripMenuItem,
             this._resetNetworkSettingsToDefaultsAndClearAllCachesToolStripMenuItem,
@@ -2049,7 +2309,8 @@ namespace OneStop
             this._groupPolicyToolStripMenuItem,
             this._toolStripSeparator8,
             this._connectivityToHttpwwwgooglecomToolStripMenuItem,
-            this._connectivityToDefaultGatewayToolStripMenuItem,
+            this.connectivityToDefaultGatewayToolStripMenuItem,
+            this._ipconfigalltoolstripmenuitem,
             this._releaseDhcpToolStripMenuItem,
             this._renewDhcpToolStripMenuItem,
             this._toolStripSeparator9,
@@ -2368,11 +2629,12 @@ namespace OneStop
             this._pingPathIp6ToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this._pingPathIp6ToolStripMenuItem.Text = "Ping Path (IP 6)";
             // 
-            // _connectivityToDefaultGatewayToolStripMenuItem
+            // _ipconfigalltoolstripmenuitem
             // 
-            this._connectivityToDefaultGatewayToolStripMenuItem.Name = "_connectivityToDefaultGatewayToolStripMenuItem";
-            this._connectivityToDefaultGatewayToolStripMenuItem.Size = new System.Drawing.Size(366, 22);
-            this._connectivityToDefaultGatewayToolStripMenuItem.Text = "Show all IP Info";
+            this._ipconfigalltoolstripmenuitem.Name = "_ipconfigalltoolstripmenuitem";
+            this._ipconfigalltoolstripmenuitem.Size = new System.Drawing.Size(366, 22);
+            this._ipconfigalltoolstripmenuitem.Text = "Show all IP Info";
+            this._ipconfigalltoolstripmenuitem.Click += new System.EventHandler(this._ipconfigalltoolstripmenuitem_Click);
             // 
             // _releaseDhcpToolStripMenuItem
             // 
@@ -3037,18 +3299,21 @@ namespace OneStop
             this._rOneStopItToolStripMenuItem.Name = "_rOneStopItToolStripMenuItem";
             this._rOneStopItToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this._rOneStopItToolStripMenuItem.Text = "/r/OneStopIT";
+            this._rOneStopItToolStripMenuItem.Click += new System.EventHandler(this._rOneStopItToolStripMenuItem_Click);
             // 
             // _rTronScriptToolStripMenuItem
             // 
             this._rTronScriptToolStripMenuItem.Name = "_rTronScriptToolStripMenuItem";
             this._rTronScriptToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this._rTronScriptToolStripMenuItem.Text = "/r/TronScript";
+            this._rTronScriptToolStripMenuItem.Click += new System.EventHandler(this._rTronScriptToolStripMenuItem_Click);
             // 
             // _ninitecomToolStripMenuItem
             // 
             this._ninitecomToolStripMenuItem.Name = "_ninitecomToolStripMenuItem";
             this._ninitecomToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this._ninitecomToolStripMenuItem.Text = "Ninite.com";
+            this._ninitecomToolStripMenuItem.Click += new System.EventHandler(this._ninitecomToolStripMenuItem_Click);
             // 
             // _techWebsitesToolStripMenuItem
             // 
@@ -3064,12 +3329,14 @@ namespace OneStop
             this._bleepingComputerToolStripMenuItem.Name = "_bleepingComputerToolStripMenuItem";
             this._bleepingComputerToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this._bleepingComputerToolStripMenuItem.Text = "Bleeping Computer";
+            this._bleepingComputerToolStripMenuItem.Click += new System.EventHandler(this._bleepingComputerToolStripMenuItem_Click);
             // 
             // _geGeekToolStripMenuItem
             // 
             this._geGeekToolStripMenuItem.Name = "_geGeekToolStripMenuItem";
             this._geGeekToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this._geGeekToolStripMenuItem.Text = "GeGeek";
+            this._geGeekToolStripMenuItem.Click += new System.EventHandler(this._geGeekToolStripMenuItem_Click);
             // 
             // _browserTestingToolStripMenuItem
             // 
@@ -3096,12 +3363,14 @@ namespace OneStop
             this._dSlReportscomSpeedTestToolStripMenuItem.Name = "_dSlReportscomSpeedTestToolStripMenuItem";
             this._dSlReportscomSpeedTestToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this._dSlReportscomSpeedTestToolStripMenuItem.Text = "DSLReports.com Speed Test";
+            this._dSlReportscomSpeedTestToolStripMenuItem.Click += new System.EventHandler(this._dSlReportscomSpeedTestToolStripMenuItem_Click);
             // 
             // _speedtestnetToolStripMenuItem
             // 
             this._speedtestnetToolStripMenuItem.Name = "_speedtestnetToolStripMenuItem";
             this._speedtestnetToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this._speedtestnetToolStripMenuItem.Text = "Speedtest.net";
+            this._speedtestnetToolStripMenuItem.Click += new System.EventHandler(this._speedtestnetToolStripMenuItem_Click);
             // 
             // _toolStripSeparator14
             // 
@@ -3113,18 +3382,21 @@ namespace OneStop
             this._browserscopeToolStripMenuItem.Name = "_browserscopeToolStripMenuItem";
             this._browserscopeToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this._browserscopeToolStripMenuItem.Text = "Browserscope";
+            this._browserscopeToolStripMenuItem.Click += new System.EventHandler(this._browserscopeToolStripMenuItem_Click);
             // 
             // _qualysBrowsercheckToolStripMenuItem
             // 
             this._qualysBrowsercheckToolStripMenuItem.Name = "_qualysBrowsercheckToolStripMenuItem";
             this._qualysBrowsercheckToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this._qualysBrowsercheckToolStripMenuItem.Text = "Qualys Browsercheck";
+            this._qualysBrowsercheckToolStripMenuItem.Click += new System.EventHandler(this._qualysBrowsercheckToolStripMenuItem_Click);
             // 
             // _firefoxOfficialPluginTestToolStripMenuItem
             // 
             this._firefoxOfficialPluginTestToolStripMenuItem.Name = "_firefoxOfficialPluginTestToolStripMenuItem";
             this._firefoxOfficialPluginTestToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this._firefoxOfficialPluginTestToolStripMenuItem.Text = "Firefox Official Plugin Test";
+            this._firefoxOfficialPluginTestToolStripMenuItem.Click += new System.EventHandler(this._firefoxOfficialPluginTestToolStripMenuItem_Click);
             // 
             // _toolStripSeparator15
             // 
@@ -3136,36 +3408,42 @@ namespace OneStop
             this._silverlightbubblemarkcomToolStripMenuItem.Name = "_silverlightbubblemarkcomToolStripMenuItem";
             this._silverlightbubblemarkcomToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this._silverlightbubblemarkcomToolStripMenuItem.Text = "Silverlight (bubblemark.com)";
+            this._silverlightbubblemarkcomToolStripMenuItem.Click += new System.EventHandler(this._silverlightbubblemarkcomToolStripMenuItem_Click);
             // 
             // _flashbubblemarkcomToolStripMenuItem
             // 
             this._flashbubblemarkcomToolStripMenuItem.Name = "_flashbubblemarkcomToolStripMenuItem";
             this._flashbubblemarkcomToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this._flashbubblemarkcomToolStripMenuItem.Text = "Flash (bubblemark.com)";
+            this._flashbubblemarkcomToolStripMenuItem.Click += new System.EventHandler(this._flashbubblemarkcomToolStripMenuItem_Click);
             // 
             // _javajavatesterorgToolStripMenuItem
             // 
             this._javajavatesterorgToolStripMenuItem.Name = "_javajavatesterorgToolStripMenuItem";
             this._javajavatesterorgToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this._javajavatesterorgToolStripMenuItem.Text = "Java (javatester.org)";
+            this._javajavatesterorgToolStripMenuItem.Click += new System.EventHandler(this._javajavatesterorgToolStripMenuItem_Click);
             // 
             // _shockwaveadobecomToolStripMenuItem
             // 
             this._shockwaveadobecomToolStripMenuItem.Name = "_shockwaveadobecomToolStripMenuItem";
             this._shockwaveadobecomToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this._shockwaveadobecomToolStripMenuItem.Text = "Shockwave (adobe.com)";
+            this._shockwaveadobecomToolStripMenuItem.Click += new System.EventHandler(this._shockwaveadobecomToolStripMenuItem_Click);
             // 
             // _sSLssllabscomToolStripMenuItem
             // 
             this._sSLssllabscomToolStripMenuItem.Name = "_sSLssllabscomToolStripMenuItem";
             this._sSLssllabscomToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this._sSLssllabscomToolStripMenuItem.Text = "SSL (ssllabs.com)";
+            this._sSLssllabscomToolStripMenuItem.Click += new System.EventHandler(this._sSLssllabscomToolStripMenuItem_Click);
             // 
             // _shieldsUpToolStripMenuItem
             // 
             this._shieldsUpToolStripMenuItem.Name = "_shieldsUpToolStripMenuItem";
             this._shieldsUpToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this._shieldsUpToolStripMenuItem.Text = "ShieldsUP!";
+            this._shieldsUpToolStripMenuItem.Click += new System.EventHandler(this._shieldsUpToolStripMenuItem_Click);
             // 
             // _virusScannerRemovalToolsToolStripMenuItem
             // 
@@ -3194,6 +3472,7 @@ namespace OneStop
             this._eSetMasterListToolStripMenuItem.Name = "_eSetMasterListToolStripMenuItem";
             this._eSetMasterListToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this._eSetMasterListToolStripMenuItem.Text = "ESET Master List";
+            this._eSetMasterListToolStripMenuItem.Click += new System.EventHandler(this._eSetMasterListToolStripMenuItem_Click);
             // 
             // _toolStripSeparator16
             // 
@@ -3205,78 +3484,91 @@ namespace OneStop
             this._avastToolStripMenuItem.Name = "_avastToolStripMenuItem";
             this._avastToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this._avastToolStripMenuItem.Text = "Avast";
+            this._avastToolStripMenuItem.Click += new System.EventHandler(this._avastToolStripMenuItem_Click);
             // 
             // _aVgToolStripMenuItem
             // 
             this._aVgToolStripMenuItem.Name = "_aVgToolStripMenuItem";
             this._aVgToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this._aVgToolStripMenuItem.Text = "AVG";
+            this._aVgToolStripMenuItem.Click += new System.EventHandler(this._aVgToolStripMenuItem_Click);
             // 
             // _aviraToolStripMenuItem
             // 
             this._aviraToolStripMenuItem.Name = "_aviraToolStripMenuItem";
             this._aviraToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this._aviraToolStripMenuItem.Text = "Avira";
+            this._aviraToolStripMenuItem.Click += new System.EventHandler(this._aviraToolStripMenuItem_Click);
             // 
             // _comodoToolStripMenuItem
             // 
             this._comodoToolStripMenuItem.Name = "_comodoToolStripMenuItem";
             this._comodoToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this._comodoToolStripMenuItem.Text = "Comodo";
+            this._comodoToolStripMenuItem.Click += new System.EventHandler(this._comodoToolStripMenuItem_Click);
             // 
             // _fSecureToolStripMenuItem
             // 
             this._fSecureToolStripMenuItem.Name = "_fSecureToolStripMenuItem";
             this._fSecureToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this._fSecureToolStripMenuItem.Text = "F-Secure";
+            this._fSecureToolStripMenuItem.Click += new System.EventHandler(this._fSecureToolStripMenuItem_Click);
             // 
             // _kasperskyToolStripMenuItem
             // 
             this._kasperskyToolStripMenuItem.Name = "_kasperskyToolStripMenuItem";
             this._kasperskyToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this._kasperskyToolStripMenuItem.Text = "Kaspersky";
+            this._kasperskyToolStripMenuItem.Click += new System.EventHandler(this._kasperskyToolStripMenuItem_Click);
             // 
             // _mcAffeToolStripMenuItem
             // 
             this._mcAffeToolStripMenuItem.Name = "_mcAffeToolStripMenuItem";
             this._mcAffeToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this._mcAffeToolStripMenuItem.Text = "McAffe";
+            this._mcAffeToolStripMenuItem.Click += new System.EventHandler(this._mcAffeToolStripMenuItem_Click);
             // 
             // _nOd32ToolStripMenuItem
             // 
             this._nOd32ToolStripMenuItem.Name = "_nOd32ToolStripMenuItem";
             this._nOd32ToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this._nOd32ToolStripMenuItem.Text = "NOD32";
+            this._nOd32ToolStripMenuItem.Click += new System.EventHandler(this._nOd32ToolStripMenuItem_Click);
             // 
             // _nortonToolStripMenuItem
             // 
             this._nortonToolStripMenuItem.Name = "_nortonToolStripMenuItem";
             this._nortonToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this._nortonToolStripMenuItem.Text = "Norton";
+            this._nortonToolStripMenuItem.Click += new System.EventHandler(this._nortonToolStripMenuItem_Click);
             // 
             // _nortonSecurityScanToolStripMenuItem
             // 
             this._nortonSecurityScanToolStripMenuItem.Name = "_nortonSecurityScanToolStripMenuItem";
             this._nortonSecurityScanToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this._nortonSecurityScanToolStripMenuItem.Text = "Norton Security Scan";
+            this._nortonSecurityScanToolStripMenuItem.Click += new System.EventHandler(this._nortonSecurityScanToolStripMenuItem_Click);
             // 
             // _pandaToolStripMenuItem
             // 
             this._pandaToolStripMenuItem.Name = "_pandaToolStripMenuItem";
             this._pandaToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this._pandaToolStripMenuItem.Text = "Panda";
+            this._pandaToolStripMenuItem.Click += new System.EventHandler(this._pandaToolStripMenuItem_Click);
             // 
             // _sophosToolStripMenuItem
             // 
             this._sophosToolStripMenuItem.Name = "_sophosToolStripMenuItem";
             this._sophosToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this._sophosToolStripMenuItem.Text = "Sophos";
+            this._sophosToolStripMenuItem.Click += new System.EventHandler(this._sophosToolStripMenuItem_Click);
             // 
             // _windowsSecurityEssentialsToolStripMenuItem
             // 
             this._windowsSecurityEssentialsToolStripMenuItem.Name = "_windowsSecurityEssentialsToolStripMenuItem";
             this._windowsSecurityEssentialsToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this._windowsSecurityEssentialsToolStripMenuItem.Text = "Windows Security Essentials";
+            this._windowsSecurityEssentialsToolStripMenuItem.Click += new System.EventHandler(this._windowsSecurityEssentialsToolStripMenuItem_Click);
             // 
             // _powerToolStripMenuItem
             // 
@@ -3284,6 +3576,7 @@ namespace OneStop
             this._forceShutdownToolStripMenuItem,
             this._forceRestartToolStripMenuItem,
             this._forceLogoffToolStripMenuItem,
+            this.forceLogoffToolStripMenuItem,
             this._toolStripSeparator17,
             this._enableF8ToolStripMenuItem,
             this._disableF8ToolStripMenuItem,
@@ -3307,12 +3600,14 @@ namespace OneStop
             this._forceShutdownToolStripMenuItem.Name = "_forceShutdownToolStripMenuItem";
             this._forceShutdownToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this._forceShutdownToolStripMenuItem.Text = "Force Shutdown";
+            this._forceShutdownToolStripMenuItem.Click += new System.EventHandler(this._forceShutdownToolStripMenuItem_Click);
             // 
             // _forceRestartToolStripMenuItem
             // 
             this._forceRestartToolStripMenuItem.Name = "_forceRestartToolStripMenuItem";
             this._forceRestartToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this._forceRestartToolStripMenuItem.Text = "Force Restart";
+            this._forceRestartToolStripMenuItem.Click += new System.EventHandler(this._forceRestartToolStripMenuItem_Click);
             // 
             // _forceLogoffToolStripMenuItem
             // 
@@ -3330,12 +3625,14 @@ namespace OneStop
             this._enableF8ToolStripMenuItem.Name = "_enableF8ToolStripMenuItem";
             this._enableF8ToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this._enableF8ToolStripMenuItem.Text = "Enable F8 Menu";
+            this._enableF8ToolStripMenuItem.Click += new System.EventHandler(this._enableF8ToolStripMenuItem_Click);
             // 
             // _disableF8ToolStripMenuItem
             // 
             this._disableF8ToolStripMenuItem.Name = "_disableF8ToolStripMenuItem";
             this._disableF8ToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this._disableF8ToolStripMenuItem.Text = "Disable F8 Menu";
+            this._disableF8ToolStripMenuItem.Click += new System.EventHandler(this._disableF8ToolStripMenuItem_Click);
             // 
             // _toolStripSeparator18
             // 
@@ -3347,36 +3644,42 @@ namespace OneStop
             this._setSafemodeSwitchOnToolStripMenuItem.Name = "_setSafemodeSwitchOnToolStripMenuItem";
             this._setSafemodeSwitchOnToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this._setSafemodeSwitchOnToolStripMenuItem.Text = "Set Safemode Switch = On";
+            this._setSafemodeSwitchOnToolStripMenuItem.Click += new System.EventHandler(this._setSafemodeSwitchOnToolStripMenuItem_Click);
             // 
             // _setSafemodeSwitchOnNetworkingToolStripMenuItem
             // 
             this._setSafemodeSwitchOnNetworkingToolStripMenuItem.Name = "_setSafemodeSwitchOnNetworkingToolStripMenuItem";
             this._setSafemodeSwitchOnNetworkingToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this._setSafemodeSwitchOnNetworkingToolStripMenuItem.Text = "Set Safemode Switch = On + Networking";
+            this._setSafemodeSwitchOnNetworkingToolStripMenuItem.Click += new System.EventHandler(this._setSafemodeSwitchOnNetworkingToolStripMenuItem_Click);
             // 
             // _setSafemodeSwitchOnMinimalToolStripMenuItem
             // 
             this._setSafemodeSwitchOnMinimalToolStripMenuItem.Name = "_setSafemodeSwitchOnMinimalToolStripMenuItem";
             this._setSafemodeSwitchOnMinimalToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this._setSafemodeSwitchOnMinimalToolStripMenuItem.Text = "Set Safemode Switch = On (Minimal)";
+            this._setSafemodeSwitchOnMinimalToolStripMenuItem.Click += new System.EventHandler(this._setSafemodeSwitchOnMinimalToolStripMenuItem_Click);
             // 
             // _setSafemodeSwitchOnAltShellToolStripMenuItem
             // 
             this._setSafemodeSwitchOnAltShellToolStripMenuItem.Name = "_setSafemodeSwitchOnAltShellToolStripMenuItem";
             this._setSafemodeSwitchOnAltShellToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this._setSafemodeSwitchOnAltShellToolStripMenuItem.Text = "Set Safemode Switch = On (Alt. Shell)";
+            this._setSafemodeSwitchOnAltShellToolStripMenuItem.Click += new System.EventHandler(this._setSafemodeSwitchOnAltShellToolStripMenuItem_Click);
             // 
             // _setSafemodeSwtichOffNormalBootToolStripMenuItem
             // 
             this._setSafemodeSwtichOffNormalBootToolStripMenuItem.Name = "_setSafemodeSwtichOffNormalBootToolStripMenuItem";
             this._setSafemodeSwtichOffNormalBootToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this._setSafemodeSwtichOffNormalBootToolStripMenuItem.Text = "Set Safemode Swtich = Off (Normal Boot)";
+            this._setSafemodeSwtichOffNormalBootToolStripMenuItem.Click += new System.EventHandler(this._setSafemodeSwtichOffNormalBootToolStripMenuItem_Click);
             // 
             // _enumerateCurrentModeToolStripMenuItem
             // 
             this._enumerateCurrentModeToolStripMenuItem.Name = "_enumerateCurrentModeToolStripMenuItem";
             this._enumerateCurrentModeToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this._enumerateCurrentModeToolStripMenuItem.Text = "Enumerate Current Mode";
+            this._enumerateCurrentModeToolStripMenuItem.Click += new System.EventHandler(this._enumerateCurrentModeToolStripMenuItem_Click);
             // 
             // _toolStripSeparator19
             // 
@@ -3388,18 +3691,21 @@ namespace OneStop
             this._hibernateToolStripMenuItem.Name = "_hibernateToolStripMenuItem";
             this._hibernateToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this._hibernateToolStripMenuItem.Text = "Hibernate";
+            this._hibernateToolStripMenuItem.Click += new System.EventHandler(this._hibernateToolStripMenuItem_Click);
             // 
             // _hybridShutdownFastStartUpToolStripMenuItem
             // 
             this._hybridShutdownFastStartUpToolStripMenuItem.Name = "_hybridShutdownFastStartUpToolStripMenuItem";
             this._hybridShutdownFastStartUpToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this._hybridShutdownFastStartUpToolStripMenuItem.Text = "Hybrid (Shutdown + Fast Start Up)";
+            this._hybridShutdownFastStartUpToolStripMenuItem.Click += new System.EventHandler(this._hybridShutdownFastStartUpToolStripMenuItem_Click);
             // 
             // _shutdownWithOptionsToolStripMenuItem
             // 
             this._shutdownWithOptionsToolStripMenuItem.Name = "_shutdownWithOptionsToolStripMenuItem";
             this._shutdownWithOptionsToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this._shutdownWithOptionsToolStripMenuItem.Text = "Shutdown With Options";
+            this._shutdownWithOptionsToolStripMenuItem.Click += new System.EventHandler(this._shutdownWithOptionsToolStripMenuItem_Click);
             // 
             // _helpToolStripMenuItem
             // 
@@ -3484,7 +3790,6 @@ namespace OneStop
             this._tcPrimaryTabs.Controls.Add(this._tpTronCli);
             this._tcPrimaryTabs.Controls.Add(this._tpTime);
             this._tcPrimaryTabs.Controls.Add(this._tpSystemInfo);
-            this._tcPrimaryTabs.Controls.Add(this._tpTestBrowser);
             this._tcPrimaryTabs.Controls.Add(this._tpUninstaller);
             this._tcPrimaryTabs.Controls.Add(this._tpWmiExplorer);
             this._tcPrimaryTabs.Controls.Add(this._tpConfigurator);
@@ -3504,6 +3809,7 @@ namespace OneStop
             // 
             // _tpWelcome
             // 
+            this._tpWelcome.Controls.Add(this.button6);
             this._tpWelcome.Controls.Add(this.tb_Console);
             this._tpWelcome.Location = new System.Drawing.Point(4, 22);
             this._tpWelcome.Name = "_tpWelcome";
@@ -3543,7 +3849,7 @@ namespace OneStop
             // 
             this._lblOsmExecuteOrder.AutoSize = true;
             this._lblOsmExecuteOrder.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblOsmExecuteOrder.Location = new System.Drawing.Point(471, 10);
+            this._lblOsmExecuteOrder.Location = new System.Drawing.Point(497, 10);
             this._lblOsmExecuteOrder.Name = "_lblOsmExecuteOrder";
             this._lblOsmExecuteOrder.Size = new System.Drawing.Size(98, 15);
             this._lblOsmExecuteOrder.TabIndex = 7;
@@ -3553,7 +3859,7 @@ namespace OneStop
             // 
             this._lblOsmProgramSelect.AutoSize = true;
             this._lblOsmProgramSelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblOsmProgramSelect.Location = new System.Drawing.Point(239, 11);
+            this._lblOsmProgramSelect.Location = new System.Drawing.Point(265, 11);
             this._lblOsmProgramSelect.Name = "_lblOsmProgramSelect";
             this._lblOsmProgramSelect.Size = new System.Drawing.Size(106, 15);
             this._lblOsmProgramSelect.TabIndex = 6;
@@ -3563,7 +3869,7 @@ namespace OneStop
             // 
             this._lblOsmCategories.AutoSize = true;
             this._lblOsmCategories.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblOsmCategories.Location = new System.Drawing.Point(4, 10);
+            this._lblOsmCategories.Location = new System.Drawing.Point(30, 10);
             this._lblOsmCategories.Name = "_lblOsmCategories";
             this._lblOsmCategories.Size = new System.Drawing.Size(135, 15);
             this._lblOsmCategories.TabIndex = 5;
@@ -3571,7 +3877,7 @@ namespace OneStop
             // 
             // _button2
             // 
-            this._button2.Location = new System.Drawing.Point(479, 273);
+            this._button2.Location = new System.Drawing.Point(505, 358);
             this._button2.Name = "_button2";
             this._button2.Size = new System.Drawing.Size(189, 23);
             this._button2.TabIndex = 4;
@@ -3580,7 +3886,7 @@ namespace OneStop
             // 
             // _button1
             // 
-            this._button1.Location = new System.Drawing.Point(247, 274);
+            this._button1.Location = new System.Drawing.Point(273, 358);
             this._button1.Name = "_button1";
             this._button1.Size = new System.Drawing.Size(189, 23);
             this._button1.TabIndex = 3;
@@ -3590,17 +3896,17 @@ namespace OneStop
             // _listBox3
             // 
             this._listBox3.FormattingEnabled = true;
-            this._listBox3.Location = new System.Drawing.Point(479, 29);
+            this._listBox3.Location = new System.Drawing.Point(505, 29);
             this._listBox3.Name = "_listBox3";
-            this._listBox3.Size = new System.Drawing.Size(189, 238);
+            this._listBox3.Size = new System.Drawing.Size(189, 316);
             this._listBox3.TabIndex = 2;
             // 
             // _listBox2
             // 
             this._listBox2.FormattingEnabled = true;
-            this._listBox2.Location = new System.Drawing.Point(247, 29);
+            this._listBox2.Location = new System.Drawing.Point(273, 29);
             this._listBox2.Name = "_listBox2";
-            this._listBox2.Size = new System.Drawing.Size(189, 238);
+            this._listBox2.Size = new System.Drawing.Size(189, 316);
             this._listBox2.TabIndex = 1;
             // 
             // _lbOsmCategories
@@ -3623,9 +3929,9 @@ namespace OneStop
             "Apply Branding",
             "Networking",
             "Manual Tools"});
-            this._lbOsmCategories.Location = new System.Drawing.Point(12, 29);
+            this._lbOsmCategories.Location = new System.Drawing.Point(38, 29);
             this._lbOsmCategories.Name = "_lbOsmCategories";
-            this._lbOsmCategories.Size = new System.Drawing.Size(189, 277);
+            this._lbOsmCategories.Size = new System.Drawing.Size(189, 225);
             this._lbOsmCategories.TabIndex = 0;
             // 
             // _tpTronCli
@@ -3652,6 +3958,8 @@ namespace OneStop
             // 
             // _tpLaunchTron
             // 
+            this._tpLaunchTron.Controls.Add(this.button5);
+            this._tpLaunchTron.Controls.Add(this.linkLabel2);
             this._tpLaunchTron.Controls.Add(this._btnTronSaveFlags);
             this._tpLaunchTron.Controls.Add(this._cbTronE);
             this._tpLaunchTron.Controls.Add(this._cbTronDev);
@@ -3696,7 +4004,7 @@ namespace OneStop
             this._btnTronSaveFlags.Enabled = false;
             this._btnTronSaveFlags.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnTronSaveFlags.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnTronSaveFlags.Location = new System.Drawing.Point(579, 300);
+            this._btnTronSaveFlags.Location = new System.Drawing.Point(578, 196);
             this._btnTronSaveFlags.Name = "_btnTronSaveFlags";
             this._btnTronSaveFlags.Size = new System.Drawing.Size(140, 23);
             this._btnTronSaveFlags.TabIndex = 84;
@@ -3707,7 +4015,7 @@ namespace OneStop
             // _cbTronE
             // 
             this._cbTronE.AutoSize = true;
-            this._cbTronE.Location = new System.Drawing.Point(6, 71);
+            this._cbTronE.Location = new System.Drawing.Point(279, 41);
             this._cbTronE.Name = "_cbTronE";
             this._cbTronE.Size = new System.Drawing.Size(145, 17);
             this._cbTronE.TabIndex = 83;
@@ -3718,7 +4026,7 @@ namespace OneStop
             // _cbTronDev
             // 
             this._cbTronDev.AutoSize = true;
-            this._cbTronDev.Location = new System.Drawing.Point(4, 281);
+            this._cbTronDev.Location = new System.Drawing.Point(279, 177);
             this._cbTronDev.Name = "_cbTronDev";
             this._cbTronDev.Size = new System.Drawing.Size(163, 17);
             this._cbTronDev.TabIndex = 82;
@@ -3756,7 +4064,7 @@ namespace OneStop
             this._btnConfigDump.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this._btnConfigDump.Enabled = false;
             this._btnConfigDump.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._btnConfigDump.Location = new System.Drawing.Point(579, 117);
+            this._btnConfigDump.Location = new System.Drawing.Point(580, 271);
             this._btnConfigDump.Name = "_btnConfigDump";
             this._btnConfigDump.Size = new System.Drawing.Size(140, 23);
             this._btnConfigDump.TabIndex = 79;
@@ -3769,7 +4077,7 @@ namespace OneStop
             this._btnDryRun.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this._btnDryRun.Enabled = false;
             this._btnDryRun.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._btnDryRun.Location = new System.Drawing.Point(579, 146);
+            this._btnDryRun.Location = new System.Drawing.Point(580, 300);
             this._btnDryRun.Name = "_btnDryRun";
             this._btnDryRun.Size = new System.Drawing.Size(140, 23);
             this._btnDryRun.TabIndex = 78;
@@ -3783,7 +4091,7 @@ namespace OneStop
             this._btnRunTron.Enabled = false;
             this._btnRunTron.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnRunTron.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnRunTron.Location = new System.Drawing.Point(579, 175);
+            this._btnRunTron.Location = new System.Drawing.Point(580, 329);
             this._btnRunTron.Name = "_btnRunTron";
             this._btnRunTron.Size = new System.Drawing.Size(140, 23);
             this._btnRunTron.TabIndex = 77;
@@ -3794,7 +4102,7 @@ namespace OneStop
             // _cbTronStr
             // 
             this._cbTronStr.AutoSize = true;
-            this._cbTronStr.Location = new System.Drawing.Point(259, 327);
+            this._cbTronStr.Location = new System.Drawing.Point(16, 321);
             this._cbTronStr.Name = "_cbTronStr";
             this._cbTronStr.Size = new System.Drawing.Size(164, 17);
             this._cbTronStr.TabIndex = 76;
@@ -3806,7 +4114,7 @@ namespace OneStop
             // _cbTronSs
             // 
             this._cbTronSs.AutoSize = true;
-            this._cbTronSs.Location = new System.Drawing.Point(259, 304);
+            this._cbTronSs.Location = new System.Drawing.Point(16, 298);
             this._cbTronSs.Name = "_cbTronSs";
             this._cbTronSs.Size = new System.Drawing.Size(155, 17);
             this._cbTronSs.TabIndex = 75;
@@ -3818,7 +4126,7 @@ namespace OneStop
             // _cbTronSrr
             // 
             this._cbTronSrr.AutoSize = true;
-            this._cbTronSrr.Location = new System.Drawing.Point(259, 281);
+            this._cbTronSrr.Location = new System.Drawing.Point(16, 275);
             this._cbTronSrr.Name = "_cbTronSrr";
             this._cbTronSrr.Size = new System.Drawing.Size(200, 17);
             this._cbTronSrr.TabIndex = 74;
@@ -3830,7 +4138,7 @@ namespace OneStop
             // _cbTronSfr
             // 
             this._cbTronSfr.AutoSize = true;
-            this._cbTronSfr.Location = new System.Drawing.Point(259, 211);
+            this._cbTronSfr.Location = new System.Drawing.Point(16, 205);
             this._cbTronSfr.Name = "_cbTronSfr";
             this._cbTronSfr.Size = new System.Drawing.Size(201, 17);
             this._cbTronSfr.TabIndex = 73;
@@ -3841,7 +4149,7 @@ namespace OneStop
             // _cbTronSm
             // 
             this._cbTronSm.AutoSize = true;
-            this._cbTronSm.Location = new System.Drawing.Point(259, 258);
+            this._cbTronSm.Location = new System.Drawing.Point(16, 252);
             this._cbTronSm.Name = "_cbTronSm";
             this._cbTronSm.Size = new System.Drawing.Size(137, 17);
             this._cbTronSm.TabIndex = 72;
@@ -3852,7 +4160,7 @@ namespace OneStop
             // _cbTronSdc
             // 
             this._cbTronSdc.AutoSize = true;
-            this._cbTronSdc.Location = new System.Drawing.Point(259, 187);
+            this._cbTronSdc.Location = new System.Drawing.Point(16, 181);
             this._cbTronSdc.Name = "_cbTronSdc";
             this._cbTronSdc.Size = new System.Drawing.Size(260, 17);
             this._cbTronSdc.TabIndex = 70;
@@ -3863,7 +4171,7 @@ namespace OneStop
             // _cbTronSk
             // 
             this._cbTronSk.AutoSize = true;
-            this._cbTronSk.Location = new System.Drawing.Point(259, 234);
+            this._cbTronSk.Location = new System.Drawing.Point(16, 228);
             this._cbTronSk.Name = "_cbTronSk";
             this._cbTronSk.Size = new System.Drawing.Size(147, 17);
             this._cbTronSk.TabIndex = 71;
@@ -3874,7 +4182,7 @@ namespace OneStop
             // _cbTronSpr
             // 
             this._cbTronSpr.AutoSize = true;
-            this._cbTronSpr.Location = new System.Drawing.Point(259, 164);
+            this._cbTronSpr.Location = new System.Drawing.Point(16, 158);
             this._cbTronSpr.Name = "_cbTronSpr";
             this._cbTronSpr.Size = new System.Drawing.Size(151, 17);
             this._cbTronSpr.TabIndex = 69;
@@ -3886,7 +4194,7 @@ namespace OneStop
             // _cbTronSw
             // 
             this._cbTronSw.AutoSize = true;
-            this._cbTronSw.Location = new System.Drawing.Point(259, 141);
+            this._cbTronSw.Location = new System.Drawing.Point(16, 135);
             this._cbTronSw.Name = "_cbTronSw";
             this._cbTronSw.Size = new System.Drawing.Size(162, 17);
             this._cbTronSw.TabIndex = 68;
@@ -3898,7 +4206,7 @@ namespace OneStop
             // _cbTronSe
             // 
             this._cbTronSe.AutoSize = true;
-            this._cbTronSe.Location = new System.Drawing.Point(259, 118);
+            this._cbTronSe.Location = new System.Drawing.Point(16, 112);
             this._cbTronSe.Name = "_cbTronSe";
             this._cbTronSe.Size = new System.Drawing.Size(163, 17);
             this._cbTronSe.TabIndex = 67;
@@ -3910,7 +4218,7 @@ namespace OneStop
             // _cbTronP
             // 
             this._cbTronP.AutoSize = true;
-            this._cbTronP.Location = new System.Drawing.Point(6, 119);
+            this._cbTronP.Location = new System.Drawing.Point(279, 64);
             this._cbTronP.Name = "_cbTronP";
             this._cbTronP.Size = new System.Drawing.Size(158, 17);
             this._cbTronP.TabIndex = 64;
@@ -3922,7 +4230,7 @@ namespace OneStop
             // 
             this._btnClear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this._btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._btnClear.Location = new System.Drawing.Point(579, 330);
+            this._btnClear.Location = new System.Drawing.Point(579, 154);
             this._btnClear.Name = "_btnClear";
             this._btnClear.Size = new System.Drawing.Size(140, 23);
             this._btnClear.TabIndex = 63;
@@ -3933,7 +4241,7 @@ namespace OneStop
             // _cbTronEr
             // 
             this._cbTronEr.AutoSize = true;
-            this._cbTronEr.Location = new System.Drawing.Point(6, 48);
+            this._cbTronEr.Location = new System.Drawing.Point(279, 18);
             this._cbTronEr.Name = "_cbTronEr";
             this._cbTronEr.Size = new System.Drawing.Size(107, 17);
             this._cbTronEr.TabIndex = 53;
@@ -3944,7 +4252,7 @@ namespace OneStop
             // _cbTronSb
             // 
             this._cbTronSb.AutoSize = true;
-            this._cbTronSb.Location = new System.Drawing.Point(259, 48);
+            this._cbTronSb.Location = new System.Drawing.Point(16, 42);
             this._cbTronSb.Name = "_cbTronSb";
             this._cbTronSb.Size = new System.Drawing.Size(110, 17);
             this._cbTronSb.TabIndex = 62;
@@ -3955,7 +4263,7 @@ namespace OneStop
             // _cbTronM
             // 
             this._cbTronM.AutoSize = true;
-            this._cbTronM.Location = new System.Drawing.Point(6, 327);
+            this._cbTronM.Location = new System.Drawing.Point(279, 200);
             this._cbTronM.Name = "_cbTronM";
             this._cbTronM.Size = new System.Drawing.Size(182, 17);
             this._cbTronM.TabIndex = 54;
@@ -3966,7 +4274,7 @@ namespace OneStop
             // _cbTronX
             // 
             this._cbTronX.AutoSize = true;
-            this._cbTronX.Location = new System.Drawing.Point(4, 258);
+            this._cbTronX.Location = new System.Drawing.Point(279, 154);
             this._cbTronX.Name = "_cbTronX";
             this._cbTronX.Size = new System.Drawing.Size(104, 17);
             this._cbTronX.TabIndex = 61;
@@ -3977,7 +4285,7 @@ namespace OneStop
             // _cbTronO
             // 
             this._cbTronO.AutoSize = true;
-            this._cbTronO.Location = new System.Drawing.Point(6, 141);
+            this._cbTronO.Location = new System.Drawing.Point(279, 86);
             this._cbTronO.Name = "_cbTronO";
             this._cbTronO.Size = new System.Drawing.Size(139, 17);
             this._cbTronO.TabIndex = 55;
@@ -3988,7 +4296,7 @@ namespace OneStop
             // _cbTronV
             // 
             this._cbTronV.AutoSize = true;
-            this._cbTronV.Location = new System.Drawing.Point(4, 235);
+            this._cbTronV.Location = new System.Drawing.Point(279, 131);
             this._cbTronV.Name = "_cbTronV";
             this._cbTronV.Size = new System.Drawing.Size(83, 17);
             this._cbTronV.TabIndex = 60;
@@ -3999,7 +4307,7 @@ namespace OneStop
             // _cbTronR
             // 
             this._cbTronR.AutoSize = true;
-            this._cbTronR.Location = new System.Drawing.Point(6, 163);
+            this._cbTronR.Location = new System.Drawing.Point(279, 108);
             this._cbTronR.Name = "_cbTronR";
             this._cbTronR.Size = new System.Drawing.Size(141, 17);
             this._cbTronR.TabIndex = 56;
@@ -4010,7 +4318,7 @@ namespace OneStop
             // _cbTronSp
             // 
             this._cbTronSp.AutoSize = true;
-            this._cbTronSp.Location = new System.Drawing.Point(259, 95);
+            this._cbTronSp.Location = new System.Drawing.Point(16, 89);
             this._cbTronSp.Name = "_cbTronSp";
             this._cbTronSp.Size = new System.Drawing.Size(112, 17);
             this._cbTronSp.TabIndex = 59;
@@ -4021,7 +4329,7 @@ namespace OneStop
             // _cbTronSa
             // 
             this._cbTronSa.AutoSize = true;
-            this._cbTronSa.Location = new System.Drawing.Point(259, 24);
+            this._cbTronSa.Location = new System.Drawing.Point(16, 18);
             this._cbTronSa.Name = "_cbTronSa";
             this._cbTronSa.Size = new System.Drawing.Size(117, 17);
             this._cbTronSa.TabIndex = 57;
@@ -4032,7 +4340,7 @@ namespace OneStop
             // _cbTronSd
             // 
             this._cbTronSd.AutoSize = true;
-            this._cbTronSd.Location = new System.Drawing.Point(259, 71);
+            this._cbTronSd.Location = new System.Drawing.Point(16, 65);
             this._cbTronSd.Name = "_cbTronSd";
             this._cbTronSd.Size = new System.Drawing.Size(105, 17);
             this._cbTronSd.TabIndex = 58;
@@ -4072,21 +4380,13 @@ namespace OneStop
             // 
             // _tpSystemInfo
             // 
+            this._tpSystemInfo.Controls.Add(this.tabControl1);
             this._tpSystemInfo.Location = new System.Drawing.Point(4, 22);
             this._tpSystemInfo.Name = "_tpSystemInfo";
             this._tpSystemInfo.Size = new System.Drawing.Size(746, 391);
             this._tpSystemInfo.TabIndex = 3;
             this._tpSystemInfo.Text = "System Info";
             this._tpSystemInfo.UseVisualStyleBackColor = true;
-            // 
-            // _tpTestBrowser
-            // 
-            this._tpTestBrowser.Location = new System.Drawing.Point(4, 22);
-            this._tpTestBrowser.Name = "_tpTestBrowser";
-            this._tpTestBrowser.Size = new System.Drawing.Size(746, 391);
-            this._tpTestBrowser.TabIndex = 4;
-            this._tpTestBrowser.Text = "Test Browser";
-            this._tpTestBrowser.UseVisualStyleBackColor = true;
             // 
             // _tpUninstaller
             // 
@@ -4113,7 +4413,7 @@ namespace OneStop
             this._tpConfigurator.Name = "_tpConfigurator";
             this._tpConfigurator.Size = new System.Drawing.Size(746, 391);
             this._tpConfigurator.TabIndex = 7;
-            this._tpConfigurator.Text = "Configurator";
+            this._tpConfigurator.Text = "Tweaks";
             this._tpConfigurator.UseVisualStyleBackColor = true;
             // 
             // _tcConfigurator
@@ -4222,6 +4522,7 @@ namespace OneStop
             // 
             this._tabControl2.Controls.Add(this._tpQuickLaunche);
             this._tabControl2.Controls.Add(this._tpShopSettings);
+            this._tabControl2.Controls.Add(this.tpServers);
             this._tabControl2.Location = new System.Drawing.Point(0, 3);
             this._tabControl2.Name = "_tabControl2";
             this._tabControl2.SelectedIndex = 0;
@@ -4438,7 +4739,7 @@ namespace OneStop
             // _lnkInfoInternalIp
             // 
             this._lnkInfoInternalIp.AutoSize = true;
-            this._lnkInfoInternalIp.Location = new System.Drawing.Point(619, 39);
+            this._lnkInfoInternalIp.Location = new System.Drawing.Point(627, 39);
             this._lnkInfoInternalIp.Name = "_lnkInfoInternalIp";
             this._lnkInfoInternalIp.Size = new System.Drawing.Size(95, 13);
             this._lnkInfoInternalIp.TabIndex = 68;
@@ -4449,7 +4750,7 @@ namespace OneStop
             // 
             this._lblInfoExternalIp.AutoSize = true;
             this._lblInfoExternalIp.BackColor = System.Drawing.SystemColors.Control;
-            this._lblInfoExternalIp.Location = new System.Drawing.Point(415, 73);
+            this._lblInfoExternalIp.Location = new System.Drawing.Point(386, 73);
             this._lblInfoExternalIp.Name = "_lblInfoExternalIp";
             this._lblInfoExternalIp.Size = new System.Drawing.Size(94, 13);
             this._lblInfoExternalIp.TabIndex = 67;
@@ -4458,7 +4759,7 @@ namespace OneStop
             // _lnkInfoGateway
             // 
             this._lnkInfoGateway.AutoSize = true;
-            this._lnkInfoGateway.Location = new System.Drawing.Point(619, 56);
+            this._lnkInfoGateway.Location = new System.Drawing.Point(627, 56);
             this._lnkInfoGateway.Name = "_lnkInfoGateway";
             this._lnkInfoGateway.Size = new System.Drawing.Size(92, 13);
             this._lnkInfoGateway.TabIndex = 66;
@@ -4468,7 +4769,7 @@ namespace OneStop
             // _lnkInfoPrimDns
             // 
             this._lnkInfoPrimDns.AutoSize = true;
-            this._lnkInfoPrimDns.Location = new System.Drawing.Point(619, 73);
+            this._lnkInfoPrimDns.Location = new System.Drawing.Point(627, 73);
             this._lnkInfoPrimDns.Name = "_lnkInfoPrimDns";
             this._lnkInfoPrimDns.Size = new System.Drawing.Size(93, 13);
             this._lnkInfoPrimDns.TabIndex = 64;
@@ -4480,7 +4781,7 @@ namespace OneStop
             this._lblDns.AutoSize = true;
             this._lblDns.BackColor = System.Drawing.SystemColors.Control;
             this._lblDns.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblDns.Location = new System.Drawing.Point(576, 73);
+            this._lblDns.Location = new System.Drawing.Point(584, 73);
             this._lblDns.Name = "_lblDns";
             this._lblDns.Size = new System.Drawing.Size(37, 13);
             this._lblDns.TabIndex = 63;
@@ -4491,7 +4792,7 @@ namespace OneStop
             this._lblGateway.AutoSize = true;
             this._lblGateway.BackColor = System.Drawing.SystemColors.Control;
             this._lblGateway.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblGateway.Location = new System.Drawing.Point(553, 56);
+            this._lblGateway.Location = new System.Drawing.Point(561, 56);
             this._lblGateway.Name = "_lblGateway";
             this._lblGateway.Size = new System.Drawing.Size(60, 13);
             this._lblGateway.TabIndex = 62;
@@ -4502,7 +4803,7 @@ namespace OneStop
             this._lblExternalIp.AutoSize = true;
             this._lblExternalIp.BackColor = System.Drawing.SystemColors.Control;
             this._lblExternalIp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblExternalIp.Location = new System.Drawing.Point(336, 73);
+            this._lblExternalIp.Location = new System.Drawing.Point(307, 73);
             this._lblExternalIp.Name = "_lblExternalIp";
             this._lblExternalIp.Size = new System.Drawing.Size(73, 13);
             this._lblExternalIp.TabIndex = 61;
@@ -4513,7 +4814,7 @@ namespace OneStop
             this._lblInternalIp.AutoSize = true;
             this._lblInternalIp.BackColor = System.Drawing.SystemColors.Control;
             this._lblInternalIp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblInternalIp.Location = new System.Drawing.Point(543, 40);
+            this._lblInternalIp.Location = new System.Drawing.Point(551, 40);
             this._lblInternalIp.Name = "_lblInternalIp";
             this._lblInternalIp.Size = new System.Drawing.Size(70, 13);
             this._lblInternalIp.TabIndex = 60;
@@ -4608,7 +4909,7 @@ namespace OneStop
             // _ddlInfoNetworkAdapters
             // 
             this._ddlInfoNetworkAdapters.FormattingEnabled = true;
-            this._ddlInfoNetworkAdapters.Location = new System.Drawing.Point(337, 31);
+            this._ddlInfoNetworkAdapters.Location = new System.Drawing.Point(308, 31);
             this._ddlInfoNetworkAdapters.Name = "_ddlInfoNetworkAdapters";
             this._ddlInfoNetworkAdapters.Size = new System.Drawing.Size(185, 21);
             this._ddlInfoNetworkAdapters.TabIndex = 69;
@@ -4620,7 +4921,7 @@ namespace OneStop
             this._label1.AutoSize = true;
             this._label1.BackColor = System.Drawing.SystemColors.Control;
             this._label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._label1.Location = new System.Drawing.Point(334, 56);
+            this._label1.Location = new System.Drawing.Point(305, 56);
             this._label1.Name = "_label1";
             this._label1.Size = new System.Drawing.Size(75, 13);
             this._label1.TabIndex = 70;
@@ -4630,7 +4931,7 @@ namespace OneStop
             // 
             this._lblInfoAdapterDesc.AutoSize = true;
             this._lblInfoAdapterDesc.BackColor = System.Drawing.SystemColors.Control;
-            this._lblInfoAdapterDesc.Location = new System.Drawing.Point(415, 58);
+            this._lblInfoAdapterDesc.Location = new System.Drawing.Point(386, 58);
             this._lblInfoAdapterDesc.MaximumSize = new System.Drawing.Size(170, 13);
             this._lblInfoAdapterDesc.Name = "_lblInfoAdapterDesc";
             this._lblInfoAdapterDesc.Size = new System.Drawing.Size(108, 13);
@@ -4641,17 +4942,632 @@ namespace OneStop
             // 
             this._ofdTron.FileName = "Tron.bat";
             // 
-            // toolStripSeparator1
+            // testBrowserToolStripMenuItem
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(212, 6);
+            this.testBrowserToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.oneStopInternalToolStripMenuItem,
+            this.launchPortableBrowsersetInConfigToolStripMenuItem});
+            this.testBrowserToolStripMenuItem.Name = "testBrowserToolStripMenuItem";
+            this.testBrowserToolStripMenuItem.Size = new System.Drawing.Size(366, 22);
+            this.testBrowserToolStripMenuItem.Text = "Test Browser";
             // 
-            // oneStopToolGetFileInfoToolStripMenuItem
+            // oneStopInternalToolStripMenuItem
             // 
-            this.oneStopToolGetFileInfoToolStripMenuItem.Name = "oneStopToolGetFileInfoToolStripMenuItem";
-            this.oneStopToolGetFileInfoToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.oneStopToolGetFileInfoToolStripMenuItem.Text = "OneStop Tool: Get File Info";
-            this.oneStopToolGetFileInfoToolStripMenuItem.Click += new System.EventHandler(this.oneStopToolGetFileInfoToolStripMenuItem_Click);
+            this.oneStopInternalToolStripMenuItem.Name = "oneStopInternalToolStripMenuItem";
+            this.oneStopInternalToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
+            this.oneStopInternalToolStripMenuItem.Text = "OneStop Internal";
+            // 
+            // launchPortableBrowsersetInConfigToolStripMenuItem
+            // 
+            this.launchPortableBrowsersetInConfigToolStripMenuItem.Name = "launchPortableBrowsersetInConfigToolStripMenuItem";
+            this.launchPortableBrowsersetInConfigToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
+            this.launchPortableBrowsersetInConfigToolStripMenuItem.Text = "Launch Portable Browser (set in config)";
+            // 
+            // forceLogoffToolStripMenuItem
+            // 
+            this.forceLogoffToolStripMenuItem.Name = "forceLogoffToolStripMenuItem";
+            this.forceLogoffToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
+            this.forceLogoffToolStripMenuItem.Text = "Force Logoff";
+            this.forceLogoffToolStripMenuItem.Click += new System.EventHandler(this.forceLogoffToolStripMenuItem_Click);
+            // 
+            // connectivityToDefaultGatewayToolStripMenuItem
+            // 
+            this.connectivityToDefaultGatewayToolStripMenuItem.Name = "connectivityToDefaultGatewayToolStripMenuItem";
+            this.connectivityToDefaultGatewayToolStripMenuItem.Size = new System.Drawing.Size(366, 22);
+            this.connectivityToDefaultGatewayToolStripMenuItem.Text = "Connectivity to Default Gateway";
+            // 
+            // tpServers
+            // 
+            this.tpServers.Controls.Add(this.groupBox1);
+            this.tpServers.Controls.Add(this.mailGroupBox);
+            this.tpServers.Location = new System.Drawing.Point(4, 22);
+            this.tpServers.Name = "tpServers";
+            this.tpServers.Padding = new System.Windows.Forms.Padding(3);
+            this.tpServers.Size = new System.Drawing.Size(738, 366);
+            this.tpServers.TabIndex = 2;
+            this.tpServers.Text = "Servers (FTP, Email, etc.)";
+            this.tpServers.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(234, 317);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 9;
+            this.button4.Text = "Apply";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(234, 282);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 8;
+            this.button3.Text = "Load";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(9, 317);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 7;
+            this.button2.Text = "Export";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(9, 283);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Import";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // mailGroupBox
+            // 
+            this.mailGroupBox.Controls.Add(this.button2);
+            this.mailGroupBox.Controls.Add(this.button4);
+            this.mailGroupBox.Controls.Add(this.button1);
+            this.mailGroupBox.Controls.Add(this.comboBox2);
+            this.mailGroupBox.Controls.Add(this.button3);
+            this.mailGroupBox.Controls.Add(this.comboBox1);
+            this.mailGroupBox.Controls.Add(this.textBox7);
+            this.mailGroupBox.Controls.Add(this.textBox6);
+            this.mailGroupBox.Controls.Add(this.label9);
+            this.mailGroupBox.Controls.Add(this.label8);
+            this.mailGroupBox.Controls.Add(this.label7);
+            this.mailGroupBox.Controls.Add(this.label6);
+            this.mailGroupBox.Controls.Add(this.label5);
+            this.mailGroupBox.Controls.Add(this.textBox5);
+            this.mailGroupBox.Controls.Add(this.textBox4);
+            this.mailGroupBox.Controls.Add(this.label4);
+            this.mailGroupBox.Controls.Add(this.textBox3);
+            this.mailGroupBox.Controls.Add(this.label3);
+            this.mailGroupBox.Controls.Add(this.label2);
+            this.mailGroupBox.Controls.Add(this.textBox2);
+            this.mailGroupBox.Controls.Add(this.label1);
+            this.mailGroupBox.Controls.Add(this.textBox1);
+            this.mailGroupBox.Location = new System.Drawing.Point(6, 6);
+            this.mailGroupBox.Name = "mailGroupBox";
+            this.mailGroupBox.Size = new System.Drawing.Size(315, 354);
+            this.mailGroupBox.TabIndex = 5;
+            this.mailGroupBox.TabStop = false;
+            this.mailGroupBox.Text = "Email Settings";
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "Yes",
+            "No"});
+            this.comboBox2.Location = new System.Drawing.Point(229, 171);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(80, 21);
+            this.comboBox2.TabIndex = 12;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Yes",
+            "No"});
+            this.comboBox1.Location = new System.Drawing.Point(42, 171);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(80, 21);
+            this.comboBox1.TabIndex = 11;
+            // 
+            // textBox7
+            // 
+            this.textBox7.Location = new System.Drawing.Point(94, 256);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(215, 20);
+            this.textBox7.TabIndex = 10;
+            // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(94, 224);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(215, 20);
+            this.textBox6.TabIndex = 9;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 259);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(69, 13);
+            this.label9.TabIndex = 8;
+            this.label9.Text = "Subject Line:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 227);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(47, 13);
+            this.label8.TabIndex = 7;
+            this.label8.Text = "Mail-TO:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(130, 174);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(93, 13);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "Request Reciept?";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 174);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(30, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "SSL:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 126);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(85, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Mail Server Port:";
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(94, 123);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(215, 20);
+            this.textBox5.TabIndex = 5;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(94, 97);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(215, 20);
+            this.textBox4.TabIndex = 4;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 100);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(74, 13);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "SMTP Server:";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(94, 71);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(215, 20);
+            this.textBox3.TabIndex = 3;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 74);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(56, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Password:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 48);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(74, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "From Address:";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(94, 45);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(215, 20);
+            this.textBox2.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(64, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "From Name:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(94, 19);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(215, 20);
+            this.textBox1.TabIndex = 1;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Location = new System.Drawing.Point(331, 7);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(401, 186);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "FTP Settings";
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tpSystemReport);
+            this.tabControl1.Controls.Add(this.tpNetwork);
+            this.tabControl1.Location = new System.Drawing.Point(0, 4);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(745, 386);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // tpNetwork
+            // 
+            this.tpNetwork.Controls.Add(this.netBox);
+            this.tpNetwork.Controls.Add(this.clearSslBTN);
+            this.tpNetwork.Controls.Add(this.setGoogleDnsBTN);
+            this.tpNetwork.Controls.Add(this.winsockRepBTN);
+            this.tpNetwork.Controls.Add(this.clearStaticBTN);
+            this.tpNetwork.Controls.Add(this.dnsFlushBTN);
+            this.tpNetwork.Controls.Add(this.releaseRenewBTN);
+            this.tpNetwork.Controls.Add(this.netCombo);
+            this.tpNetwork.Controls.Add(this.button7);
+            this.tpNetwork.Controls.Add(this.label10);
+            this.tpNetwork.Controls.Add(this.groupBox3);
+            this.tpNetwork.Location = new System.Drawing.Point(4, 22);
+            this.tpNetwork.Name = "tpNetwork";
+            this.tpNetwork.Padding = new System.Windows.Forms.Padding(3);
+            this.tpNetwork.Size = new System.Drawing.Size(737, 360);
+            this.tpNetwork.TabIndex = 0;
+            this.tpNetwork.Text = "Network Configuration";
+            this.tpNetwork.UseVisualStyleBackColor = true;
+            // 
+            // tpSystemReport
+            // 
+            this.tpSystemReport.Location = new System.Drawing.Point(4, 22);
+            this.tpSystemReport.Name = "tpSystemReport";
+            this.tpSystemReport.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSystemReport.Size = new System.Drawing.Size(737, 360);
+            this.tpSystemReport.TabIndex = 1;
+            this.tpSystemReport.Text = "System Report";
+            this.tpSystemReport.UseVisualStyleBackColor = true;
+            // 
+            // netBox
+            // 
+            this.netBox.Location = new System.Drawing.Point(9, 134);
+            this.netBox.Multiline = true;
+            this.netBox.Name = "netBox";
+            this.netBox.ReadOnly = true;
+            this.netBox.Size = new System.Drawing.Size(300, 220);
+            this.netBox.TabIndex = 22;
+            // 
+            // clearSslBTN
+            // 
+            this.clearSslBTN.Location = new System.Drawing.Point(159, 103);
+            this.clearSslBTN.Name = "clearSslBTN";
+            this.clearSslBTN.Size = new System.Drawing.Size(150, 24);
+            this.clearSslBTN.TabIndex = 21;
+            this.clearSslBTN.Text = "Clear SSL State";
+            this.clearSslBTN.UseVisualStyleBackColor = true;
+            // 
+            // setGoogleDnsBTN
+            // 
+            this.setGoogleDnsBTN.Location = new System.Drawing.Point(9, 103);
+            this.setGoogleDnsBTN.Name = "setGoogleDnsBTN";
+            this.setGoogleDnsBTN.Size = new System.Drawing.Size(150, 24);
+            this.setGoogleDnsBTN.TabIndex = 20;
+            this.setGoogleDnsBTN.Text = "Change to Google DNS";
+            this.setGoogleDnsBTN.UseVisualStyleBackColor = true;
+            // 
+            // winsockRepBTN
+            // 
+            this.winsockRepBTN.Location = new System.Drawing.Point(159, 73);
+            this.winsockRepBTN.Name = "winsockRepBTN";
+            this.winsockRepBTN.Size = new System.Drawing.Size(150, 24);
+            this.winsockRepBTN.TabIndex = 19;
+            this.winsockRepBTN.Text = "WINSOCK Repair";
+            this.winsockRepBTN.UseVisualStyleBackColor = true;
+            // 
+            // clearStaticBTN
+            // 
+            this.clearStaticBTN.Location = new System.Drawing.Point(9, 73);
+            this.clearStaticBTN.Name = "clearStaticBTN";
+            this.clearStaticBTN.Size = new System.Drawing.Size(150, 24);
+            this.clearStaticBTN.TabIndex = 18;
+            this.clearStaticBTN.Text = "Clear STATIC IP Settings";
+            this.clearStaticBTN.UseVisualStyleBackColor = true;
+            // 
+            // dnsFlushBTN
+            // 
+            this.dnsFlushBTN.Location = new System.Drawing.Point(159, 43);
+            this.dnsFlushBTN.Name = "dnsFlushBTN";
+            this.dnsFlushBTN.Size = new System.Drawing.Size(150, 24);
+            this.dnsFlushBTN.TabIndex = 17;
+            this.dnsFlushBTN.Text = "Flush DNS Cache";
+            this.dnsFlushBTN.UseVisualStyleBackColor = true;
+            // 
+            // releaseRenewBTN
+            // 
+            this.releaseRenewBTN.Location = new System.Drawing.Point(9, 43);
+            this.releaseRenewBTN.Name = "releaseRenewBTN";
+            this.releaseRenewBTN.Size = new System.Drawing.Size(150, 24);
+            this.releaseRenewBTN.TabIndex = 16;
+            this.releaseRenewBTN.Text = "Release and Renew DHCP";
+            this.releaseRenewBTN.UseVisualStyleBackColor = true;
+            // 
+            // netCombo
+            // 
+            this.netCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.netCombo.FormattingEnabled = true;
+            this.netCombo.Items.AddRange(new object[] {
+            "Refresh to gather..."});
+            this.netCombo.Location = new System.Drawing.Point(69, 10);
+            this.netCombo.Name = "netCombo";
+            this.netCombo.Size = new System.Drawing.Size(162, 21);
+            this.netCombo.TabIndex = 15;
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(234, 9);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 14;
+            this.button7.Text = "Refresh";
+            this.button7.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 15);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(57, 13);
+            this.label10.TabIndex = 13;
+            this.label10.Text = "Interfaces:";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.flowLayoutPanel3);
+            this.groupBox3.Location = new System.Drawing.Point(481, 10);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(250, 228);
+            this.groupBox3.TabIndex = 12;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Network Information";
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Controls.Add(this.label11);
+            this.flowLayoutPanel3.Controls.Add(this.hostNameTextB);
+            this.flowLayoutPanel3.Controls.Add(this.label12);
+            this.flowLayoutPanel3.Controls.Add(this.textBox8);
+            this.flowLayoutPanel3.Controls.Add(this.label13);
+            this.flowLayoutPanel3.Controls.Add(this.textBox9);
+            this.flowLayoutPanel3.Controls.Add(this.label14);
+            this.flowLayoutPanel3.Controls.Add(this.textBox10);
+            this.flowLayoutPanel3.Controls.Add(this.label15);
+            this.flowLayoutPanel3.Controls.Add(this.textBox11);
+            this.flowLayoutPanel3.Controls.Add(this.label16);
+            this.flowLayoutPanel3.Controls.Add(this.textBox12);
+            this.flowLayoutPanel3.Controls.Add(this.label17);
+            this.flowLayoutPanel3.Controls.Add(this.textBox13);
+            this.flowLayoutPanel3.Controls.Add(this.label18);
+            this.flowLayoutPanel3.Controls.Add(this.pubIPTextB);
+            this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 16);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(244, 209);
+            this.flowLayoutPanel3.TabIndex = 0;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(3, 0);
+            this.label11.Name = "label11";
+            this.label11.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.label11.Size = new System.Drawing.Size(71, 19);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "HOSTNAME:";
+            // 
+            // hostNameTextB
+            // 
+            this.hostNameTextB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.hostNameTextB.Location = new System.Drawing.Point(80, 3);
+            this.hostNameTextB.Name = "hostNameTextB";
+            this.hostNameTextB.Size = new System.Drawing.Size(160, 20);
+            this.hostNameTextB.TabIndex = 1;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(3, 26);
+            this.label12.Name = "label12";
+            this.label12.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.label12.Size = new System.Drawing.Size(57, 19);
+            this.label12.TabIndex = 2;
+            this.label12.Text = "LOCAL IP:";
+            // 
+            // textBox8
+            // 
+            this.textBox8.Location = new System.Drawing.Point(80, 29);
+            this.textBox8.Margin = new System.Windows.Forms.Padding(17, 3, 3, 3);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(160, 20);
+            this.textBox8.TabIndex = 3;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(3, 52);
+            this.label13.Name = "label13";
+            this.label13.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.label13.Size = new System.Drawing.Size(33, 19);
+            this.label13.TabIndex = 4;
+            this.label13.Text = "MAC:";
+            // 
+            // textBox9
+            // 
+            this.textBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox9.Location = new System.Drawing.Point(80, 55);
+            this.textBox9.Margin = new System.Windows.Forms.Padding(41, 3, 3, 3);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(160, 20);
+            this.textBox9.TabIndex = 5;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(3, 78);
+            this.label14.Name = "label14";
+            this.label14.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.label14.Size = new System.Drawing.Size(64, 19);
+            this.label14.TabIndex = 6;
+            this.label14.Text = "GATEWAY:";
+            // 
+            // textBox10
+            // 
+            this.textBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox10.Location = new System.Drawing.Point(80, 81);
+            this.textBox10.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(160, 20);
+            this.textBox10.TabIndex = 7;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(3, 104);
+            this.label15.Name = "label15";
+            this.label15.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.label15.Size = new System.Drawing.Size(33, 19);
+            this.label15.TabIndex = 8;
+            this.label15.Text = "DNS:";
+            // 
+            // textBox11
+            // 
+            this.textBox11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox11.Location = new System.Drawing.Point(80, 107);
+            this.textBox11.Margin = new System.Windows.Forms.Padding(41, 3, 3, 3);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(160, 20);
+            this.textBox11.TabIndex = 9;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(3, 130);
+            this.label16.Name = "label16";
+            this.label16.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.label16.Size = new System.Drawing.Size(40, 19);
+            this.label16.TabIndex = 10;
+            this.label16.Text = "DHCP:";
+            // 
+            // textBox12
+            // 
+            this.textBox12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox12.Location = new System.Drawing.Point(80, 133);
+            this.textBox12.Margin = new System.Windows.Forms.Padding(34, 3, 3, 3);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.Size = new System.Drawing.Size(160, 20);
+            this.textBox12.TabIndex = 11;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(3, 156);
+            this.label17.Name = "label17";
+            this.label17.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.label17.Size = new System.Drawing.Size(54, 19);
+            this.label17.TabIndex = 12;
+            this.label17.Text = "SUBNET:";
+            // 
+            // textBox13
+            // 
+            this.textBox13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox13.Location = new System.Drawing.Point(80, 159);
+            this.textBox13.Margin = new System.Windows.Forms.Padding(20, 3, 3, 3);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.Size = new System.Drawing.Size(160, 20);
+            this.textBox13.TabIndex = 13;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(3, 182);
+            this.label18.Name = "label18";
+            this.label18.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.label18.Size = new System.Drawing.Size(61, 19);
+            this.label18.TabIndex = 14;
+            this.label18.Text = "PUBLIC IP:";
+            // 
+            // pubIPTextB
+            // 
+            this.pubIPTextB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pubIPTextB.Location = new System.Drawing.Point(80, 185);
+            this.pubIPTextB.Margin = new System.Windows.Forms.Padding(13, 3, 3, 3);
+            this.pubIPTextB.Name = "pubIPTextB";
+            this.pubIPTextB.Size = new System.Drawing.Size(160, 20);
+            this.pubIPTextB.TabIndex = 15;
+            // 
+            // linkLabel2
+            // 
+            this.linkLabel2.AutoSize = true;
+            this.linkLabel2.Location = new System.Drawing.Point(278, 225);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(127, 13);
+            this.linkLabel2.TabIndex = 85;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "TronScript by /u/vocatus";
+            // 
+            // button5
+            // 
+            this.button5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.button5.Enabled = false;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button5.Location = new System.Drawing.Point(579, 125);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(140, 23);
+            this.button5.TabIndex = 86;
+            this.button5.Text = "Check All Flags";
+            this.button5.UseVisualStyleBackColor = false;
+            // 
+            // button6
+            // 
+            this.button6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button6.ForeColor = System.Drawing.Color.Black;
+            this.button6.Location = new System.Drawing.Point(8, 356);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(140, 29);
+            this.button6.TabIndex = 82;
+            this.button6.Text = ">> Locate Tron <<";
+            this.button6.UseVisualStyleBackColor = false;
             // 
             // OsMain
             // 
@@ -4698,6 +5614,7 @@ namespace OneStop
             this._tpTronSettings.ResumeLayout(false);
             this._tpLaunchTron.ResumeLayout(false);
             this._tpLaunchTron.PerformLayout();
+            this._tpSystemInfo.ResumeLayout(false);
             this._tpConfigurator.ResumeLayout(false);
             this._tcConfigurator.ResumeLayout(false);
             this._tpSetup.ResumeLayout(false);
@@ -4706,6 +5623,15 @@ namespace OneStop
             this._tpQuickLaunche.PerformLayout();
             this._tpShopSettings.ResumeLayout(false);
             this._tpShopSettings.PerformLayout();
+            this.tpServers.ResumeLayout(false);
+            this.mailGroupBox.ResumeLayout(false);
+            this.mailGroupBox.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tpNetwork.ResumeLayout(false);
+            this.tpNetwork.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.flowLayoutPanel3.ResumeLayout(false);
+            this.flowLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4875,6 +5801,10 @@ namespace OneStop
             _lblOneStopStatus.ForeColor = Color.Red;
             _foldersToolStripMenuItem.Enabled = false;
             _btnTronSaveFlags.Enabled = false;
+            _btnConfigDump.Enabled = false;
+            _btnRunTron.Enabled = false;
+            _btnDryRun.Enabled = false;
+            _btnTronSaveFlags.Enabled = false;
 
             //Empty CBs
             UncheckTronCBs();
@@ -4944,6 +5874,18 @@ namespace OneStop
         {
             try
             {
+                string directorytocreate = Directory.GetCurrentDirectory() + "\\Scripts\\";
+
+                var directoryInfo = new FileInfo(directorytocreate).Directory;
+                if (directoryInfo != null) directoryInfo.Create();
+            }
+            catch (Exception e)
+            {
+                OSConsole("Attempted to Create Scripts directory but failed" + e, 1);
+            }
+            
+            try
+            {
                 if(new DirectoryInfo(strScriptsDirectory).Exists)
                 { 
                 var s = new DirectoryInfo(strScriptsDirectory);
@@ -4970,25 +5912,298 @@ namespace OneStop
                 }
                 else
                 {
-                    Console("Scripts Directory Does not Exist");
+                    OSConsole("Scripts Directory Does not Exist", 0);
                 }
             }
             catch (UnauthorizedAccessException uaEx)
             {
-                Console("Exeption Thrown: Enumerating Scripts Directory - " + uaEx.Message);
+                OSConsole("Exeption Thrown: Enumerating Scripts Directory - " + uaEx.Message, 0);
             }
             catch (PathTooLongException pathEx)
             {
-                Console("Exeption Thrown: Enumerating Scripts Directory - " + pathEx.Message);
+                OSConsole("Exeption Thrown: Enumerating Scripts Directory - " + pathEx.Message, 0);
             }
             catch
             {
-                Console("Exeption Thrown: Enumerating Scripts Directory - Unknown");
+                OSConsole("Exeption Thrown: Enumerating Scripts Directory - Unknown", 0);
             }
         }
 
+
+        public void OSLaunch(string path)
+        {
+            OSLaunch(path, null);
+        }
+
+        public void OSLaunch(string path, string mode)
+        {
+            OSLaunch(path, mode, null);
+        }
+
+        public void OSLaunch(string path, string mode, string args)
+        {
+            OSLaunch(path, mode, args, false);
+        }
+        
+        private static string GetBrowserPath()
+        {
+            //Stackoverflow User neminem
+            string browser = string.Empty;
+            RegistryKey key = null;
+
+            try
+            {
+                // try location of default browser path in XP
+                key = Registry.ClassesRoot.OpenSubKey(@"HTTP\shell\open\command", false);
+
+                // try location of default browser path in Vista
+                if (key == null)
+                {
+                    key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\Shell\Associations\UrlAssociations\http", false); ;
+                }
+
+                if (key != null)
+                {
+                    //trim off quotes
+                    browser = key.GetValue(null).ToString().ToLower().Replace("\"", "");
+                    if (!browser.EndsWith("exe"))
+                    {
+                        //get rid of everything after the ".exe"
+                        browser = browser.Substring(0, browser.LastIndexOf(".exe") + 4);
+                    }
+
+                    key.Close();
+                }
+            }
+            catch
+            {
+                return string.Empty;
+            }
+
+            return browser;
+        }
+
+        public void OSLaunch(string path, string mode, string args, bool wait)
+        {
+            //Valid modes = prompt, dll, web, folder, standard (or null)
+            //prompt_open leaves cmd window open at end prompt_close or prompt closes it.
+            //bool wait = if true wait for finish
+
+            if (path == "cmd")
+            {
+                path = "CMD.exe";
+            }
+            if (mode == "prompt")
+            {
+                mode = "prompt_close";
+            }
+
+            string output = "";
+            string errorcode = "";
+            
+            if (mode == "web")
+            {
+                OSConsole("Launched Website: " + path, 1);
+                string browserPath = GetBrowserPath();
+                if (browserPath == string.Empty)
+                    browserPath = "iexplore";
+                Process process = new Process();
+                process.StartInfo = new ProcessStartInfo(browserPath);
+                process.StartInfo.Arguments = "\"" + path + "\"";
+                process.Start();
+            }
+            else if (mode == "tron_folder")
+            {
+                try
+                {
+                    Process.Start(@StrTronPath + "\\Resources\\" + path);
+                }
+                catch (Exception e)
+                {
+                    OSConsole("Folder Failed to Open: " + e,0);
+                }
+            }
+            else if (mode == "folder")
+            {
+                
+                try
+                {
+                    Process.Start(path);
+                }
+                catch (Exception e)
+                {
+                    OSConsole("Folder Failed to Open: " + e, 0);
+                }
+
+            }
+            else if (mode == "dll")
+            {
+                OSConsole("Executing DLL Command: " + path, 1);
+                System.Diagnostics.Process.Start("CMD.exe", " /c " + path);
+            }
+            else if (mode == "prompt_open")
+            {
+                //k
+                OSConsole("Executing System Command: " + args,1);
+
+                try
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo();
+                    startInfo.RedirectStandardOutput = true;
+                    startInfo.RedirectStandardError = true;
+                    startInfo.FileName = path;
+                    if (args != null) { startInfo.Arguments = " /k " + args; }
+                    startInfo.UseShellExecute = false;
+
+                    Process process = new Process();
+                    process.StartInfo = startInfo;
+                    process.EnableRaisingEvents = true;
+
+                    process.Start();
+
+                    if (wait) { process.WaitForExit(); }
+
+                    output = process.StandardOutput.ReadToEnd();
+                }
+                catch (Exception e)
+                {
+                    OSConsole("Caught Exception: " + e, 1);
+                }
+                OSConsole(output, 1);
+
+            }
+            else if (mode == "prompt_close")
+            {
+                // c
+                OSConsole("Executing System Command: " + args, 1);
+                try
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo();
+                    startInfo.RedirectStandardOutput = true;
+                    startInfo.RedirectStandardError = true;
+                    startInfo.FileName = path;
+                    if (args != null) {startInfo.Arguments = " /c " + args;}
+                    startInfo.UseShellExecute = false;
+
+                    Process process = new Process();
+                    process.StartInfo = startInfo;
+                    process.EnableRaisingEvents = true;
+
+                    process.Start();
+
+                    if (wait) { process.WaitForExit(); }
+
+                    output = process.StandardOutput.ReadToEnd();
+
+                    if (process.HasExited)
+                    {
+                        if (process.ExitCode == 0)
+                        {
+                            OSConsole(output, 1);
+                            OSConsole("Exited successfully", 1);
+                        }
+                        else
+                        {
+                            OSConsole(output, 1);
+                            OSConsole("Exited with code: " + process.ExitCode, 1);
+                        }
+                    }
+                    
+                }
+                catch (Exception e)
+                {
+                    OSConsole("Caught Exception: " + e, 1);
+                }
+                
+            }
+           
+            
+            else
+            { 
+                try
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo();
+                    startInfo.RedirectStandardOutput = true;
+                    startInfo.RedirectStandardError = true;
+                    startInfo.FileName = path;
+                    if (args != null) startInfo.Arguments = args;
+                    startInfo.UseShellExecute = false;
+
+                    Process process = new Process();
+                    process.StartInfo = startInfo;
+                    process.EnableRaisingEvents = true;
+
+                    process.Start();
+
+                    if(wait){process.WaitForExit();}
+
+                    output = process.StandardOutput.ReadToEnd();
+                }
+                catch (Exception e)
+                {
+                    OSConsole("Caught Exception: " + e, 1);
+                }
+                OSConsole(output, 1);
+
+            }
+        }
+
+        //public static async Task<int> RunProcessAsync(string fileName, string args)
+        //{
+        //    using (var process = new Process
+        //    {
+        //        StartInfo =
+        //        {
+        //            FileName = fileName,
+        //            Arguments = args,
+        //            UseShellExecute = false,
+        //            CreateNoWindow = true,
+        //            RedirectStandardOutput = true,
+        //            RedirectStandardError = true
+        //        },
+        //        EnableRaisingEvents = true
+        //    })
+        //    {
+        //        return await RunProcessAsync(process).ConfigureAwait(false);
+        //    }
+        //}    
+
+        //private Task<int> RunProcessAsync(Process process)
+        //{
+        //    var tcs = new TaskCompletionSource<int>();
+
+        //    process.Exited += (s, ea) => tcs.SetResult(process.ExitCode);
+        //    process.OutputDataReceived += (s, ea) => OSConsole(ea.Data, 1);
+        //    process.ErrorDataReceived += (s, ea) => OSConsole("ERR: " + ea.Data, 1);
+
+        //    bool started = process.Start();
+        //    if (!started)
+        //    {
+        //        throw new InvalidOperationException("Could not start process: " + process);
+        //    }
+
+        //    process.BeginOutputReadLine();
+        //    process.BeginErrorReadLine();
+
+        //    return tcs.Task;
+        //}
+
+     
+
         private void EnumerateDocs(string strDocsDirectory)
         {
+            try
+            {
+                string directorytocreate = Directory.GetCurrentDirectory() + "\\Documents\\";
+
+                var directoryInfo = new FileInfo(directorytocreate).Directory;
+                if (directoryInfo != null) directoryInfo.Create();
+            }
+            catch (Exception e)
+            {
+                OSConsole("Attempted to create Documents directory but failed", 1);
+            }
+
             try
             {
                 if (new DirectoryInfo(strDocsDirectory).Exists)
@@ -5016,20 +6231,20 @@ namespace OneStop
                 }
                 else
                 {
-                    Console("Scripts Directory Does not Exist");
+                    OSConsole("Scripts Directory Does not Exist", 0);
                 }
             }
             catch (UnauthorizedAccessException uaEx)
             {
-                Console("Exeption Thrown: Enumerating Documents Directory -" + uaEx.Message);
+                OSConsole("Exeption Thrown: Enumerating Documents Directory -" + uaEx.Message, 0);
             }
             catch (PathTooLongException pathEx)
             {
-                Console("Exeption Thrown: Enumerating Documents Directory -" + pathEx.Message);
+                OSConsole("Exeption Thrown: Enumerating Documents Directory -" + pathEx.Message, 0);
             }
             catch
             {
-                Console("Exeption Thrown: Enumerating Documents Directory - Unknown");
+                OSConsole("Exeption Thrown: Enumerating Documents Directory - Unknown", 0);
             }
         }
 
@@ -5318,6 +6533,290 @@ namespace OneStop
         {
             OS_FileInfo OS_FileInfo = new OS_FileInfo();
             OS_FileInfo.Show();
+        }
+
+        private void _forceShutdownToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("cmd","prompt","shutdown /f /s /p");
+        }
+
+
+        private void _forceRestartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("cmd", "prompt", "shutdown /f /r /p");
+        }
+
+        private void forceLogoffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("cmd", "prompt", "shutdown /f /l");
+        }
+
+        private void _enableF8ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("cmd", "prompt", "bcdedit /set {default} bootmenupolicy legacy");
+        }
+
+        private void _disableF8ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("cmd", "prompt", "bcdedit /set {default} bootmenupolicy standard");
+        }
+
+        private void _setSafemodeSwitchOnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("cmd", "prompt", "bcdedit /set {current} safeboot");
+        }
+
+        private void _setSafemodeSwitchOnNetworkingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("cmd", "prompt", "bcdedit /set {default} safeboot network");
+        }
+
+        private void _setSafemodeSwitchOnMinimalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("cmd", "prompt", "bcdedit /set {default} safeboot minimal");
+        }
+
+        private void _setSafemodeSwitchOnAltShellToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("cmd", "prompt", "bcdedit /set {default} safebootalternateshell yes");
+        }
+
+        private void _setSafemodeSwtichOffNormalBootToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("cmd", "prompt", "bcdedit /deletevalue {default} safeboot");
+            OSLaunch("cmd", "prompt", "bcdedit /deletevalue {default} safebootalternateshell");
+        }
+
+        private void _enumerateCurrentModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("cmd", "prompt", "bcdedit /enum");
+        }
+
+        private void _hibernateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("cmd", "prompt", "shutdown /h");
+
+        }
+
+        private void _hybridShutdownFastStartUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("cmd", "prompt", "shutdown /hybrid /s");
+        }
+
+        private void _shutdownWithOptionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("cmd", "prompt", "shutdown /r /o");
+        }
+
+        private void _ipconfigalltoolstripmenuitem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("cmd", "prompt", "ipconfig /all");
+        }
+
+        private void _rOneStopItToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://www.reddit.com/r/OneStopIT","web");
+            
+        }
+
+        private void _rTronScriptToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://www.reddit.com/r/TronScript", "web");
+        }
+
+        private void _ninitecomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://www.ninite.com/", "web");
+        }
+
+        private void _bleepingComputerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://bleepingcomputer.com", "web");
+        }
+
+        private void _geGeekToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://www.gegeek.com/", "web");
+        }
+
+        private void _dSlReportscomSpeedTestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://www.dslreports.com/speedtest", "web");
+        }
+
+        private void _speedtestnetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://www.speedtest.net", "web");
+        }
+
+        private void _browserscopeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://www.browserscope.org/", "web");
+        }
+
+        private void _qualysBrowsercheckToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("https://browsercheck.qualys.com/?scan_type=js", "web");
+        }
+
+        private void _firefoxOfficialPluginTestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("https://www.mozilla.org/en-US/plugincheck/", "web");
+        }
+
+        private void _silverlightbubblemarkcomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://bubblemark.com/wpfe.htm", "web");
+        }
+
+        private void _flashbubblemarkcomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://bubblemark.com/flex.htm", "web");
+        }
+
+        private void _javajavatesterorgToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://javatester.org/version.html", "web");
+        }
+
+        private void _shockwaveadobecomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("https://www.adobe.com/shockwave/welcome/", "web");
+        }
+
+        private void _sSLssllabscomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("https://www.ssllabs.com/ssltest/viewMyClient.html", "web");
+        }
+
+        private void _shieldsUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("https://www.grc.com/x/ne.dll?bh0bkyd2", "web");
+        }
+
+        private void _eSetMasterListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://support.eset.com/kb146/", "web");
+        }
+
+        private void _avastToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://www.avast.com/uninstall-utility", "web");
+        }
+
+        private void _aVgToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://www.avg.com/us-en/utilities", "web");
+        }
+
+        private void _aviraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://www.avira.com/en/support-for-free-knowledgebase-detail/kbid/88", "web");
+        }
+
+        private void _comodoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("https://support.comodo.com/index.php?_m=knowledgebase&_a=viewarticle&kbarticleid=298", "web");
+        }
+
+        private void _fSecureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("ftp://ftp.f-secure.com/support/tools/uitool/UninstallationTool.zip", "web");
+        }
+
+        private void _kasperskyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://support.kaspersky.com/common/service.aspx?el=1464", "web");
+        }
+
+        private void _mcAffeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://download.mcafee.com/products/licensed/cust_support_patches/MCPR.exe", "web");
+        }
+
+        private void _nOd32ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://support.eset.com/kb2788/", "web");
+        }
+
+        private void _nortonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("ftp://ftp.symantec.com/public/english_us_canada/removal_tools/Norton_Removal_Tool.exe", "web");
+        }
+
+        private void _nortonSecurityScanToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("ftp://ftp.symantec.com/public/english_us_canada/removal_tools/NSSRT.exe", "web");
+        }
+
+        private void _pandaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://www.pandasecurity.com/resources/sop/UNINSTALLER_08.exe", "web");
+        }
+
+        private void _sophosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://www.sophos.com/support/knowledgebase/article/11019.html", "web");
+        }
+
+        private void _windowsSecurityEssentialsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("http://support.microsoft.com/kb/2435760", "web");
+        }
+
+        private void _prepToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("stage_0_prep","tron_folder");
+        }
+
+        private void _tempcleanToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("stage_1_tempclean", "tron_folder");
+        }
+
+        private void _dToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("stage_2_de-bloat", "tron_folder");
+        }
+
+        private void _disinfectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("stage_3_disinfect", "tron_folder");
+        }
+
+        private void _repairToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("stage_4_repair", "tron_folder");
+        }
+
+        private void _patchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("stage_5_patch", "tron_folder");
+        }
+
+        private void _optimizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("stage_6_optimize", "tron_folder");
+        }
+
+        private void _wrapUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("stage_7_wrap-up", "tron_folder");
+        }
+
+        private void _manualToolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSLaunch("stage_8_manual_tools", "tron_folder");
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

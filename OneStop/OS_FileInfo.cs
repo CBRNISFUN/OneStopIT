@@ -128,53 +128,154 @@ namespace OneStop
             WasDragged(e);
         }
 
-        public void Console(string input)
+        public void Console(string input, int mode)
         {
+            //mode = 0 or null -> OSConsole, 1 -> OSConsole plus log, 2-> Log Only
+            string logfile = Directory.GetCurrentDirectory() + "\\Logs\\onestoplog.txt";
+            string logfiledir = Directory.GetCurrentDirectory() + "\\Logs\\";
+
+            var directoryInfo = new FileInfo(logfiledir).Directory;
+            if (directoryInfo != null) directoryInfo.Create();
+
             if (input == "OS_GPL")
             {
-                txtDataOutput.AppendText(@"OneStopIT - The Open Source All-In-One tool for technicians." +
-                                      Environment.NewLine +
-                                      "Copyright (C)2016 CollectiveIT.org" +
-                                      Environment.NewLine +
-                                      Environment.NewLine +
-                                      "This program is free software: you can redistribute it and/or modify" +
-                                      Environment.NewLine +
-                                      "it under the terms of the GNU General Public License as published by" +
-                                      Environment.NewLine +
-                                      "the Free Software Foundation, either version 3 of the License, or" +
-                                      Environment.NewLine +
-                                      "(at your option) any later version." +
-                                      Environment.NewLine +
-                                      Environment.NewLine +
-                                      "This program is distributed in the hope that it will be useful," +
-                                      Environment.NewLine +
-                                      "but WITHOUT ANY WARRANTY; without even the implied warranty of" +
-                                      Environment.NewLine +
-                                      "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the" +
-                                      "GNU General Public License for more details." +
-                                      Environment.NewLine +
-                                      Environment.NewLine +
-                                      "You should have received a copy of the GNU General Public License" +
-                                      Environment.NewLine +
-                                      "along with this program.  If not, see <http://www.gnu.org/licenses/>." +
-                                      Environment.NewLine +
-                                      "Developers: staticextasy, CBRN_IS_FUN (Garren King) - Find us on reddit.com/r/OneStopIT" +
-                                      Environment.NewLine);
+                if (mode == 1 || mode == 0)
+                {
+                    txtDataOutput.AppendText(@"OneStopIT - The Open Source All-In-One tool for technicians." +
+                                            Environment.NewLine +
+                                            "Copyright (C)2016 CollectiveIT.org" +
+                                            Environment.NewLine +
+                                            Environment.NewLine +
+                                            "This program is free software: you can redistribute it and/or modify" +
+                                            Environment.NewLine +
+                                            "it under the terms of the GNU General Public License as published by" +
+                                            Environment.NewLine +
+                                            "the Free Software Foundation, either version 3 of the License, or" +
+                                            Environment.NewLine +
+                                            "(at your option) any later version." +
+                                            Environment.NewLine +
+                                            Environment.NewLine +
+                                            "This program is distributed in the hope that it will be useful," +
+                                            Environment.NewLine +
+                                            "but WITHOUT ANY WARRANTY; without even the implied warranty of" +
+                                            Environment.NewLine +
+                                            "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the" +
+                                            "GNU General Public License for more details." +
+                                            Environment.NewLine +
+                                            Environment.NewLine +
+                                            "You should have received a copy of the GNU General Public License" +
+                                            Environment.NewLine +
+                                            "along with this program.  If not, see <http://www.gnu.org/licenses/>." +
+                                            Environment.NewLine +
+                                            "Developers: staticextasy, CBRN_IS_FUN (Garren King) - Find us on reddit.com/r/OneStopIT" +
+                                            Environment.NewLine);
+                }
             }
-            else if (input == "OS_HR")
+
+            if (input == "OS_HR" && (mode == 0 || mode == 1))
             {
                 txtDataOutput.AppendText(Environment.NewLine + @"===========================================");
             }
-            else if (input == "OS_BR")
+            if (input == "OS_BR" && (mode == 0 || mode == 1))
             {
                 txtDataOutput.AppendText(Environment.NewLine + Environment.NewLine);
             }
+            if ((mode == 0 || mode == 1) &&
+                (input.Contains("OS_BR") || input.Contains("OS_GPL") || input.Contains("OS_HR")))
+            {
+            }
             else
             {
-                txtDataOutput.AppendText(Environment.NewLine + input);
+                if (mode == 0 || mode == 1)
+                {
+                    txtDataOutput.AppendText(Environment.NewLine + input);
+                }
             }
 
+            if (input == "OS_GPL")
+            {
+                if (mode == 1 || mode == 0)
+                {
 
+                    try
+                    {
+                        File.AppendAllText(logfile, @"OneStopIT - The Open Source All-In-One tool for technicians." +
+                                                    Environment.NewLine +
+                                                    "Copyright (C)2016 CollectiveIT.org" +
+                                                    Environment.NewLine +
+                                                    Environment.NewLine +
+                                                    "This program is free software: you can redistribute it and/or modify" +
+                                                    Environment.NewLine +
+                                                    "it under the terms of the GNU General Public License as published by" +
+                                                    Environment.NewLine +
+                                                    "the Free Software Foundation, either version 3 of the License, or" +
+                                                    Environment.NewLine +
+                                                    "(at your option) any later version." +
+                                                    Environment.NewLine +
+                                                    Environment.NewLine +
+                                                    "This program is distributed in the hope that it will be useful," +
+                                                    Environment.NewLine +
+                                                    "but WITHOUT ANY WARRANTY; without even the implied warranty of" +
+                                                    Environment.NewLine +
+                                                    "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the" +
+                                                    "GNU General Public License for more details." +
+                                                    Environment.NewLine +
+                                                    Environment.NewLine +
+                                                    "You should have received a copy of the GNU General Public License" +
+                                                    Environment.NewLine +
+                                                    "along with this program.  If not, see <http://www.gnu.org/licenses/>." +
+                                                    Environment.NewLine +
+                                                    "Developers: staticextasy, CBRN_IS_FUN (Garren King) - Find us on reddit.com/r/OneStopIT" +
+                                                    Environment.NewLine);
+
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(@"Problem writing log file" + Environment.NewLine + Environment.NewLine + e);
+                    }
+                }
+
+            }
+            if (input == "OS_HR" && mode == 1 || mode == 2)
+            {
+                try
+                {
+                    File.AppendAllText(logfile, Environment.NewLine + @"===========================================");
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(@"Problem writing log file" + Environment.NewLine + Environment.NewLine + e);
+                }
+            }
+            if (input == "OS_BR" && mode == 1 || mode == 2)
+            {
+                try
+                {
+                    File.AppendAllText(logfile, Environment.NewLine + Environment.NewLine);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(@"Problem writing log file" + Environment.NewLine + Environment.NewLine + e);
+                }
+            }
+            if (mode == 1 || mode == 2)
+            {
+                if (input.Contains("OS_BR") || input.Contains("OS_GPL") || input.Contains("OS_HR"))
+                {
+
+                }
+                else
+                {
+                    try
+                    {
+                        File.AppendAllText(logfile, Environment.NewLine + input);
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(@"Problem writing log file" + Environment.NewLine + Environment.NewLine + e);
+                    }
+                }
+            }
         }
         private void WasDragged(DragEventArgs e)
         {
@@ -183,11 +284,15 @@ namespace OneStop
 
         private void WasDropped(DragEventArgs e)
         {
+            Console("OS_BR",2);
+            Console("OS_HR", 2);
+            Console("User initated action - Dragged Files into OneStop File Info at: " + DateTime.Now.ToString(),2);
+            
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             int c = files.Length;
-            Console("OS_HR");
-            Console("Getting info on " + Convert.ToString(c) + " files");
-            Console("OS_HR");
+            Console("OS_HR", 1);
+            Console("Getting info on " + Convert.ToString(c) + " files", 1);
+            Console("OS_HR", 1);
             foreach (string file in files)
             {
                 try
@@ -199,18 +304,18 @@ namespace OneStop
 
                     string readonlystatus = "";
                     readonlystatus = fi.IsReadOnly ? "File is read only" : "File is not read only";
-                    
-                    Console(fi.Name);
-                    Console("Attributes: " + fi.Attributes);
-                    Console("Creation Time: " +fi.CreationTime + " (" + fi.CreationTimeUtc + " UTC)");
-                    //Console("UTC Creation Time: " +fi.CreationTimeUtc);
-                    Console("Directory: " + fi.DirectoryName);
-                    Console("Last Access: " + fi.LastAccessTime + " (" + fi.LastAccessTimeUtc + " UTC)");
-                    Console("Last Write: " + fi.LastWriteTime +  " (" + fi.LastWriteTimeUtc + " UTC)");
-                    Console("Read Only: " + readonlystatus);
-                    Console("Size in Bytes: " + fi.Length);
-                    Console("OS_BR");
-                    Console("Attempting to Determine if File is Locked...");
+
+                    Console(fi.Name, 1);
+                    Console("Attributes: " + fi.Attributes, 1);
+                    Console("Creation Time: " + fi.CreationTime + " (" + fi.CreationTimeUtc + " UTC)", 1);
+                    //OSConsole("UTC Creation Time: " +fi.CreationTimeUtc);
+                    Console("Directory: " + fi.DirectoryName, 1);
+                    Console("Last Access: " + fi.LastAccessTime + " (" + fi.LastAccessTimeUtc + " UTC)", 1);
+                    Console("Last Write: " + fi.LastWriteTime + " (" + fi.LastWriteTimeUtc + " UTC)", 1);
+                    Console("Read Only: " + readonlystatus, 1);
+                    Console("Size in Bytes: " + fi.Length, 1);
+                    Console("OS_BR", 1);
+                    Console("Attempting to Determine if File is Locked...", 1);
                     
                     StringBuilder builder = new StringBuilder();
                     foreach (var process in WhoIsLocking(fi.FullName))
@@ -218,116 +323,123 @@ namespace OneStop
                         builder.Append(process).Append(", ");
                     }
                     string lockedresult = builder.ToString();
-                    Console(string.IsNullOrEmpty(lockedresult) ? "No Locks could be found by this program" : "Locked by: " + lockedresult);
-                    Console("OS_BR");
+                    Console(string.IsNullOrEmpty(lockedresult) ? "No Locks could be found by this program" : "Locked by: " + lockedresult, 1);
+                    Console("OS_BR", 1);
                     string os_md5hash = MD5Hash(fi.FullName);
                     if (!String.IsNullOrEmpty(os_md5hash))
                     {
-                        Console("MD5 Hash: " + MD5Hash(fi.FullName));
+                        Console("MD5 Hash: " + MD5Hash(fi.FullName), 1);
                     }
-                   
-                    Console("OS_BR");
-                    Console("Attempting to get FileVersionInfo - Only shows non-null values");
-                    Console("OS_BR");
+
+                    Console("OS_BR", 1);
+                    Console("Attempting to get FileVersionInfo - Only shows non-null values", 1);
+                    Console("OS_BR", 1);
                     FileVersionInfo.GetVersionInfo(fi.FullName);
                     FileVersionInfo currentFileVersionInfo = FileVersionInfo.GetVersionInfo(fi.FullName);
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.CompanyName))
                     {
-                        Console("Company Name: " + currentFileVersionInfo.CompanyName);
+                        Console("Company Name: " + currentFileVersionInfo.CompanyName, 1);
                     }
                   
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.Comments)) 
                     {
-                        Console("Comments: " + currentFileVersionInfo.Comments);
+                        Console("Comments: " + currentFileVersionInfo.Comments, 1);
                     }
 
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.FileBuildPart.ToString()) &&
                         currentFileVersionInfo.FileBuildPart != 0)
                     {
-                        Console("Build Number: " + Convert.ToString(currentFileVersionInfo.FileBuildPart));
+                        Console("Build Number: " + Convert.ToString(currentFileVersionInfo.FileBuildPart), 1);
                     }
 
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.FileDescription))
                     {
-                        Console("Description: " + currentFileVersionInfo.FileDescription);
+                        Console("Description: " + currentFileVersionInfo.FileDescription, 1);
                     }
 
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.FileVersion))
                     {
-                        Console("Version: " + currentFileVersionInfo.FileVersion);
+                        Console("Version: " + currentFileVersionInfo.FileVersion, 1);
                     }
 
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.InternalName))
                     {
-                        Console("Internal Name: " + currentFileVersionInfo.InternalName);
+                        Console("Internal Name: " + currentFileVersionInfo.InternalName, 1);
                     }
 
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.IsDebug.ToString()) &&
                         currentFileVersionInfo.IsDebug)
                     {
-                        Console("Contains Debugging: " + Convert.ToString(currentFileVersionInfo.IsDebug));
+                        Console("Contains Debugging: " + Convert.ToString(currentFileVersionInfo.IsDebug), 1);
                     }
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.IsPatched.ToString()) &&
                         currentFileVersionInfo.IsPatched)
                     {
-                        Console("Marked as Patched: " + Convert.ToString(currentFileVersionInfo.IsPatched));
+                        Console("Marked as Patched: " + Convert.ToString(currentFileVersionInfo.IsPatched), 1);
                     }
 
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.IsPreRelease.ToString()) &&
                         currentFileVersionInfo.IsPreRelease)
                     {
-                        Console("Marked as Pre-Release: " + Convert.ToString(currentFileVersionInfo.IsPreRelease));
+                        Console("Marked as Pre-Release: " + Convert.ToString(currentFileVersionInfo.IsPreRelease), 1);
                     }
 
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.IsPrivateBuild.ToString()) &&
                         currentFileVersionInfo.IsPrivateBuild)
                     {
-                        Console("Marked as Private Build: " + Convert.ToString(currentFileVersionInfo.IsPreRelease));
+                        Console("Marked as Private Build: " + Convert.ToString(currentFileVersionInfo.IsPreRelease), 1);
                     }
 
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.IsSpecialBuild.ToString()) &&
                         currentFileVersionInfo.IsSpecialBuild)
                     {
-                        Console("Marked as Special Build: " + Convert.ToString(currentFileVersionInfo.IsSpecialBuild));
+                        Console("Marked as Special Build: " + Convert.ToString(currentFileVersionInfo.IsSpecialBuild), 1);
                     }
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.Language))
                     {
-                        Console("Lanugage: " + currentFileVersionInfo.Language);
+                        Console("Lanugage: " + currentFileVersionInfo.Language, 1);
                     }
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.LegalCopyright))
                     {
-                        Console("Copywrite Notice: " + currentFileVersionInfo.LegalCopyright);
+                        Console("Copywrite Notice: " + currentFileVersionInfo.LegalCopyright, 1);
                     }
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.ProductName))
                     {
-                        Console("Product Distributed With: " + currentFileVersionInfo.ProductName);
+                        Console("Product Distributed With: " + currentFileVersionInfo.ProductName, 1);
                     }
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.ProductBuildPart.ToString()) &&
                         currentFileVersionInfo.ProductBuildPart != 0)
                     {
-                        Console("Product Distributed With Build Number: " + Convert.ToString(currentFileVersionInfo.ProductBuildPart));
+                        Console("Product Distributed With Build Number: " + Convert.ToString(currentFileVersionInfo.ProductBuildPart), 1);
                     }
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.SpecialBuild))
                     {
-                        Console("Special Build Info: " + currentFileVersionInfo.SpecialBuild);
+                        Console("Special Build Info: " + currentFileVersionInfo.SpecialBuild, 1);
                     }
                     if (!string.IsNullOrEmpty(currentFileVersionInfo.ProductName))
                     {
-                        Console("Private Build Info: " + currentFileVersionInfo.PrivateBuild);
+                        Console("Private Build Info: " + currentFileVersionInfo.PrivateBuild, 1);
                     }
 
-                    Console(alreadySigned(fi.FullName));
+                    Console(alreadySigned(fi.FullName), 1);
 
 
                 }
                 catch (System.IO.FileNotFoundException fileNotFoundException)
                 {
-                    Console("File Not found or Error: " + fileNotFoundException);
+                    Console("File Not found or Error: " + fileNotFoundException, 1);
                 }
-                Console("OS_HR");
+                Console("OS_HR", 1);
 
             }
         }
+        
+        
+        
+        
+        
+        
+        
         private string alreadySigned(string file)
         {
             //Stackoverflow user ksun - http://stackoverflow.com/questions/15939073/determining-if-a-file-has-a-digital-signature-in-c-sharp-without-actually-verify
@@ -380,22 +492,22 @@ namespace OneStop
             }
             catch (UnauthorizedAccessException ex)
             {
-                Console("MD5 Exception: Unable to Access (In Use, Read-only, etc.)");
+                Console("MD5 Exception: Unable to Access (In Use, Read-only, etc.)", 1);
                 return null;
             }
             catch (FileNotFoundException ex)
             {
-                Console("MD5 Exception: File not found or was moved");
+                Console("MD5 Exception: File not found or was moved", 1);
                 return null;
             }
             catch (IOException ex)
             {
-                Console("MD5 Exception: Misc I/O");
+                Console("MD5 Exception: Misc I/O", 1);
                 return null;
             }
             catch (Exception e)
             {
-                Console("MD5 Exception: Misc");
+                Console("MD5 Exception: Misc", 1);
                 return null;
             }
             return sb.ToString();

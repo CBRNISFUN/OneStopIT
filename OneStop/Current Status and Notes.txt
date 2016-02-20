@@ -1,0 +1,107 @@
+﻿Function Console("",int); is used to pass information to console. 0 or null = Console Only, 1 = Console + Log File, 2 = Log File Only
+
+Todo
+====
+On closing the main form, trigger OS_Exit.
+
+OS_Exit
+	
+	Imp. Re-launch
+	Imp. Select to send console (generate txt file) and Logs
+	Imp. FTP upload
+	Imp. Email Reports (zipped)
+	Imp. Copy to Network Location
+	Imp. Cleanup Logs Directory
+	Imp. Close and Delete Onestop + Contents
+	
+	Imp. Three buttons.
+	
+OS_FileInfo
+	
+	Drag and drop is already working, but need to rename everything and write code for ALL actions
+	
+OS_Main
+
+	Code behind
+		Continue to clean... find more places that need try...catch
+		Make website dropdowns eventually load from CSVs
+		
+	Load
+		Create \Config, \Documents, \Logs, \Third Party Apps, \Scripts, \Tron, \Config\Logos, \Installers, 
+		???Need to add text files in Network, System and Tech Resources as CSV pairs, one per line of "quick launch files" or keep it all in the QL folder and add more folders?
+		
+		lbl_CurrentActionStatus and lbl_OneStopStatus need lots of work
+
+	Welcome Panel
+		Need to add logo
+		Need to add welcome text
+		
+		Need to show visually tron, safemode and admin status
+		
+		Adapter Description lbl runs over into gateway. 
+		
+		Loop through adapters and select the first one with a valid gateway so that it's pre-populated
+	
+	OneStop Main Panel
+	
+		So, the idea here is to be able to select a category, which will populate the second box with valid programs. Probably have to require tron. We can add a ton more things that tron has but doesn't use and add a little more finess to things. See list of tools at https://repairtech.zendesk.com/hc/en-us/articles/206480765-TechWARU-Tools-The-complete-and-always-up-to-date-list for an idea of what we can put in.
+		
+		Execute order box needs to be able to drag around items. Once execute all is opened, we need to fire off a new form to show status and work out a way to make progress bars work. Need to be able to read \Installers and list them as smart as possible (get name)
+		
+		Tronscript Tab - Needs to build email settings and "set permanant flags" items. Email settings is straight forward, set permanant flags we need to parse through tron.bat and read out all of the SET commands. Then figure out thier current value, then set corresponding checkboxes to check/uncheck. When all done, we will find/replace back through tron with the new appropriate values. Need to double check all the settings on buttons. Also, I wired the checkboxes to save every time they are checked/unchecked. Is this silly?
+		
+			--- Another issue is setting the right enabled disabled stuff and path. Double check strings that hold paths and bools.
+		
+		
+		Technician Time + Reporting - Integrate notes + reporting from previous. Generate printable / html (pdf?) reports with logos from \config\logos. 
+		
+		System Info - All that fun WMI data we can get. OS install date, minidumps, boot time, system uptime, bootmode, current username, current profile path, current domain if set, installed antivirus and status, installed anti-spyware and status, firewall and status, UAC enabled or disabled, MSConfig indicated setup mode, Motherboard, System Model, BIOS, CPU, Video Card, Current Resolution, Battery Status, Page file check, free space check on all valid drive letters, windows activation status, service pack status, current version of IE (and other browsers?), Customer Experience Improvement Program Status, get current error logs, get current system device problems from device manager, system restore available, date/time + name of last valid system restore point, windows update enabled or disabled, 
+		
+		Uninstaller - show list of programs, bulk uninstall
+		
+		WMI Explorer - do we want to do this? I was planning on showing all the relevant things I could find and letting the end user look through values. Sometimes I do that and get decent info.
+		
+		Tweaks - I have a giant list of registry tweaks saved. I can just list them out, and hook up the registry settings
+		
+		Setup
+		
+			Quick Launch - Settings for adding new programs to list (currently saved as a string, switch to a human readable text file) Progname,Path on each line
+			
+			Shop settings - Define shop information, this will eventually go into a small invoicing / reporting section under Technician Time / Reporting
+			
+			Email config (should push to tron too) - Set up smtp settings, need to encrypt pw somewhat. should have a test function.
+			
+			Option to append date to logs or to insert client name/number/whatever into log. If we do that, need to have a smart way to change clients on execute.
+			
+			FTP Config - Ftp config, duh.
+			
+			Reset / Updates - reset all settings to default and get updates
+			
+			Override default behavior to redirect to console...
+
+			
+			
+Menuitems
+	Power DONE
+	Help Needs Done
+	Tech Resources OSLaunch("", "web");
+
+
+OS_Network
+	Set custom DNS
+	Set custom Hosts file
+	Any updates we can do through tron
+	Set browser homepage for all browsers
+	Change DNS (custom or dropdown of common)
+	
+	Network repair tools from dropdown re-listed?
+	
+
+Other features no idea where they go
+
+	Windows update from web
+	Windows update from WSUS Online
+	Windows update from WSUS online
+	Any tools we can do on an offline partition (keys, installed apps, minidumps, SFC, sysrestore offline, Checkdisk, FixIDE, FixAMD, Eddit Registry, Load registry bakcup, Disable BSOD reboot and enable minidumps, whatever malware scans we can find, any other fixes we can find)
+	
+	

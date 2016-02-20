@@ -73,6 +73,7 @@
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
+            this.linkLabel24 = new System.Windows.Forms.LinkLabel();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -183,6 +184,7 @@
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Location = new System.Drawing.Point(7, 17);
+            this.linkLabel1.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(102, 15);
             this.linkLabel1.TabIndex = 0;
@@ -193,6 +195,7 @@
             // 
             this.linkLabel2.AutoSize = true;
             this.linkLabel2.Location = new System.Drawing.Point(93, 17);
+            this.linkLabel2.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(32, 15);
             this.linkLabel2.TabIndex = 1;
@@ -203,6 +206,7 @@
             // 
             this.linkLabel3.AutoSize = true;
             this.linkLabel3.Location = new System.Drawing.Point(7, 38);
+            this.linkLabel3.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel3.Name = "linkLabel3";
             this.linkLabel3.Size = new System.Drawing.Size(121, 15);
             this.linkLabel3.TabIndex = 2;
@@ -213,6 +217,7 @@
             // 
             this.linkLabel4.AutoSize = true;
             this.linkLabel4.Location = new System.Drawing.Point(7, 59);
+            this.linkLabel4.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel4.Name = "linkLabel4";
             this.linkLabel4.Size = new System.Drawing.Size(169, 15);
             this.linkLabel4.TabIndex = 3;
@@ -223,6 +228,7 @@
             // 
             this.linkLabel5.AutoSize = true;
             this.linkLabel5.Location = new System.Drawing.Point(8, 80);
+            this.linkLabel5.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel5.Name = "linkLabel5";
             this.linkLabel5.Size = new System.Drawing.Size(159, 15);
             this.linkLabel5.TabIndex = 4;
@@ -233,6 +239,7 @@
             // 
             this.linkLabel6.AutoSize = true;
             this.linkLabel6.Location = new System.Drawing.Point(8, 101);
+            this.linkLabel6.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel6.Name = "linkLabel6";
             this.linkLabel6.Size = new System.Drawing.Size(93, 15);
             this.linkLabel6.TabIndex = 5;
@@ -248,7 +255,7 @@
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(385, 242);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(179, 105);
+            this.groupBox3.Size = new System.Drawing.Size(157, 105);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Tron";
@@ -257,6 +264,7 @@
             // 
             this.linkLabel7.AutoSize = true;
             this.linkLabel7.Location = new System.Drawing.Point(193, 17);
+            this.linkLabel7.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel7.Name = "linkLabel7";
             this.linkLabel7.Size = new System.Drawing.Size(92, 15);
             this.linkLabel7.TabIndex = 6;
@@ -286,6 +294,7 @@
             // 
             this.linkLabel9.AutoSize = true;
             this.linkLabel9.Location = new System.Drawing.Point(197, 101);
+            this.linkLabel9.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel9.Name = "linkLabel9";
             this.linkLabel9.Size = new System.Drawing.Size(66, 15);
             this.linkLabel9.TabIndex = 9;
@@ -296,6 +305,7 @@
             // 
             this.linkLabel10.AutoSize = true;
             this.linkLabel10.Location = new System.Drawing.Point(196, 80);
+            this.linkLabel10.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel10.Name = "linkLabel10";
             this.linkLabel10.Size = new System.Drawing.Size(75, 15);
             this.linkLabel10.TabIndex = 10;
@@ -306,6 +316,7 @@
             // 
             this.linkLabel11.AutoSize = true;
             this.linkLabel11.Location = new System.Drawing.Point(293, 80);
+            this.linkLabel11.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel11.Name = "linkLabel11";
             this.linkLabel11.Size = new System.Drawing.Size(47, 15);
             this.linkLabel11.TabIndex = 11;
@@ -316,6 +327,7 @@
             // 
             this.linkLabel12.AutoSize = true;
             this.linkLabel12.Location = new System.Drawing.Point(7, 17);
+            this.linkLabel12.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel12.Name = "linkLabel12";
             this.linkLabel12.Size = new System.Drawing.Size(117, 15);
             this.linkLabel12.TabIndex = 0;
@@ -326,6 +338,7 @@
             // 
             this.linkLabel13.AutoSize = true;
             this.linkLabel13.Location = new System.Drawing.Point(7, 38);
+            this.linkLabel13.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel13.Name = "linkLabel13";
             this.linkLabel13.Size = new System.Drawing.Size(139, 15);
             this.linkLabel13.TabIndex = 1;
@@ -336,6 +349,7 @@
             // 
             this.linkLabel14.AutoSize = true;
             this.linkLabel14.Location = new System.Drawing.Point(7, 59);
+            this.linkLabel14.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel14.Name = "linkLabel14";
             this.linkLabel14.Size = new System.Drawing.Size(127, 15);
             this.linkLabel14.TabIndex = 2;
@@ -346,6 +360,7 @@
             // 
             this.linkLabel15.AutoSize = true;
             this.linkLabel15.Location = new System.Drawing.Point(8, 80);
+            this.linkLabel15.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel15.Name = "linkLabel15";
             this.linkLabel15.Size = new System.Drawing.Size(112, 15);
             this.linkLabel15.TabIndex = 3;
@@ -358,9 +373,9 @@
             this.groupBox4.Controls.Add(this.linkLabel17);
             this.groupBox4.Controls.Add(this.linkLabel16);
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox4.Location = new System.Drawing.Point(569, 242);
+            this.groupBox4.Location = new System.Drawing.Point(548, 242);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(179, 86);
+            this.groupBox4.Size = new System.Drawing.Size(200, 53);
             this.groupBox4.TabIndex = 18;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "DLL";
@@ -369,6 +384,7 @@
             // 
             this.linkLabel16.AutoSize = true;
             this.linkLabel16.Location = new System.Drawing.Point(6, 16);
+            this.linkLabel16.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel16.Name = "linkLabel16";
             this.linkLabel16.Size = new System.Drawing.Size(53, 15);
             this.linkLabel16.TabIndex = 0;
@@ -378,7 +394,8 @@
             // linkLabel17
             // 
             this.linkLabel17.AutoSize = true;
-            this.linkLabel17.Location = new System.Drawing.Point(6, 37);
+            this.linkLabel17.Location = new System.Drawing.Point(65, 16);
+            this.linkLabel17.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel17.Name = "linkLabel17";
             this.linkLabel17.Size = new System.Drawing.Size(64, 15);
             this.linkLabel17.TabIndex = 1;
@@ -388,31 +405,35 @@
             // linkLabel18
             // 
             this.linkLabel18.AutoSize = true;
-            this.linkLabel18.Location = new System.Drawing.Point(6, 58);
+            this.linkLabel18.Location = new System.Drawing.Point(139, 17);
+            this.linkLabel18.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel18.Name = "linkLabel18";
-            this.linkLabel18.Size = new System.Drawing.Size(68, 15);
+            this.linkLabel18.Size = new System.Drawing.Size(56, 15);
             this.linkLabel18.TabIndex = 2;
             this.linkLabel18.TabStop = true;
-            this.linkLabel18.Text = "Is Loaded?";
+            this.linkLabel18.Text = "Loaded?";
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.linkLabel20);
-            this.groupBox5.Controls.Add(this.linkLabel19);
+            this.groupBox5.Controls.Add(this.linkLabel24);
+            this.groupBox5.Controls.Add(this.linkLabel23);
+            this.groupBox5.Controls.Add(this.linkLabel21);
+            this.groupBox5.Controls.Add(this.linkLabel22);
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox5.Location = new System.Drawing.Point(570, 334);
+            this.groupBox5.Location = new System.Drawing.Point(548, 301);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(178, 80);
+            this.groupBox5.Size = new System.Drawing.Size(200, 113);
             this.groupBox5.TabIndex = 19;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Defrag";
+            this.groupBox5.Text = "Misc";
             // 
             // linkLabel19
             // 
             this.linkLabel19.AutoSize = true;
-            this.linkLabel19.Location = new System.Drawing.Point(4, 22);
+            this.linkLabel19.Location = new System.Drawing.Point(5, 16);
+            this.linkLabel19.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel19.Name = "linkLabel19";
-            this.linkLabel19.Size = new System.Drawing.Size(93, 15);
+            this.linkLabel19.Size = new System.Drawing.Size(83, 13);
             this.linkLabel19.TabIndex = 0;
             this.linkLabel19.TabStop = true;
             this.linkLabel19.Text = "Tron/Defraggler";
@@ -420,9 +441,10 @@
             // linkLabel20
             // 
             this.linkLabel20.AutoSize = true;
-            this.linkLabel20.Location = new System.Drawing.Point(4, 45);
+            this.linkLabel20.Location = new System.Drawing.Point(5, 39);
+            this.linkLabel20.Margin = new System.Windows.Forms.Padding(6);
             this.linkLabel20.Name = "linkLabel20";
-            this.linkLabel20.Size = new System.Drawing.Size(97, 15);
+            this.linkLabel20.Size = new System.Drawing.Size(86, 13);
             this.linkLabel20.TabIndex = 1;
             this.linkLabel20.TabStop = true;
             this.linkLabel20.Text = "Windows Defrag";
@@ -473,29 +495,29 @@
             this.button5.Enabled = false;
             this.button5.Location = new System.Drawing.Point(185, 48);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(88, 23);
+            this.button5.Size = new System.Drawing.Size(98, 23);
             this.button5.TabIndex = 21;
-            this.button5.Text = "Gutman Delete";
+            this.button5.Text = "Gutmann Delete";
             this.button5.UseVisualStyleBackColor = true;
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.linkLabel23);
-            this.groupBox6.Controls.Add(this.linkLabel22);
-            this.groupBox6.Controls.Add(this.linkLabel21);
+            this.groupBox6.Controls.Add(this.linkLabel20);
+            this.groupBox6.Controls.Add(this.linkLabel19);
             this.groupBox6.Location = new System.Drawing.Point(387, 353);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(177, 61);
+            this.groupBox6.Size = new System.Drawing.Size(155, 61);
             this.groupBox6.TabIndex = 20;
             this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Misc";
+            this.groupBox6.Text = "Defrag";
             // 
             // linkLabel21
             // 
             this.linkLabel21.AutoSize = true;
-            this.linkLabel21.Location = new System.Drawing.Point(7, 18);
+            this.linkLabel21.Location = new System.Drawing.Point(4, 19);
+            this.linkLabel21.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel21.Name = "linkLabel21";
-            this.linkLabel21.Size = new System.Drawing.Size(162, 13);
+            this.linkLabel21.Size = new System.Drawing.Size(181, 15);
             this.linkLabel21.TabIndex = 0;
             this.linkLabel21.TabStop = true;
             this.linkLabel21.Text = "Always Run w/ Debugger (IFEO)";
@@ -503,22 +525,24 @@
             // linkLabel22
             // 
             this.linkLabel22.AutoSize = true;
-            this.linkLabel22.Location = new System.Drawing.Point(8, 37);
+            this.linkLabel22.Location = new System.Drawing.Point(4, 40);
+            this.linkLabel22.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel22.Name = "linkLabel22";
-            this.linkLabel22.Size = new System.Drawing.Size(115, 13);
+            this.linkLabel22.Size = new System.Drawing.Size(101, 15);
             this.linkLabel22.TabIndex = 1;
             this.linkLabel22.TabStop = true;
-            this.linkLabel22.Text = "Copy Path to Clipboard";
+            this.linkLabel22.Text = "Path to Clipboard";
             // 
             // linkLabel23
             // 
             this.linkLabel23.AutoSize = true;
-            this.linkLabel23.Location = new System.Drawing.Point(130, 37);
+            this.linkLabel23.Location = new System.Drawing.Point(116, 40);
+            this.linkLabel23.Margin = new System.Windows.Forms.Padding(3);
             this.linkLabel23.Name = "linkLabel23";
-            this.linkLabel23.Size = new System.Drawing.Size(44, 13);
+            this.linkLabel23.Size = new System.Drawing.Size(23, 15);
             this.linkLabel23.TabIndex = 2;
             this.linkLabel23.TabStop = true;
-            this.linkLabel23.Text = "Dir Only";
+            this.linkLabel23.Text = "Dir";
             // 
             // button6
             // 
@@ -555,6 +579,17 @@
             this.button9.TabIndex = 24;
             this.button9.Text = "Rem Registry for Boot";
             this.button9.UseVisualStyleBackColor = true;
+            // 
+            // linkLabel24
+            // 
+            this.linkLabel24.AutoSize = true;
+            this.linkLabel24.Location = new System.Drawing.Point(153, 40);
+            this.linkLabel24.Margin = new System.Windows.Forms.Padding(3);
+            this.linkLabel24.Name = "linkLabel24";
+            this.linkLabel24.Size = new System.Drawing.Size(27, 15);
+            this.linkLabel24.TabIndex = 3;
+            this.linkLabel24.TabStop = true;
+            this.linkLabel24.Text = "File";
             // 
             // OS_FileInfo
             // 
@@ -645,5 +680,6 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.LinkLabel linkLabel24;
     }
 }
