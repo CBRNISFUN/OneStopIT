@@ -37,6 +37,15 @@ namespace OneStop
         public bool BoolPrevDir;
         public string GString = "GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}";
         public bool BoolAdminStatus;
+        public int intCMDCommandMode = 3;
+        public int intGPLMode = 3;
+        public int intProgramOpendMode = 3;
+        public int intRegistyMode = 3;
+        public int intStartupMode = 3;
+        public int intSysinfoMode = 3;
+        public int intVerboseErrorMode = 3;
+        public int intWebsiteMode = 3;
+
 
         public string StrTronPath = "";
         public TextBox tb_Console;
@@ -106,31 +115,85 @@ namespace OneStop
         private TextBox textBox2;
         private Label label1;
         private TextBox textBox1;
+        private Button button10;
+        private Button button11;
+        private Button button9;
+        private Button button8;
+        private PictureBox pictureBox1;
+        private TabPage tpIntegration;
+        private TabPage tpLogging;
+        private GroupBox groupBox9;
+        private CheckBox cbSysInfoLog;
+        private CheckBox cbSysinfoConsole;
+        private GroupBox groupBox10;
+        private CheckBox cbOpenedLog;
+        private CheckBox cbOpenedConsole;
+        private GroupBox groupBox6;
+        private CheckBox cbWebsitesLog;
+        private CheckBox cbWebsitesConsole;
+        private GroupBox groupBox5;
+        private CheckBox cbRegistryLog;
+        private CheckBox cbRegistryConsole;
+        private GroupBox groupBox7;
+        private CheckBox cbGPLNoticeLog;
+        private CheckBox cbGPLConsole;
+        private GroupBox groupBox8;
+        private CheckBox cbOSStartLog;
+        private CheckBox cbOSStartConsole;
+        private GroupBox groupBox4;
+        private CheckBox cbVerboseErrorLog;
+        private CheckBox cbVerboseErrorConsole;
+        private GroupBox groupBox2;
+        private CheckBox cbCMDLog;
+        private CheckBox cbCMDConsole;
+        private Button btnSaveLoggingStatus;
+        private GroupBox groupBox11;
+        private CheckBox checkBox2;
+        private Button button12;
+        private CheckBox checkBox1;
+        private Label label22;
+        private TextBox textBox17;
+        private Label label23;
+        private TextBox textBox18;
+        private GroupBox groupBox13;
+        private GroupBox groupBox12;
+        private CheckBox checkBox4;
+        private CheckBox checkBox3;
+        private Label label19;
+        private Button button14;
+        private TextBox textBox14;
+        private Button button13;
+        private GroupBox groupBox14;
+        private CheckBox checkBox6;
+        private CheckBox checkBox5;
         public string StrTronStatus = "";
 
         private void OS_Main_Load(object sender, EventArgs e)
         {
             #region Startup
 
-            OSConsole("OS_HR", 0);
-            OSConsole("Begin  ONESTOP STARTUP", 0);
-            OSConsole("OS_HR", 0);
-            OSConsole("OS_BR", 0);
-            OSConsole("OS_GPL", 0);
-
-            OSConsole("Onestop begain initial startup at: " + DateTime.Now.ToString(), 2);
+            InitLoggingSettings();
 
 
-            OSConsole("OS_HR", 0);
-            OSConsole("Loading Settings...", 0);
-            OSConsole("OS_BR", 0);
+            OSConsole("OS_HR", intStartupMode);
+            OSConsole("Begin  ONESTOP STARTUP", intStartupMode);
+            OSConsole("OS_HR", intStartupMode);
+            OSConsole("OS_BR", intStartupMode);
+            OSConsole("OS_GPL",intStartupMode);
+
+            OSConsole("Onestop begain initial startup at: " + DateTime.Now.ToString(), intStartupMode);
+
+
+            OSConsole("OS_HR", intStartupMode);
+            OSConsole("Loading Settings...", intStartupMode);
+            OSConsole("OS_BR", intStartupMode);
             // Load Settings
             Settings.Default.Reload();
 
             //Tron not found by default
             TronDisable("Not Initialized - ");
 
-            OSConsole("Searching for Tron.bat", 1);
+            OSConsole("Searching for Tron.bat", intStartupMode);
             //Determine if Tron is located on load.
             var strFileName = "Tron.bat";
             var strCurDir = Directory.GetCurrentDirectory();
@@ -142,7 +205,7 @@ namespace OneStop
                 TronEnable("Tron Found (Current) - ", strCurDir + "\\" + strFileName);
                 BoolLocalDir = true;
                 BoolPrevDir = false;
-                OSConsole("Tron.bat Found in Local Directory", 1);
+                OSConsole("Tron.bat Found in Local Directory", intStartupMode);
 
             }
             else if (File.Exists(strCurDir + "\\" + strFileName))
@@ -151,7 +214,7 @@ namespace OneStop
                 TronEnable("Tron Found (Current) - ", strCurDir + "\\" + strFileName);
                 BoolLocalDir = true;
                 BoolPrevDir = false;
-                OSConsole("Tron.bat Found in Local Directory Root", 1);
+                OSConsole("Tron.bat Found in Local Directory Root", intStartupMode);
             }
             else if (Settings.Default.str_LastTronDirectory != null)
             {
@@ -162,7 +225,7 @@ namespace OneStop
                     TronEnable("Tron Found (Previous) - ", Settings.Default.str_LastTronDirectory + "\\" + strFileName);
                     BoolLocalDir = false;
                     BoolPrevDir = true;
-                    OSConsole("Tron.bat Found in previously used location", 1);
+                    OSConsole("Tron.bat Found in previously used location", intStartupMode);
                 }
                 else
                 {
@@ -170,7 +233,7 @@ namespace OneStop
                     TronDisable("Tron Not Found - ");
                     BoolLocalDir = false;
                     BoolPrevDir = false;
-                    OSConsole("Tron.bat not found", 1);
+                    OSConsole("Tron.bat not found", intStartupMode);
 
                 }
             }
@@ -180,7 +243,7 @@ namespace OneStop
                 TronDisable("Tron Not Found - ");
                 BoolLocalDir = false;
                 BoolPrevDir = false;
-                OSConsole("Tron.bat not found", 1);
+                OSConsole("Tron.bat not found", intStartupMode);
             }
 
             //Determine if We are Administrators.
@@ -195,7 +258,7 @@ namespace OneStop
                     strAdminStatus = "ADMIN";
                     _lblOneStopStatus.ForeColor = Color.Green;
                     BoolAdminStatus = true;
-                    OSConsole("OneStop is running as Administrator", 1);
+                    OSConsole("OneStop is running as Administrator", intStartupMode);
                 }
                 if (!isElevated)
                 {
@@ -203,12 +266,12 @@ namespace OneStop
                     _lblOneStopStatus.ForeColor = Color.Red;
                     BoolAdminStatus = false;
                     OSConsole("OS_BR", 0);
-                    OSConsole("ONE STOP IS NOT RUNNING AS ADMINISTRATOR - SOME FUNCTIONALITY, INCLUDING TRON CANNOT RUN", 1);
+                    OSConsole("ONE STOP IS NOT RUNNING AS ADMINISTRATOR - SOME FUNCTIONALITY, INCLUDING TRON CANNOT RUN", intStartupMode);
                 }
             }
             catch (Exception exception)
             {
-                OSConsole("Exeption while checking administrator status" + exception, 0);
+                OSConsole("Exeption while checking administrator status" + exception, intVerboseErrorMode);
             }
 
 
@@ -223,25 +286,25 @@ namespace OneStop
             _lnkInfoGateway.Text = "";
             _lnkInfoPrimDns.Text = "";
             _lblInfoAdapterDesc.Text = "";
-            OSConsole("Getting Current Stystem Status", 1);
-            OSConsole("C Drive Space: " + OsSystem.GetCDriveSpace(), 1);
-            OSConsole("OS Friendly Name / Arch: "  + OsSystem.GetOsFriendlyName() + OsSystem.GetArch(), 1);
-            OSConsole("Installed Memory: " + OsSystem.GetInstalledMemory(), 1);
-            OSConsole("Machine Name: " + OsSystem.GetMachineName(), 1);
+            OSConsole("Getting Current Stystem Status", intSysinfoMode);
+            OSConsole("C Drive Space: " + OsSystem.GetCDriveSpace(), intSysinfoMode);
+            OSConsole("OS Friendly Name / Arch: "  + OsSystem.GetOsFriendlyName() + OsSystem.GetArch(), intSysinfoMode);
+            OSConsole("Installed Memory: " + OsSystem.GetInstalledMemory(), intSysinfoMode);
+            OSConsole("Machine Name: " + OsSystem.GetMachineName(), intSysinfoMode);
             OSConsole("OS_HR", 0);
             
             //Network Adapters
-            OSConsole("Getting Network Adapters", 1);
+            OSConsole("Getting Network Adapters", intSysinfoMode);
             var adapters = NetworkInterface.GetAllNetworkInterfaces();
             foreach (var adapter in adapters)
             {
                 _ddlInfoNetworkAdapters.Items.Add(adapter.Name);
-                OSConsole("Adapter Found" + adapter.Name + " - " + adapter.Description, 1);
+                OSConsole("Adapter Found" + adapter.Name + " - " + adapter.Description, intSysinfoMode);
             }
 
             //Load Quick Launch Menu
 
-            OSConsole("Loading Quick Launch Menu Settings", 0);
+            OSConsole("Loading Quick Launch Menu Settings", intStartupMode);
             LoadMenuatStart();
 
             string strCurrentDirectory = Directory.GetCurrentDirectory();
@@ -254,24 +317,54 @@ namespace OneStop
             //Enumerate Docs Quick Launch
             EnumerateDocs(strDocsDirectory);
 
-            OSConsole("Loading Customization Settings", 0);
+            OSConsole("Loading Customization Settings", intStartupMode);
             //Load Settings Panel
             LoadShopSettings();
 
             //Load Tron Flags
-            OSConsole("Loading Previous Configuration Settings", 0);
+            OSConsole("Loading Previous Configuration Settings", intStartupMode);
             PopulateTronCBs();
-            OSConsole("OS_HR", 0);
-            OSConsole("END ONESTOP STARTUP", 0);
-            OSConsole("OS_HR", 0);
+            OSConsole("OS_HR", intStartupMode);
+            OSConsole("END ONESTOP STARTUP", intStartupMode);
+            OSConsole("OS_HR", intStartupMode);
 
-            OSConsole("Onestop completed initial startup at: " + DateTime.Now.ToString(), 2);
+            OSConsole("Onestop completed initial startup at: " + DateTime.Now.ToString(), intStartupMode);
             #endregion
+        }
+
+        private void InitLoggingSettings()
+        {
+            intCMDCommandMode = OS_Settings.GetCMDConsoleMode();
+            intGPLMode = OS_Settings.GetGPLMode();
+            intProgramOpendMode = OS_Settings.GetProgramOpenMode();
+            intRegistyMode = OS_Settings.GetRegistryMode();
+            intStartupMode = OS_Settings.GetStartupMode();
+            intSysinfoMode = OS_Settings.GetSysinfoMode();
+            intVerboseErrorMode = OS_Settings.GetVerboseErrorMode();
+            intWebsiteMode = OS_Settings.GetWebsiteMode();
+
+            //Load Checkboxes for Settings config
+            cbCMDLog.Checked = Settings.Default.boolCMDLog;
+            cbCMDConsole.Checked = Settings.Default.boolCMDConsole;
+            cbGPLConsole.Checked = Settings.Default.boolGPLNoticeConsole;
+            cbGPLNoticeLog.Checked = Settings.Default.boolGPLNoticeLog;
+            cbOSStartConsole.Checked = Settings.Default.boolStartupConsole;
+            cbOSStartLog.Checked = Settings.Default.boolStartupLog;
+            cbOpenedConsole.Checked = Settings.Default.boolProgramOpenedConsole;
+            cbOpenedLog.Checked = Settings.Default.boolProgramOpenedLog;
+            cbRegistryConsole.Checked = Settings.Default.boolRegistryConsole;
+            cbRegistryLog.Checked = Settings.Default.boolRegistryLog;
+            cbSysInfoLog.Checked = Settings.Default.boolSysInfoLog;
+            cbSysinfoConsole.Checked = Settings.Default.boolSysInfoConsole;
+            cbWebsitesLog.Checked = Settings.Default.boolWebsiteLog;
+            cbWebsitesConsole.Checked = Settings.Default.boolWebsiteConsole;
+            cbVerboseErrorLog.Checked = Settings.Default.boolVerboseErrorLog;
+            cbVerboseErrorConsole.Checked = Settings.Default.boolVerboseErrorConsole;
         }
 
         public void OSConsole(string input, int mode)
         {
-            //mode = 0 or null -> OSConsole, 1 -> OSConsole plus log, 2-> Log Only
+            //mode = 0 or null -> OSConsole, 1 -> OSConsole plus log, 2-> Log Only, 3->Go nowhere
             string logfile = Directory.GetCurrentDirectory() + "\\Logs\\onestoplog.txt";
             string logfiledir = Directory.GetCurrentDirectory() + "\\Logs\\";
             
@@ -487,9 +580,9 @@ namespace OneStop
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                OSConsole("Exeption Thrown - Network Adapter Selection", 0);
+                OSConsole("Exeption Thrown - Network Adapter Selection: " + ex , intVerboseErrorMode);
                 throw;
             }
         }
@@ -1524,7 +1617,7 @@ namespace OneStop
         private OpenFileDialog _ofdMenuItem;
         private TabPage _tpSetup;
         private TabControl _tabControl2;
-        private TabPage _tpQuickLaunche;
+        private TabPage tpQuickLaunch;
         private Label _lblQlMenuItemName;
         private Button _btnQlCreateNew;
         private TextBox _txtQlAppName;
@@ -1546,7 +1639,7 @@ namespace OneStop
         private ComboBox _ddlInfoNetworkAdapters;
         private Label _label1;
         private Label _lblInfoAdapterDesc;
-        private TabPage _tpShopSettings;
+        private TabPage tpShopSettings;
         private Button _btnShopSetSave;
         private Label _lblShopSetState;
         private TextBox _tbShopSetState;
@@ -1882,14 +1975,14 @@ namespace OneStop
             this._tpOem = new System.Windows.Forms.TabPage();
             this._tpSetup = new System.Windows.Forms.TabPage();
             this._tabControl2 = new System.Windows.Forms.TabControl();
-            this._tpQuickLaunche = new System.Windows.Forms.TabPage();
+            this.tpQuickLaunch = new System.Windows.Forms.TabPage();
             this._btnQlDeleteSelected = new System.Windows.Forms.Button();
             this._lbCurrentPrograms = new System.Windows.Forms.ListBox();
             this._lblQlMenuItemName = new System.Windows.Forms.Label();
             this._btnQlCreateNew = new System.Windows.Forms.Button();
             this._txtQlAppName = new System.Windows.Forms.TextBox();
             this._lblQlFolders = new System.Windows.Forms.Label();
-            this._tpShopSettings = new System.Windows.Forms.TabPage();
+            this.tpShopSettings = new System.Windows.Forms.TabPage();
             this._btnShopSetSave = new System.Windows.Forms.Button();
             this._lblShopSetState = new System.Windows.Forms.Label();
             this._tbShopSetState = new System.Windows.Forms.TextBox();
@@ -1990,6 +2083,57 @@ namespace OneStop
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
+            this.tpIntegration = new System.Windows.Forms.TabPage();
+            this.tpLogging = new System.Windows.Forms.TabPage();
+            this.cbCMDLog = new System.Windows.Forms.CheckBox();
+            this.cbCMDConsole = new System.Windows.Forms.CheckBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.cbRegistryLog = new System.Windows.Forms.CheckBox();
+            this.cbRegistryConsole = new System.Windows.Forms.CheckBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.cbWebsitesLog = new System.Windows.Forms.CheckBox();
+            this.cbWebsitesConsole = new System.Windows.Forms.CheckBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.cbGPLNoticeLog = new System.Windows.Forms.CheckBox();
+            this.cbGPLConsole = new System.Windows.Forms.CheckBox();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.cbOSStartLog = new System.Windows.Forms.CheckBox();
+            this.cbOSStartConsole = new System.Windows.Forms.CheckBox();
+            this.cbVerboseErrorConsole = new System.Windows.Forms.CheckBox();
+            this.cbVerboseErrorLog = new System.Windows.Forms.CheckBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.cbSysInfoLog = new System.Windows.Forms.CheckBox();
+            this.cbSysinfoConsole = new System.Windows.Forms.CheckBox();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.cbOpenedLog = new System.Windows.Forms.CheckBox();
+            this.cbOpenedConsole = new System.Windows.Forms.CheckBox();
+            this.btnSaveLoggingStatus = new System.Windows.Forms.Button();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.textBox17 = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.textBox18 = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.button12 = new System.Windows.Forms.Button();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.button13 = new System.Windows.Forms.Button();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.textBox14 = new System.Windows.Forms.TextBox();
+            this.button14 = new System.Windows.Forms.Button();
+            this.label19 = new System.Windows.Forms.Label();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
             this._tsBottomToolbar.SuspendLayout();
             this._menuPrimary.SuspendLayout();
             this._tcPrimaryTabs.SuspendLayout();
@@ -2003,14 +2147,29 @@ namespace OneStop
             this._tcConfigurator.SuspendLayout();
             this._tpSetup.SuspendLayout();
             this._tabControl2.SuspendLayout();
-            this._tpQuickLaunche.SuspendLayout();
-            this._tpShopSettings.SuspendLayout();
+            this.tpQuickLaunch.SuspendLayout();
+            this.tpShopSettings.SuspendLayout();
             this.tpServers.SuspendLayout();
             this.mailGroupBox.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tpNetwork.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tpIntegration.SuspendLayout();
+            this.tpLogging.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox9.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            this.groupBox11.SuspendLayout();
+            this.groupBox12.SuspendLayout();
+            this.groupBox13.SuspendLayout();
+            this.groupBox14.SuspendLayout();
             this.SuspendLayout();
             // 
             // _tsBottomToolbar
@@ -4520,30 +4679,36 @@ namespace OneStop
             // 
             // _tabControl2
             // 
-            this._tabControl2.Controls.Add(this._tpQuickLaunche);
-            this._tabControl2.Controls.Add(this._tpShopSettings);
+            this._tabControl2.Controls.Add(this.tpQuickLaunch);
+            this._tabControl2.Controls.Add(this.tpShopSettings);
             this._tabControl2.Controls.Add(this.tpServers);
+            this._tabControl2.Controls.Add(this.tpIntegration);
+            this._tabControl2.Controls.Add(this.tpLogging);
             this._tabControl2.Location = new System.Drawing.Point(0, 3);
             this._tabControl2.Name = "_tabControl2";
             this._tabControl2.SelectedIndex = 0;
             this._tabControl2.Size = new System.Drawing.Size(746, 392);
             this._tabControl2.TabIndex = 0;
             // 
-            // _tpQuickLaunche
+            // tpQuickLaunch
             // 
-            this._tpQuickLaunche.Controls.Add(this._btnQlDeleteSelected);
-            this._tpQuickLaunche.Controls.Add(this._lbCurrentPrograms);
-            this._tpQuickLaunche.Controls.Add(this._lblQlMenuItemName);
-            this._tpQuickLaunche.Controls.Add(this._btnQlCreateNew);
-            this._tpQuickLaunche.Controls.Add(this._txtQlAppName);
-            this._tpQuickLaunche.Controls.Add(this._lblQlFolders);
-            this._tpQuickLaunche.Location = new System.Drawing.Point(4, 22);
-            this._tpQuickLaunche.Name = "_tpQuickLaunche";
-            this._tpQuickLaunche.Padding = new System.Windows.Forms.Padding(3);
-            this._tpQuickLaunche.Size = new System.Drawing.Size(738, 366);
-            this._tpQuickLaunche.TabIndex = 0;
-            this._tpQuickLaunche.Text = "Quick Launch";
-            this._tpQuickLaunche.UseVisualStyleBackColor = true;
+            this.tpQuickLaunch.Controls.Add(this.button10);
+            this.tpQuickLaunch.Controls.Add(this.button11);
+            this.tpQuickLaunch.Controls.Add(this.button9);
+            this.tpQuickLaunch.Controls.Add(this.button8);
+            this.tpQuickLaunch.Controls.Add(this._btnQlDeleteSelected);
+            this.tpQuickLaunch.Controls.Add(this._lbCurrentPrograms);
+            this.tpQuickLaunch.Controls.Add(this._lblQlMenuItemName);
+            this.tpQuickLaunch.Controls.Add(this._btnQlCreateNew);
+            this.tpQuickLaunch.Controls.Add(this._txtQlAppName);
+            this.tpQuickLaunch.Controls.Add(this._lblQlFolders);
+            this.tpQuickLaunch.Location = new System.Drawing.Point(4, 22);
+            this.tpQuickLaunch.Name = "tpQuickLaunch";
+            this.tpQuickLaunch.Padding = new System.Windows.Forms.Padding(3);
+            this.tpQuickLaunch.Size = new System.Drawing.Size(738, 366);
+            this.tpQuickLaunch.TabIndex = 0;
+            this.tpQuickLaunch.Text = "Quick Launch";
+            this.tpQuickLaunch.UseVisualStyleBackColor = true;
             // 
             // _btnQlDeleteSelected
             // 
@@ -4567,7 +4732,7 @@ namespace OneStop
             // _lblQlMenuItemName
             // 
             this._lblQlMenuItemName.AutoSize = true;
-            this._lblQlMenuItemName.Location = new System.Drawing.Point(8, 59);
+            this._lblQlMenuItemName.Location = new System.Drawing.Point(21, 20);
             this._lblQlMenuItemName.Name = "_lblQlMenuItemName";
             this._lblQlMenuItemName.Size = new System.Drawing.Size(91, 13);
             this._lblQlMenuItemName.TabIndex = 3;
@@ -4575,9 +4740,9 @@ namespace OneStop
             // 
             // _btnQlCreateNew
             // 
-            this._btnQlCreateNew.Location = new System.Drawing.Point(11, 105);
+            this._btnQlCreateNew.Location = new System.Drawing.Point(24, 66);
             this._btnQlCreateNew.Name = "_btnQlCreateNew";
-            this._btnQlCreateNew.Size = new System.Drawing.Size(224, 23);
+            this._btnQlCreateNew.Size = new System.Drawing.Size(244, 23);
             this._btnQlCreateNew.TabIndex = 2;
             this._btnQlCreateNew.Text = "Create New QL Item";
             this._btnQlCreateNew.UseVisualStyleBackColor = true;
@@ -4585,9 +4750,9 @@ namespace OneStop
             // 
             // _txtQlAppName
             // 
-            this._txtQlAppName.Location = new System.Drawing.Point(11, 75);
+            this._txtQlAppName.Location = new System.Drawing.Point(24, 36);
             this._txtQlAppName.Name = "_txtQlAppName";
-            this._txtQlAppName.Size = new System.Drawing.Size(224, 20);
+            this._txtQlAppName.Size = new System.Drawing.Size(244, 20);
             this._txtQlAppName.TabIndex = 1;
             // 
             // _lblQlFolders
@@ -4600,28 +4765,29 @@ namespace OneStop
             this._lblQlFolders.Size = new System.Drawing.Size(0, 13);
             this._lblQlFolders.TabIndex = 0;
             // 
-            // _tpShopSettings
+            // tpShopSettings
             // 
-            this._tpShopSettings.Controls.Add(this._btnShopSetSave);
-            this._tpShopSettings.Controls.Add(this._lblShopSetState);
-            this._tpShopSettings.Controls.Add(this._tbShopSetState);
-            this._tpShopSettings.Controls.Add(this._lblShopSetCity);
-            this._tpShopSettings.Controls.Add(this._tbShopSetCity);
-            this._tpShopSettings.Controls.Add(this._lblShopSetEmail);
-            this._tpShopSettings.Controls.Add(this._tbShopSetEmail);
-            this._tpShopSettings.Controls.Add(this._lblShopSetPhone);
-            this._tpShopSettings.Controls.Add(this._tbShopSetPhone);
-            this._tpShopSettings.Controls.Add(this._tbShopSetAddr2);
-            this._tpShopSettings.Controls.Add(this._lblShopSetAddr);
-            this._tpShopSettings.Controls.Add(this._tbShopSetAddr1);
-            this._tpShopSettings.Controls.Add(this._lblShopSetShopname);
-            this._tpShopSettings.Controls.Add(this._tbShopSetName);
-            this._tpShopSettings.Location = new System.Drawing.Point(4, 22);
-            this._tpShopSettings.Name = "_tpShopSettings";
-            this._tpShopSettings.Size = new System.Drawing.Size(738, 366);
-            this._tpShopSettings.TabIndex = 1;
-            this._tpShopSettings.Text = "Shop Settings";
-            this._tpShopSettings.UseVisualStyleBackColor = true;
+            this.tpShopSettings.Controls.Add(this.pictureBox1);
+            this.tpShopSettings.Controls.Add(this._btnShopSetSave);
+            this.tpShopSettings.Controls.Add(this._lblShopSetState);
+            this.tpShopSettings.Controls.Add(this._tbShopSetState);
+            this.tpShopSettings.Controls.Add(this._lblShopSetCity);
+            this.tpShopSettings.Controls.Add(this._tbShopSetCity);
+            this.tpShopSettings.Controls.Add(this._lblShopSetEmail);
+            this.tpShopSettings.Controls.Add(this._tbShopSetEmail);
+            this.tpShopSettings.Controls.Add(this._lblShopSetPhone);
+            this.tpShopSettings.Controls.Add(this._tbShopSetPhone);
+            this.tpShopSettings.Controls.Add(this._tbShopSetAddr2);
+            this.tpShopSettings.Controls.Add(this._lblShopSetAddr);
+            this.tpShopSettings.Controls.Add(this._tbShopSetAddr1);
+            this.tpShopSettings.Controls.Add(this._lblShopSetShopname);
+            this.tpShopSettings.Controls.Add(this._tbShopSetName);
+            this.tpShopSettings.Location = new System.Drawing.Point(4, 22);
+            this.tpShopSettings.Name = "tpShopSettings";
+            this.tpShopSettings.Size = new System.Drawing.Size(738, 366);
+            this.tpShopSettings.TabIndex = 1;
+            this.tpShopSettings.Text = "Shop Settings";
+            this.tpShopSettings.UseVisualStyleBackColor = true;
             // 
             // _btnShopSetSave
             // 
@@ -5211,7 +5377,7 @@ namespace OneStop
             // 
             this.groupBox1.Location = new System.Drawing.Point(331, 7);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(401, 186);
+            this.groupBox1.Size = new System.Drawing.Size(401, 142);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "FTP Settings";
@@ -5569,6 +5735,524 @@ namespace OneStop
             this.button6.Text = ">> Locate Tron <<";
             this.button6.UseVisualStyleBackColor = false;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(362, 174);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(301, 129);
+            this.pictureBox1.TabIndex = 18;
+            this.pictureBox1.TabStop = false;
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(24, 111);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(119, 23);
+            this.button8.TabIndex = 6;
+            this.button8.Text = "Scripts Folder";
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(149, 111);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(119, 23);
+            this.button9.TabIndex = 7;
+            this.button9.Text = "Documents Folder";
+            this.button9.UseVisualStyleBackColor = true;
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(149, 140);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(119, 23);
+            this.button10.TabIndex = 9;
+            this.button10.Text = "Installers Folder";
+            this.button10.UseVisualStyleBackColor = true;
+            // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(24, 140);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(119, 23);
+            this.button11.TabIndex = 8;
+            this.button11.Text = "Third Party Apps";
+            this.button11.UseVisualStyleBackColor = true;
+            // 
+            // tpIntegration
+            // 
+            this.tpIntegration.Controls.Add(this.groupBox11);
+            this.tpIntegration.Location = new System.Drawing.Point(4, 22);
+            this.tpIntegration.Name = "tpIntegration";
+            this.tpIntegration.Size = new System.Drawing.Size(738, 366);
+            this.tpIntegration.TabIndex = 3;
+            this.tpIntegration.Text = "Ticket/CRM Integration";
+            this.tpIntegration.UseVisualStyleBackColor = true;
+            // 
+            // tpLogging
+            // 
+            this.tpLogging.Controls.Add(this.groupBox14);
+            this.tpLogging.Controls.Add(this.groupBox13);
+            this.tpLogging.Controls.Add(this.groupBox12);
+            this.tpLogging.Location = new System.Drawing.Point(4, 22);
+            this.tpLogging.Name = "tpLogging";
+            this.tpLogging.Size = new System.Drawing.Size(738, 366);
+            this.tpLogging.TabIndex = 4;
+            this.tpLogging.Text = "Logging Control";
+            this.tpLogging.UseVisualStyleBackColor = true;
+            // 
+            // cbCMDLog
+            // 
+            this.cbCMDLog.AutoSize = true;
+            this.cbCMDLog.Location = new System.Drawing.Point(6, 19);
+            this.cbCMDLog.Name = "cbCMDLog";
+            this.cbCMDLog.Size = new System.Drawing.Size(103, 17);
+            this.cbCMDLog.TabIndex = 0;
+            this.cbCMDLog.Text = "Send to Log File";
+            this.cbCMDLog.UseVisualStyleBackColor = true;
+            // 
+            // cbCMDConsole
+            // 
+            this.cbCMDConsole.AutoSize = true;
+            this.cbCMDConsole.Location = new System.Drawing.Point(6, 42);
+            this.cbCMDConsole.Name = "cbCMDConsole";
+            this.cbCMDConsole.Size = new System.Drawing.Size(104, 17);
+            this.cbCMDConsole.TabIndex = 1;
+            this.cbCMDConsole.Text = "Send to Console";
+            this.cbCMDConsole.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.cbCMDLog);
+            this.groupBox2.Controls.Add(this.cbCMDConsole);
+            this.groupBox2.Location = new System.Drawing.Point(18, 91);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(124, 66);
+            this.groupBox2.TabIndex = 3;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "CMD Commands";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.cbRegistryLog);
+            this.groupBox5.Controls.Add(this.cbRegistryConsole);
+            this.groupBox5.Location = new System.Drawing.Point(18, 163);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(124, 66);
+            this.groupBox5.TabIndex = 4;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Registry Changes";
+            // 
+            // cbRegistryLog
+            // 
+            this.cbRegistryLog.AutoSize = true;
+            this.cbRegistryLog.Location = new System.Drawing.Point(6, 19);
+            this.cbRegistryLog.Name = "cbRegistryLog";
+            this.cbRegistryLog.Size = new System.Drawing.Size(103, 17);
+            this.cbRegistryLog.TabIndex = 0;
+            this.cbRegistryLog.Text = "Send to Log File";
+            this.cbRegistryLog.UseVisualStyleBackColor = true;
+            // 
+            // cbRegistryConsole
+            // 
+            this.cbRegistryConsole.AutoSize = true;
+            this.cbRegistryConsole.Location = new System.Drawing.Point(6, 42);
+            this.cbRegistryConsole.Name = "cbRegistryConsole";
+            this.cbRegistryConsole.Size = new System.Drawing.Size(104, 17);
+            this.cbRegistryConsole.TabIndex = 1;
+            this.cbRegistryConsole.Text = "Send to Console";
+            this.cbRegistryConsole.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.cbWebsitesLog);
+            this.groupBox6.Controls.Add(this.cbWebsitesConsole);
+            this.groupBox6.Location = new System.Drawing.Point(148, 163);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(124, 66);
+            this.groupBox6.TabIndex = 7;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Visited Websites";
+            // 
+            // cbWebsitesLog
+            // 
+            this.cbWebsitesLog.AutoSize = true;
+            this.cbWebsitesLog.Location = new System.Drawing.Point(6, 19);
+            this.cbWebsitesLog.Name = "cbWebsitesLog";
+            this.cbWebsitesLog.Size = new System.Drawing.Size(103, 17);
+            this.cbWebsitesLog.TabIndex = 0;
+            this.cbWebsitesLog.Text = "Send to Log File";
+            this.cbWebsitesLog.UseVisualStyleBackColor = true;
+            // 
+            // cbWebsitesConsole
+            // 
+            this.cbWebsitesConsole.AutoSize = true;
+            this.cbWebsitesConsole.Location = new System.Drawing.Point(6, 42);
+            this.cbWebsitesConsole.Name = "cbWebsitesConsole";
+            this.cbWebsitesConsole.Size = new System.Drawing.Size(104, 17);
+            this.cbWebsitesConsole.TabIndex = 1;
+            this.cbWebsitesConsole.Text = "Send to Console";
+            this.cbWebsitesConsole.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.cbGPLNoticeLog);
+            this.groupBox7.Controls.Add(this.cbGPLConsole);
+            this.groupBox7.Location = new System.Drawing.Point(148, 19);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(124, 66);
+            this.groupBox7.TabIndex = 6;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "GPL Notice";
+            // 
+            // cbGPLNoticeLog
+            // 
+            this.cbGPLNoticeLog.AutoSize = true;
+            this.cbGPLNoticeLog.Location = new System.Drawing.Point(6, 19);
+            this.cbGPLNoticeLog.Name = "cbGPLNoticeLog";
+            this.cbGPLNoticeLog.Size = new System.Drawing.Size(103, 17);
+            this.cbGPLNoticeLog.TabIndex = 0;
+            this.cbGPLNoticeLog.Text = "Send to Log File";
+            this.cbGPLNoticeLog.UseVisualStyleBackColor = true;
+            // 
+            // cbGPLConsole
+            // 
+            this.cbGPLConsole.AutoSize = true;
+            this.cbGPLConsole.Location = new System.Drawing.Point(6, 42);
+            this.cbGPLConsole.Name = "cbGPLConsole";
+            this.cbGPLConsole.Size = new System.Drawing.Size(104, 17);
+            this.cbGPLConsole.TabIndex = 1;
+            this.cbGPLConsole.Text = "Send to Console";
+            this.cbGPLConsole.UseVisualStyleBackColor = true;
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.cbOSStartLog);
+            this.groupBox8.Controls.Add(this.cbOSStartConsole);
+            this.groupBox8.Location = new System.Drawing.Point(148, 91);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(124, 66);
+            this.groupBox8.TabIndex = 5;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "OneStop Startup";
+            // 
+            // cbOSStartLog
+            // 
+            this.cbOSStartLog.AutoSize = true;
+            this.cbOSStartLog.Location = new System.Drawing.Point(6, 19);
+            this.cbOSStartLog.Name = "cbOSStartLog";
+            this.cbOSStartLog.Size = new System.Drawing.Size(103, 17);
+            this.cbOSStartLog.TabIndex = 0;
+            this.cbOSStartLog.Text = "Send to Log File";
+            this.cbOSStartLog.UseVisualStyleBackColor = true;
+            // 
+            // cbOSStartConsole
+            // 
+            this.cbOSStartConsole.AutoSize = true;
+            this.cbOSStartConsole.Location = new System.Drawing.Point(6, 42);
+            this.cbOSStartConsole.Name = "cbOSStartConsole";
+            this.cbOSStartConsole.Size = new System.Drawing.Size(104, 17);
+            this.cbOSStartConsole.TabIndex = 1;
+            this.cbOSStartConsole.Text = "Send to Console";
+            this.cbOSStartConsole.UseVisualStyleBackColor = true;
+            // 
+            // cbVerboseErrorConsole
+            // 
+            this.cbVerboseErrorConsole.AutoSize = true;
+            this.cbVerboseErrorConsole.Location = new System.Drawing.Point(6, 42);
+            this.cbVerboseErrorConsole.Name = "cbVerboseErrorConsole";
+            this.cbVerboseErrorConsole.Size = new System.Drawing.Size(104, 17);
+            this.cbVerboseErrorConsole.TabIndex = 1;
+            this.cbVerboseErrorConsole.Text = "Send to Console";
+            this.cbVerboseErrorConsole.UseVisualStyleBackColor = true;
+            // 
+            // cbVerboseErrorLog
+            // 
+            this.cbVerboseErrorLog.AutoSize = true;
+            this.cbVerboseErrorLog.Location = new System.Drawing.Point(6, 19);
+            this.cbVerboseErrorLog.Name = "cbVerboseErrorLog";
+            this.cbVerboseErrorLog.Size = new System.Drawing.Size(103, 17);
+            this.cbVerboseErrorLog.TabIndex = 0;
+            this.cbVerboseErrorLog.Text = "Send to Log File";
+            this.cbVerboseErrorLog.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.cbVerboseErrorLog);
+            this.groupBox4.Controls.Add(this.cbVerboseErrorConsole);
+            this.groupBox4.Location = new System.Drawing.Point(18, 19);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(124, 66);
+            this.groupBox4.TabIndex = 4;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Verbose Error Msgs";
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.cbSysInfoLog);
+            this.groupBox9.Controls.Add(this.cbSysinfoConsole);
+            this.groupBox9.Location = new System.Drawing.Point(148, 235);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(124, 66);
+            this.groupBox9.TabIndex = 9;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Generic System Info";
+            // 
+            // cbSysInfoLog
+            // 
+            this.cbSysInfoLog.AutoSize = true;
+            this.cbSysInfoLog.Location = new System.Drawing.Point(6, 19);
+            this.cbSysInfoLog.Name = "cbSysInfoLog";
+            this.cbSysInfoLog.Size = new System.Drawing.Size(103, 17);
+            this.cbSysInfoLog.TabIndex = 0;
+            this.cbSysInfoLog.Text = "Send to Log File";
+            this.cbSysInfoLog.UseVisualStyleBackColor = true;
+            // 
+            // cbSysinfoConsole
+            // 
+            this.cbSysinfoConsole.AutoSize = true;
+            this.cbSysinfoConsole.Location = new System.Drawing.Point(6, 42);
+            this.cbSysinfoConsole.Name = "cbSysinfoConsole";
+            this.cbSysinfoConsole.Size = new System.Drawing.Size(104, 17);
+            this.cbSysinfoConsole.TabIndex = 1;
+            this.cbSysinfoConsole.Text = "Send to Console";
+            this.cbSysinfoConsole.UseVisualStyleBackColor = true;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.cbOpenedLog);
+            this.groupBox10.Controls.Add(this.cbOpenedConsole);
+            this.groupBox10.Location = new System.Drawing.Point(18, 235);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(124, 66);
+            this.groupBox10.TabIndex = 8;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Opened Programs";
+            // 
+            // cbOpenedLog
+            // 
+            this.cbOpenedLog.AutoSize = true;
+            this.cbOpenedLog.Location = new System.Drawing.Point(6, 19);
+            this.cbOpenedLog.Name = "cbOpenedLog";
+            this.cbOpenedLog.Size = new System.Drawing.Size(103, 17);
+            this.cbOpenedLog.TabIndex = 0;
+            this.cbOpenedLog.Text = "Send to Log File";
+            this.cbOpenedLog.UseVisualStyleBackColor = true;
+            // 
+            // cbOpenedConsole
+            // 
+            this.cbOpenedConsole.AutoSize = true;
+            this.cbOpenedConsole.Location = new System.Drawing.Point(6, 42);
+            this.cbOpenedConsole.Name = "cbOpenedConsole";
+            this.cbOpenedConsole.Size = new System.Drawing.Size(104, 17);
+            this.cbOpenedConsole.TabIndex = 1;
+            this.cbOpenedConsole.Text = "Send to Console";
+            this.cbOpenedConsole.UseVisualStyleBackColor = true;
+            // 
+            // btnSaveLoggingStatus
+            // 
+            this.btnSaveLoggingStatus.Location = new System.Drawing.Point(148, 318);
+            this.btnSaveLoggingStatus.Name = "btnSaveLoggingStatus";
+            this.btnSaveLoggingStatus.Size = new System.Drawing.Size(124, 23);
+            this.btnSaveLoggingStatus.TabIndex = 10;
+            this.btnSaveLoggingStatus.Text = "Save";
+            this.btnSaveLoggingStatus.UseVisualStyleBackColor = true;
+            this.btnSaveLoggingStatus.Click += new System.EventHandler(this.btnSaveLoggingStatus_Click);
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.checkBox2);
+            this.groupBox11.Controls.Add(this.button12);
+            this.groupBox11.Controls.Add(this.checkBox1);
+            this.groupBox11.Controls.Add(this.label22);
+            this.groupBox11.Controls.Add(this.textBox17);
+            this.groupBox11.Controls.Add(this.label23);
+            this.groupBox11.Controls.Add(this.textBox18);
+            this.groupBox11.Location = new System.Drawing.Point(23, 14);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(349, 166);
+            this.groupBox11.TabIndex = 0;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "OS Ticket";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(11, 49);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(48, 13);
+            this.label22.TabIndex = 7;
+            this.label22.Text = "API Key:";
+            // 
+            // textBox17
+            // 
+            this.textBox17.Location = new System.Drawing.Point(99, 46);
+            this.textBox17.Name = "textBox17";
+            this.textBox17.Size = new System.Drawing.Size(237, 20);
+            this.textBox17.TabIndex = 10;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(11, 23);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(56, 13);
+            this.label23.TabIndex = 6;
+            this.label23.Text = "Your TLD:";
+            // 
+            // textBox18
+            // 
+            this.textBox18.Location = new System.Drawing.Point(99, 20);
+            this.textBox18.Name = "textBox18";
+            this.textBox18.Size = new System.Drawing.Size(237, 20);
+            this.textBox18.TabIndex = 8;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(12, 84);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(134, 17);
+            this.checkBox1.TabIndex = 11;
+            this.checkBox1.Text = "Enable Ticket Creation";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(268, 137);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(68, 23);
+            this.button12.TabIndex = 12;
+            this.button12.Text = "Save";
+            this.button12.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(12, 108);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(324, 17);
+            this.checkBox2.TabIndex = 13;
+            this.checkBox2.Text = "Ask for ticket name on start? (Default = Date + ComputerName)";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.checkBox4);
+            this.groupBox12.Controls.Add(this.checkBox3);
+            this.groupBox12.Controls.Add(this.label19);
+            this.groupBox12.Controls.Add(this.button14);
+            this.groupBox12.Controls.Add(this.textBox14);
+            this.groupBox12.Controls.Add(this.button13);
+            this.groupBox12.Location = new System.Drawing.Point(307, 13);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(317, 127);
+            this.groupBox12.TabIndex = 11;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "Custom Log Location + Name";
+            // 
+            // button13
+            // 
+            this.button13.Location = new System.Drawing.Point(231, 98);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(75, 23);
+            this.button13.TabIndex = 0;
+            this.button13.Text = "Save";
+            this.button13.UseVisualStyleBackColor = true;
+            // 
+            // groupBox13
+            // 
+            this.groupBox13.Controls.Add(this.groupBox4);
+            this.groupBox13.Controls.Add(this.groupBox2);
+            this.groupBox13.Controls.Add(this.btnSaveLoggingStatus);
+            this.groupBox13.Controls.Add(this.groupBox8);
+            this.groupBox13.Controls.Add(this.groupBox9);
+            this.groupBox13.Controls.Add(this.groupBox7);
+            this.groupBox13.Controls.Add(this.groupBox10);
+            this.groupBox13.Controls.Add(this.groupBox5);
+            this.groupBox13.Controls.Add(this.groupBox6);
+            this.groupBox13.Location = new System.Drawing.Point(16, 13);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(285, 347);
+            this.groupBox13.TabIndex = 12;
+            this.groupBox13.TabStop = false;
+            this.groupBox13.Text = "Set Logging Events";
+            // 
+            // textBox14
+            // 
+            this.textBox14.Location = new System.Drawing.Point(18, 20);
+            this.textBox14.Name = "textBox14";
+            this.textBox14.Size = new System.Drawing.Size(194, 20);
+            this.textBox14.TabIndex = 1;
+            // 
+            // button14
+            // 
+            this.button14.Location = new System.Drawing.Point(231, 17);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(75, 23);
+            this.button14.TabIndex = 2;
+            this.button14.Text = "Browse";
+            this.button14.UseVisualStyleBackColor = true;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(18, 48);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(123, 13);
+            this.label19.TabIndex = 3;
+            this.label19.Text = "lbl_Logging_CurrentPath";
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(21, 67);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(193, 17);
+            this.checkBox3.TabIndex = 4;
+            this.checkBox3.Text = "Include ComputerName in Filename";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(21, 90);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(143, 17);
+            this.checkBox4.TabIndex = 5;
+            this.checkBox4.Text = "Include Date in Filename";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox14
+            // 
+            this.groupBox14.Controls.Add(this.checkBox6);
+            this.groupBox14.Controls.Add(this.checkBox5);
+            this.groupBox14.Location = new System.Drawing.Point(307, 146);
+            this.groupBox14.Name = "groupBox14";
+            this.groupBox14.Size = new System.Drawing.Size(317, 100);
+            this.groupBox14.TabIndex = 13;
+            this.groupBox14.TabStop = false;
+            this.groupBox14.Text = "Behaviors";
+            // 
+            // checkBox5
+            // 
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Location = new System.Drawing.Point(7, 20);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(210, 17);
+            this.checkBox5.TabIndex = 0;
+            this.checkBox5.Text = "Also export Console to text file with Log";
+            this.checkBox5.UseVisualStyleBackColor = true;
+            // 
+            // checkBox6
+            // 
+            this.checkBox6.AutoSize = true;
+            this.checkBox6.Location = new System.Drawing.Point(7, 44);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(15, 14);
+            this.checkBox6.TabIndex = 1;
+            this.checkBox6.UseVisualStyleBackColor = true;
+            // 
             // OsMain
             // 
             this.ClientSize = new System.Drawing.Size(754, 531);
@@ -5619,10 +6303,10 @@ namespace OneStop
             this._tcConfigurator.ResumeLayout(false);
             this._tpSetup.ResumeLayout(false);
             this._tabControl2.ResumeLayout(false);
-            this._tpQuickLaunche.ResumeLayout(false);
-            this._tpQuickLaunche.PerformLayout();
-            this._tpShopSettings.ResumeLayout(false);
-            this._tpShopSettings.PerformLayout();
+            this.tpQuickLaunch.ResumeLayout(false);
+            this.tpQuickLaunch.PerformLayout();
+            this.tpShopSettings.ResumeLayout(false);
+            this.tpShopSettings.PerformLayout();
             this.tpServers.ResumeLayout(false);
             this.mailGroupBox.ResumeLayout(false);
             this.mailGroupBox.PerformLayout();
@@ -5632,6 +6316,32 @@ namespace OneStop
             this.groupBox3.ResumeLayout(false);
             this.flowLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.tpIntegration.ResumeLayout(false);
+            this.tpLogging.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox12.PerformLayout();
+            this.groupBox13.ResumeLayout(false);
+            this.groupBox14.ResumeLayout(false);
+            this.groupBox14.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -5881,7 +6591,7 @@ namespace OneStop
             }
             catch (Exception e)
             {
-                OSConsole("Attempted to Create Scripts directory but failed" + e, 1);
+                OSConsole("Attempted to Create Scripts directory but failed" + e, intVerboseErrorMode);
             }
             
             try
@@ -5912,20 +6622,20 @@ namespace OneStop
                 }
                 else
                 {
-                    OSConsole("Scripts Directory Does not Exist", 0);
+                    OSConsole("Scripts Directory Does not Exist", intVerboseErrorMode);
                 }
             }
             catch (UnauthorizedAccessException uaEx)
             {
-                OSConsole("Exeption Thrown: Enumerating Scripts Directory - " + uaEx.Message, 0);
+                OSConsole("Exeption Thrown: Enumerating Scripts Directory - " + uaEx.Message, intVerboseErrorMode);
             }
             catch (PathTooLongException pathEx)
             {
-                OSConsole("Exeption Thrown: Enumerating Scripts Directory - " + pathEx.Message, 0);
+                OSConsole("Exeption Thrown: Enumerating Scripts Directory - " + pathEx.Message, intVerboseErrorMode);
             }
             catch
             {
-                OSConsole("Exeption Thrown: Enumerating Scripts Directory - Unknown", 0);
+                OSConsole("Exeption Thrown: Enumerating Scripts Directory - Unknown", intVerboseErrorMode);
             }
         }
 
@@ -6003,7 +6713,7 @@ namespace OneStop
             
             if (mode == "web")
             {
-                OSConsole("Launched Website: " + path, 1);
+                OSConsole("Launched Website: " + path, intWebsiteMode);
                 string browserPath = GetBrowserPath();
                 if (browserPath == string.Empty)
                     browserPath = "iexplore";
@@ -6020,7 +6730,7 @@ namespace OneStop
                 }
                 catch (Exception e)
                 {
-                    OSConsole("Folder Failed to Open: " + e,0);
+                    OSConsole("Folder Failed to Open: " + e, intVerboseErrorMode);
                 }
             }
             else if (mode == "folder")
@@ -6032,19 +6742,19 @@ namespace OneStop
                 }
                 catch (Exception e)
                 {
-                    OSConsole("Folder Failed to Open: " + e, 0);
+                    OSConsole("Folder Failed to Open: " + e, intVerboseErrorMode);
                 }
 
             }
             else if (mode == "dll")
             {
-                OSConsole("Executing DLL Command: " + path, 1);
+                OSConsole("Executing DLL Command: " + path, intCMDCommandMode);
                 System.Diagnostics.Process.Start("CMD.exe", " /c " + path);
             }
             else if (mode == "prompt_open")
             {
                 //k
-                OSConsole("Executing System Command: " + args,1);
+                OSConsole("Executing System Command: " + args, intCMDCommandMode);
 
                 try
                 {
@@ -6067,7 +6777,7 @@ namespace OneStop
                 }
                 catch (Exception e)
                 {
-                    OSConsole("Caught Exception: " + e, 1);
+                    OSConsole("Caught Exception: " + e, intVerboseErrorMode);
                 }
                 OSConsole(output, 1);
 
@@ -6075,7 +6785,7 @@ namespace OneStop
             else if (mode == "prompt_close")
             {
                 // c
-                OSConsole("Executing System Command: " + args, 1);
+                OSConsole("Executing System Command: " + args, intCMDCommandMode);
                 try
                 {
                     ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -6099,20 +6809,20 @@ namespace OneStop
                     {
                         if (process.ExitCode == 0)
                         {
-                            OSConsole(output, 1);
-                            OSConsole("Exited successfully", 1);
+                            OSConsole(output, intCMDCommandMode);
+                            OSConsole("Exited successfully", intCMDCommandMode);
                         }
                         else
                         {
-                            OSConsole(output, 1);
-                            OSConsole("Exited with code: " + process.ExitCode, 1);
+                            OSConsole(output, intVerboseErrorMode);
+                            OSConsole("Exited with code: " + process.ExitCode, intVerboseErrorMode);
                         }
                     }
                     
                 }
                 catch (Exception e)
                 {
-                    OSConsole("Caught Exception: " + e, 1);
+                    OSConsole("Caught Exception: " + e, intVerboseErrorMode);
                 }
                 
             }
@@ -6141,54 +6851,13 @@ namespace OneStop
                 }
                 catch (Exception e)
                 {
-                    OSConsole("Caught Exception: " + e, 1);
+                    OSConsole("Caught Exception: " + e, intVerboseErrorMode);
                 }
-                OSConsole(output, 1);
+                OSConsole(output, intCMDCommandMode);
 
             }
         }
 
-        //public static async Task<int> RunProcessAsync(string fileName, string args)
-        //{
-        //    using (var process = new Process
-        //    {
-        //        StartInfo =
-        //        {
-        //            FileName = fileName,
-        //            Arguments = args,
-        //            UseShellExecute = false,
-        //            CreateNoWindow = true,
-        //            RedirectStandardOutput = true,
-        //            RedirectStandardError = true
-        //        },
-        //        EnableRaisingEvents = true
-        //    })
-        //    {
-        //        return await RunProcessAsync(process).ConfigureAwait(false);
-        //    }
-        //}    
-
-        //private Task<int> RunProcessAsync(Process process)
-        //{
-        //    var tcs = new TaskCompletionSource<int>();
-
-        //    process.Exited += (s, ea) => tcs.SetResult(process.ExitCode);
-        //    process.OutputDataReceived += (s, ea) => OSConsole(ea.Data, 1);
-        //    process.ErrorDataReceived += (s, ea) => OSConsole("ERR: " + ea.Data, 1);
-
-        //    bool started = process.Start();
-        //    if (!started)
-        //    {
-        //        throw new InvalidOperationException("Could not start process: " + process);
-        //    }
-
-        //    process.BeginOutputReadLine();
-        //    process.BeginErrorReadLine();
-
-        //    return tcs.Task;
-        //}
-
-     
 
         private void EnumerateDocs(string strDocsDirectory)
         {
@@ -6201,7 +6870,7 @@ namespace OneStop
             }
             catch (Exception e)
             {
-                OSConsole("Attempted to create Documents directory but failed", 1);
+                OSConsole("Attempted to create Documents directory but failed", intVerboseErrorMode);
             }
 
             try
@@ -6231,20 +6900,20 @@ namespace OneStop
                 }
                 else
                 {
-                    OSConsole("Scripts Directory Does not Exist", 0);
+                    OSConsole("Scripts Directory Does not Exist", intVerboseErrorMode);
                 }
             }
             catch (UnauthorizedAccessException uaEx)
             {
-                OSConsole("Exeption Thrown: Enumerating Documents Directory -" + uaEx.Message, 0);
+                OSConsole("Exeption Thrown: Enumerating Documents Directory -" + uaEx.Message, intVerboseErrorMode);
             }
             catch (PathTooLongException pathEx)
             {
-                OSConsole("Exeption Thrown: Enumerating Documents Directory -" + pathEx.Message, 0);
+                OSConsole("Exeption Thrown: Enumerating Documents Directory -" + pathEx.Message, intVerboseErrorMode);
             }
             catch
             {
-                OSConsole("Exeption Thrown: Enumerating Documents Directory - Unknown", 0);
+                OSConsole("Exeption Thrown: Enumerating Documents Directory - Unknown", intVerboseErrorMode);
             }
         }
 
@@ -6818,5 +7487,61 @@ namespace OneStop
         {
 
         }
+
+        private void btnSaveLoggingStatus_Click(object sender, EventArgs e)
+        {
+            
+
+
+            Settings.Default.boolCMDConsole = cbCMDConsole.Checked;
+            
+            Settings.Default.boolCMDLog = cbCMDLog.Checked;
+
+            Settings.Default.boolGPLNoticeConsole = cbGPLConsole.Checked;
+
+            Settings.Default.boolGPLNoticeLog = cbGPLNoticeLog.Checked;
+
+            Settings.Default.boolProgramOpenedConsole = cbOpenedConsole.Checked;
+
+            Settings.Default.boolProgramOpenedLog = cbOpenedLog.Checked;
+
+            Settings.Default.boolRegistryConsole = cbRegistryConsole.Checked;
+
+            Settings.Default.boolRegistryLog = cbRegistryLog.Checked;
+
+            Settings.Default.boolStartupConsole = cbOSStartConsole.Checked;
+
+            Settings.Default.boolSysInfoConsole = cbSysinfoConsole.Checked;
+
+            Settings.Default.boolStartupLog = cbOSStartLog.Checked;
+
+            Settings.Default.boolSysInfoLog = cbSysInfoLog.Checked;
+
+            Settings.Default.boolVerboseErrorConsole = cbVerboseErrorConsole.Checked;
+
+            Settings.Default.boolVerboseErrorLog = cbVerboseErrorLog.Checked;
+
+            Settings.Default.boolWebsiteConsole = cbWebsitesConsole.Checked;
+
+            Settings.Default.boolWebsiteLog = cbWebsitesLog.Checked;
+
+            string errortext = null;
+            try
+            {
+                Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                OSConsole("Exception: " + ex, intVerboseErrorMode);
+                errortext = Convert.ToString(ex);
+            }
+
+            if (String.IsNullOrEmpty(errortext))
+            {
+                MessageBox.Show("Settings were successfully saved", "Settings Saved");
+            }
+
+        }
+        
     }
 }
