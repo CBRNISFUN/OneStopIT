@@ -35,6 +35,9 @@ namespace OneStop
     {
         public bool BoolLocalDir;
         public bool BoolPrevDir;
+        public bool BoolRootDir;
+        public bool BoolSearchedDir;
+
         public string GString = "GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}";
         public bool BoolAdminStatus;
         public int intCMDCommandMode = 3;
@@ -45,6 +48,7 @@ namespace OneStop
         public int intSysinfoMode = 3;
         public int intVerboseErrorMode = 3;
         public int intWebsiteMode = 3;
+
 
 
         public string StrTronPath = "";
@@ -173,7 +177,10 @@ namespace OneStop
             #region Startup
 
             InitLoggingSettings();
-
+            BoolLocalDir = false;
+            BoolRootDir = false;
+            BoolPrevDir = false;
+            BoolSearchedDir = false;
 
             OSConsole("OS_HR", intStartupMode);
             OSConsole("Begin  ONESTOP STARTUP", intStartupMode);
@@ -202,9 +209,12 @@ namespace OneStop
             if (File.Exists(strCurDir + "\\Tron\\" + strFileName))
             {
                 //Tron Was Found in Current Directory, enable all of the disabled functions (ConfigDump Button, 
-                TronEnable("Tron Found (Current) - ", strCurDir + "\\" + strFileName);
-                BoolLocalDir = true;
+                TronEnable("Tron Found (OneStop\\Tron) - ", strCurDir + "\\" + strFileName);
+                BoolLocalDir = false;
+                BoolRootDir = true;
                 BoolPrevDir = false;
+                BoolSearchedDir = false;
+
                 OSConsole("Tron.bat Found in Local Directory", intStartupMode);
 
             }
@@ -213,7 +223,9 @@ namespace OneStop
                 //Tron Was Found in Current Directory, enable all of the disabled functions (ConfigDump Button, 
                 TronEnable("Tron Found (Current) - ", strCurDir + "\\" + strFileName);
                 BoolLocalDir = true;
+                BoolRootDir = false;
                 BoolPrevDir = false;
+                BoolSearchedDir = false;
                 OSConsole("Tron.bat Found in Local Directory Root", intStartupMode);
             }
             else if (Settings.Default.str_LastTronDirectory != null)
@@ -224,7 +236,9 @@ namespace OneStop
                     //We've Found Tron in Previous Directory, enable all the disabled functions
                     TronEnable("Tron Found (Previous) - ", Settings.Default.str_LastTronDirectory + "\\" + strFileName);
                     BoolLocalDir = false;
+                    BoolRootDir = false;
                     BoolPrevDir = true;
+                    BoolSearchedDir = false;
                     OSConsole("Tron.bat Found in previously used location", intStartupMode);
                 }
                 else
@@ -232,7 +246,9 @@ namespace OneStop
                     //We didn't find Tron anywhere. 
                     TronDisable("Tron Not Found - ");
                     BoolLocalDir = false;
+                    BoolRootDir = false;
                     BoolPrevDir = false;
+                    BoolSearchedDir = false;
                     OSConsole("Tron.bat not found", intStartupMode);
 
                 }
@@ -242,7 +258,9 @@ namespace OneStop
                 //We didn't find Tron Anywhere.
                 TronDisable("Tron Not Found - ");
                 BoolLocalDir = false;
+                BoolRootDir = false;
                 BoolPrevDir = false;
+                BoolSearchedDir = false;
                 OSConsole("Tron.bat not found", intStartupMode);
             }
 
@@ -255,15 +273,12 @@ namespace OneStop
 
                 if (isElevated)
                 {
-                    strAdminStatus = "ADMIN";
-                    _lblOneStopStatus.ForeColor = Color.Green;
                     BoolAdminStatus = true;
                     OSConsole("OneStop is running as Administrator", intStartupMode);
                 }
                 if (!isElevated)
                 {
-                    strAdminStatus = "NOT ADMIN";
-                    _lblOneStopStatus.ForeColor = Color.Red;
+                    
                     BoolAdminStatus = false;
                     OSConsole("OS_BR", 0);
                     OSConsole("ONE STOP IS NOT RUNNING AS ADMINISTRATOR - SOME FUNCTIONALITY, INCLUDING TRON CANNOT RUN", intStartupMode);
@@ -330,6 +345,68 @@ namespace OneStop
 
             OSConsole("Onestop completed initial startup at: " + DateTime.Now.ToString(), intStartupMode);
             #endregion
+            
+            //Load status with current results
+            UpdateStatus();
+        }
+
+        private void UpdateStatus()
+        {
+            string statusout = "";
+
+            _lblOneStopStatus.ForeColor = System.Drawing.Color.Green;
+            bool boolErrorStatus = false;
+            //Start with Admin Status
+            if (BoolAdminStatus)
+            {
+                statusout = statusout + "[Admin: True] ";
+            }
+            else
+            {
+                statusout = statusout + "[Admin: False] ";
+                boolErrorStatus = true;
+            }
+            if (BoolLocalDir)
+            {
+                statusout = statusout + "[Tron: Local] ";
+            }
+            else if (BoolPrevDir)
+            {
+                statusout = statusout + "[Tron: Previous] ";
+            }
+            else if (BoolRootDir)
+            {
+                statusout = statusout + "[Tron: Root] ";
+            }
+            else if (BoolSearchedDir)
+            {
+                statusout = statusout + "[Tron: Searched] ";
+            }
+
+            if (!BoolLocalDir && !BoolPrevDir && !BoolRootDir && !BoolSearchedDir)
+            {
+                statusout = statusout + "[Tron: Not Found] ";
+                boolErrorStatus = true;
+            }
+
+            if (System.Windows.Forms.SystemInformation.BootMode == BootMode.FailSafe)
+            {
+                statusout = statusout + "[Boot: Safe]";
+            }
+            else if (System.Windows.Forms.SystemInformation.BootMode == BootMode.FailSafeWithNetwork)
+            {
+                statusout = statusout + "[Boot: Safe+Net]";
+            }
+            else if (System.Windows.Forms.SystemInformation.BootMode == BootMode.Normal)
+            {
+                statusout = statusout + "[Boot: Normal]";
+            }
+
+            if (boolErrorStatus)
+            {
+                _lblOneStopStatus.ForeColor = System.Drawing.Color.Red;
+            }
+            _lblOneStopStatus.Text = statusout;
         }
 
         private void InitLoggingSettings()
@@ -2199,8 +2276,7 @@ namespace OneStop
             // _lblCurrentActionStatus
             // 
             this._lblCurrentActionStatus.Name = "_lblCurrentActionStatus";
-            this._lblCurrentActionStatus.Size = new System.Drawing.Size(132, 22);
-            this._lblCurrentActionStatus.Text = "lbl_CurrentActionStatus";
+            this._lblCurrentActionStatus.Size = new System.Drawing.Size(0, 22);
             // 
             // _lblOneStopStatus
             // 

@@ -104,4 +104,24 @@ Other features no idea where they go
 	Windows update from WSUS online
 	Any tools we can do on an offline partition (keys, installed apps, minidumps, SFC, sysrestore offline, Checkdisk, FixIDE, FixAMD, Eddit Registry, Load registry bakcup, Disable BSOD reboot and enable minidumps, whatever malware scans we can find, any other fixes we can find)
 	
-	
+	New things to add: Save technician profiles somewhere (FTP, netdrive, thumbdrive)
+
+	SHA1, SHA256, SHA384, and SHA512
+
+	Prevent Screen Saver, Sleep Mode, System Restart / Shutdown
+
+	http://feedback.repairshopr.com/knowledgebase/articles/376312-repairshopr-rest-api-build-custom-extensions-app
+
+	https://www.manageengine.com/products/service-desk/help/adminguide/api/api.html
+
+	https://developer.connectwise.com/
+
+	http://community.spiceworks.com/help/Data_API_Tutorial
+
+	Pause button added to pause a Queue 
+	Add a box to describe tools on the automatic panel
+	Download tools automatically
+	Beep on completion
+
+	Show tools in <time> when complete
+	Connect to Ninite One/Pro
