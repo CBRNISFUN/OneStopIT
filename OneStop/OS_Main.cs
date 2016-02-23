@@ -170,6 +170,8 @@ namespace OneStop
         private GroupBox groupBox14;
         private CheckBox checkBox6;
         private CheckBox checkBox5;
+        private ToolStripLabel lblBootStatus;
+        private ToolStripLabel lblTronStatus;
         public string StrTronStatus = "";
 
         private void OS_Main_Load(object sender, EventArgs e)
@@ -291,7 +293,7 @@ namespace OneStop
 
 
             //Set all labels with current info
-            _lblOneStopStatus.Text = StrTronStatus + strAdminStatus;
+            lblAdminStatus.Text = StrTronStatus + strAdminStatus;
             _lblInfoFreeC.Text = OsSystem.GetCDriveSpace();
             _lblInfoOs.Text = OsSystem.GetOsFriendlyName() + OsSystem.GetArch();
             _lblInfoRam.Text = OsSystem.GetInstalledMemory();
@@ -352,61 +354,87 @@ namespace OneStop
 
         private void UpdateStatus()
         {
-            string statusout = "";
+            string bootstatusout = "";
+            string tronstatusout = "";
+            string adminerrorstatusout = "";
 
-            _lblOneStopStatus.ForeColor = System.Drawing.Color.Green;
-            bool boolErrorStatus = false;
-            //Start with Admin Status
+            lblAdminStatus.ForeColor = System.Drawing.Color.Green;
+            lblBootStatus.ForeColor = System.Drawing.Color.Green;
+            lblTronStatus.ForeColor = System.Drawing.Color.Green;
+
+            bool boolBootErrorStatus = false;
+            bool boolTronErrorStatus = false;
+            bool boolAdminErrorStatus = false;
+
+
             if (BoolAdminStatus)
             {
-                statusout = statusout + "[Admin: True] ";
+                adminerrorstatusout = "[Admin: True] ";
             }
             else
             {
-                statusout = statusout + "[Admin: False] ";
-                boolErrorStatus = true;
+                adminerrorstatusout = "[Admin: False] ";
+                boolAdminErrorStatus = true;
             }
+
+
             if (BoolLocalDir)
             {
-                statusout = statusout + "[Tron: Local] ";
+                tronstatusout = "[Tron: Local] ";
             }
             else if (BoolPrevDir)
             {
-                statusout = statusout + "[Tron: Previous] ";
+                tronstatusout =  "[Tron: Previous] ";
             }
             else if (BoolRootDir)
             {
-                statusout = statusout + "[Tron: Root] ";
+                tronstatusout = "[Tron: Root] ";
             }
             else if (BoolSearchedDir)
             {
-                statusout = statusout + "[Tron: Searched] ";
+                tronstatusout = "[Tron: Searched] ";
+            }
+            else if (!BoolLocalDir && !BoolPrevDir && !BoolRootDir && !BoolSearchedDir)
+            {
+                tronstatusout = "[Tron: Not Found] ";
+                boolTronErrorStatus = true;
+            }
+            else
+            {
+                tronstatusout = "[Tron: Not Found] ";
+                boolTronErrorStatus = true;
             }
 
-            if (!BoolLocalDir && !BoolPrevDir && !BoolRootDir && !BoolSearchedDir)
-            {
-                statusout = statusout + "[Tron: Not Found] ";
-                boolErrorStatus = true;
-            }
 
             if (System.Windows.Forms.SystemInformation.BootMode == BootMode.FailSafe)
             {
-                statusout = statusout + "[Boot: Safe]";
+                bootstatusout = "[Boot: Safe]";
             }
             else if (System.Windows.Forms.SystemInformation.BootMode == BootMode.FailSafeWithNetwork)
             {
-                statusout = statusout + "[Boot: Safe+Net]";
+                bootstatusout = "[Boot: Safe+Net]";
             }
             else if (System.Windows.Forms.SystemInformation.BootMode == BootMode.Normal)
             {
-                statusout = statusout + "[Boot: Normal]";
+                bootstatusout = "[Boot: Normal]";
+                boolBootErrorStatus = true;
             }
 
-            if (boolErrorStatus)
+            if (boolAdminErrorStatus)
             {
-                _lblOneStopStatus.ForeColor = System.Drawing.Color.Red;
+                lblAdminStatus.ForeColor = System.Drawing.Color.Red;
             }
-            _lblOneStopStatus.Text = statusout;
+            if (boolBootErrorStatus)
+            {
+                lblBootStatus.ForeColor = System.Drawing.Color.Red;
+            }
+            if (boolTronErrorStatus)
+            {
+                lblTronStatus.ForeColor = System.Drawing.Color.Red;
+            }
+            lblAdminStatus.Text = adminerrorstatusout;
+            lblBootStatus.Text = bootstatusout;
+            lblTronStatus.Text = tronstatusout;
         }
 
         private void InitLoggingSettings()
@@ -1391,7 +1419,7 @@ namespace OneStop
         private ToolStripProgressBar _pbCurrentProgress;
         private ToolStripSeparator _toolStripSeparator1;
         private ToolStripLabel _lblCurrentActionStatus;
-        private ToolStripLabel _lblOneStopStatus;
+        private ToolStripLabel lblAdminStatus;
         private MenuStrip _menuPrimary;
         private ToolStripMenuItem _oneStopToolStripMenuItem;
         private ToolStripMenuItem _runPromptToolStripMenuItem;
@@ -1749,7 +1777,7 @@ namespace OneStop
             this._pbCurrentProgress = new System.Windows.Forms.ToolStripProgressBar();
             this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this._lblCurrentActionStatus = new System.Windows.Forms.ToolStripLabel();
-            this._lblOneStopStatus = new System.Windows.Forms.ToolStripLabel();
+            this.lblAdminStatus = new System.Windows.Forms.ToolStripLabel();
             this._menuPrimary = new System.Windows.Forms.MenuStrip();
             this._qlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._scriptsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -2211,6 +2239,8 @@ namespace OneStop
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
+            this.lblBootStatus = new System.Windows.Forms.ToolStripLabel();
+            this.lblTronStatus = new System.Windows.Forms.ToolStripLabel();
             this._tsBottomToolbar.SuspendLayout();
             this._menuPrimary.SuspendLayout();
             this._tcPrimaryTabs.SuspendLayout();
@@ -2256,7 +2286,9 @@ namespace OneStop
             this._pbCurrentProgress,
             this._toolStripSeparator1,
             this._lblCurrentActionStatus,
-            this._lblOneStopStatus});
+            this.lblAdminStatus,
+            this.lblBootStatus,
+            this.lblTronStatus});
             this._tsBottomToolbar.Location = new System.Drawing.Point(0, 506);
             this._tsBottomToolbar.Name = "_tsBottomToolbar";
             this._tsBottomToolbar.Size = new System.Drawing.Size(754, 25);
@@ -2278,12 +2310,12 @@ namespace OneStop
             this._lblCurrentActionStatus.Name = "_lblCurrentActionStatus";
             this._lblCurrentActionStatus.Size = new System.Drawing.Size(0, 22);
             // 
-            // _lblOneStopStatus
+            // lblAdminStatus
             // 
-            this._lblOneStopStatus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this._lblOneStopStatus.Name = "_lblOneStopStatus";
-            this._lblOneStopStatus.Size = new System.Drawing.Size(103, 22);
-            this._lblOneStopStatus.Text = "lbl_OneStopStatus";
+            this.lblAdminStatus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.lblAdminStatus.Name = "lblAdminStatus";
+            this.lblAdminStatus.Size = new System.Drawing.Size(88, 22);
+            this.lblAdminStatus.Text = "lblAdminStatus";
             // 
             // _menuPrimary
             // 
@@ -6329,6 +6361,20 @@ namespace OneStop
             this.checkBox6.TabIndex = 1;
             this.checkBox6.UseVisualStyleBackColor = true;
             // 
+            // lblBootStatus
+            // 
+            this.lblBootStatus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.lblBootStatus.Name = "lblBootStatus";
+            this.lblBootStatus.Size = new System.Drawing.Size(77, 22);
+            this.lblBootStatus.Text = "lblBootStatus";
+            // 
+            // lblTronStatus
+            // 
+            this.lblTronStatus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.lblTronStatus.Name = "lblTronStatus";
+            this.lblTronStatus.Size = new System.Drawing.Size(76, 22);
+            this.lblTronStatus.Text = "lblTronStatus";
+            // 
             // OsMain
             // 
             this.ClientSize = new System.Drawing.Size(754, 531);
@@ -6440,7 +6486,7 @@ namespace OneStop
 
         private void TronEnable(string statusMsg, string path)
         {
-            _lblOneStopStatus.ForeColor = Color.Green;
+            lblAdminStatus.ForeColor = Color.Green;
             _foldersToolStripMenuItem.Enabled = true;
             _btnConfigDump.Enabled = true;
             _btnRunTron.Enabled = true;
@@ -6456,7 +6502,7 @@ namespace OneStop
 
             string strAdminStatus = BoolAdminStatus ? "ADMIN" : "NOT ADMIN";
             
-            _lblOneStopStatus.Text = StrTronStatus + strAdminStatus;
+            lblAdminStatus.Text = StrTronStatus + strAdminStatus;
         }
 
         private void EnableTronCBs()
@@ -6584,7 +6630,7 @@ namespace OneStop
 
         private void TronDisable(string statusMsg)
         {
-            _lblOneStopStatus.ForeColor = Color.Red;
+            lblAdminStatus.ForeColor = Color.Red;
             _foldersToolStripMenuItem.Enabled = false;
             _btnTronSaveFlags.Enabled = false;
             _btnConfigDump.Enabled = false;
