@@ -4,6 +4,9 @@ Todo
 ====
 On closing the main form, trigger OS_Exit.
 
+OS_Chromium
+	Add navigation and integrate CefSharp
+
 OS_Exit
 	
 	Imp. Re-launch
