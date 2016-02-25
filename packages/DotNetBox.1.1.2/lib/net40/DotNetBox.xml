@@ -1,0 +1,3352 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DotNetBox</name>
+    </assembly>
+    <members>
+        <member name="T:DotNetBox.DownloadFileCompletedEventHandler">
+            <summary>
+            Delegate used for the <see cref="!:SubApis.Files.DownloadFileCompleted"/> event.
+            </summary>
+            <param name="e" cref="T:DotNetBox.DownloadFileCompletedEventArgs">Completed event arguments.</param>
+        </member>
+        <member name="T:DotNetBox.DownloadFileCompletedEventArgs">
+            <summary>
+            Arguments for the <see cref="!:SubApis.Files.DownloadFileCompleted"/> event.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.DownloadFileCompletedEventArgs.Response">
+            <summary>
+            Metadata of the Downloaded file.
+            </summary>
+            <type cref="T:DotNetBox.FileMetadata"/>
+        </member>
+        <member name="P:DotNetBox.DownloadFileCompletedEventArgs.Error">
+            <summary>
+            Error that occured during the download processed, if occured.
+            </summary>
+            <type cref="T:System.Exception"/>
+        </member>
+        <member name="P:DotNetBox.DownloadFileCompletedEventArgs.Cancelled">
+            <summary>
+            Whether the operation was cancelled or not.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="M:DotNetBox.DownloadFileCompletedEventArgs.#ctor(DotNetBox.FileMetadata,System.Exception,System.Boolean)">
+            <summary>
+            Creates a new instance of the DownloadFileCompletedEventArgs class.
+            </summary>
+            <param name="response">Metadata of the downloaded file.</param>
+            <param name="error">Error, if occured.</param>
+            <param name="cancelled">Whether the operation was cancelled or not.</param>
+        </member>
+        <member name="T:DotNetBox.AuthorizeResponse">
+            <summary>
+            Dropbox API's response when asking for an access token.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.AuthorizeResponse.AccessToken">
+            <summary>
+            Access token to be used with all other calls.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.AuthorizeResponse.TokenType">
+            <summary>
+            Type of access token given. Should always be "Bearer"
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.AuthorizeResponse.Uid">
+            <summary>
+            Dropbox user ID.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.AuthorizeResponse.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new AuthorizeResponse class.
+            </summary>
+            <param name="accessToken">Given access token.</param>
+            <param name="tokenType">Acess token type.</param>
+            <param name="uid">User ID.</param>
+        </member>
+        <member name="M:DotNetBox.AuthorizeResponse.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new AuthorizeResponse class from a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.AuthorizeResponse"/> A new AuthorizeResponse class based on the JSON information.</returns>
+        </member>
+        <member name="M:DotNetBox.AuthorizeResponse.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.FileLinkMetadata">
+            <summary>
+            Holds information about a shared file link.
+            </summary>
+            <inherits cref="T:DotNetBox.LinkMetadata"/>
+        </member>
+        <member name="P:DotNetBox.FileLinkMetadata.ClientModified">
+            <summary>
+            Date and time at which the file was modified on the client's side.
+            </summary>
+            <type cref="T:System.DateTime"/>
+        </member>
+        <member name="P:DotNetBox.FileLinkMetadata.ServerModified">
+            <summary>
+            Date and time at which the file was modified on the server's side.
+            </summary>
+            <type cref="T:System.DateTime"/>
+        </member>
+        <member name="P:DotNetBox.FileLinkMetadata.Rev">
+            <summary>
+            Revision of the file.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.FileLinkMetadata.Size">
+            <summary>
+            Size of the file, in bytes.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.FileLinkMetadata.#ctor(System.String,System.String,DotNetBox.LinkPermissions,System.DateTime,System.DateTime,System.String,System.Int64,System.String,System.Nullable{System.DateTime},System.String,DotNetBox.TeamMemberInfo,DotNetBox.Team)">
+            <summary>
+            
+            </summary>
+            <param name="url">URL of the link.</param>
+            <param name="name">Name of the file/folder the link resolves to.</param>
+            <param name="linkPermissions">The link's permissions.</param>
+            <param name="clientModified">Time at which the file was modified on the client's side.</param>
+            <param name="serverModified">Time at which the file was modified on the server's side.</param>
+            <param name="rev">Revision of the file.</param>
+            <param name="size">Size of the file.</param>
+            <param name="id">The link's unique ID.</param>
+            <param name="expires">The link's expiry time, if present.</param>
+            <param name="path">Path of the shared file/folder the link resolves to in the user's Dropbox, if applicable.</param>
+            <param name="teamMemberInfo">Team information on the link's owner, if applicable.</param>
+            <param name="contentOwnerTeamInfo">Team information on the content's owner, if applicable.</param>
+        </member>
+        <member name="M:DotNetBox.FileLinkMetadata.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the FileLinkMetadata class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.FileLinkMetadata"/> A new instance of the FileLinkMetadata class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.FileLinkMetadata.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.FileSharingInfo">
+            <summary>
+            Information about a file's sharing status.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.FileSharingInfo.ReadOnly">
+            <summary>
+            Whether the file is inside a read-only shared folder.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="P:DotNetBox.FileSharingInfo.ParentSharedFolderId">
+            <summary>
+            ID of the shared folder that holds this file.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.FileSharingInfo.ModifiedBy">
+            <summary>
+            The last user who modified the file.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.FileSharingInfo.#ctor(System.Boolean,System.String,System.String)">
+            <summary>
+            Creates a new instance of the FileSharingInfo class.
+            </summary>
+            <param name="readOnly">Whether the parent shared folder is read-only or not.</param>
+            <param name="parentSharedFolderId">Parent shared folder's ID.</param>
+            <param name="modifiedBy">The last user who modified the file.</param>
+        </member>
+        <member name="M:DotNetBox.FileSharingInfo.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the FileSharingInfo class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.FileSharingInfo"/> A new instance of the FileSharingInfo class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.FileSharingInfo.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.FolderLinkMetadata">
+            <summary>
+            Holds information about a shared folder link.
+            </summary>
+            <inherits cref="T:DotNetBox.LinkMetadata"/>
+        </member>
+        <member name="M:DotNetBox.FolderLinkMetadata.#ctor(System.String,System.String,DotNetBox.LinkPermissions,System.String,System.Nullable{System.DateTime},System.String,DotNetBox.TeamMemberInfo,DotNetBox.Team)">
+            <summary>
+            Creates a new instance of the LinkMetadata class.
+            </summary>
+            <param name="url">URL of the link.</param>
+            <param name="name">Name of the file/folder the link resolves to.</param>
+            <param name="linkPermissions">The link's permissions.</param>
+            <param name="id">The link's unique ID.</param>
+            <param name="expires">The link's expiry time, if present.</param>
+            <param name="path">Path of the shared file/folder the link resolves to in the user's Dropbox, if applicable.</param>
+            <param name="teamMemberInfo">Team information on the link's owner, if applicable.</param>
+            <param name="contentOwnerTeamInfo">Team information on the content's owner, if applicable.</param>
+        </member>
+        <member name="M:DotNetBox.FolderLinkMetadata.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the FolderLinkMetadata class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.FolderLinkMetadata"/> A new instance of the FolderLinkMetadata class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.FolderLinkMetadata.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.FolderMember">
+            <summary>
+            User identifier (Dropbox ID or email) and access level used to add users to a shared folder.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.FolderMember.Identifier">
+            <summary>
+            Dropbox ID or email of user to add.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.FolderMember.AccessLevel">
+            <summary>
+            Access level of the user.
+            </summary>
+            <type cref="T:DotNetBox.AccessLevel"/>
+        </member>
+        <member name="M:DotNetBox.FolderMember.#ctor(System.String,DotNetBox.AccessLevel)">
+            <summary>
+            Initializes a new FolderMember class.
+            </summary>
+            <param name="identifier">User ID or email.</param>
+            <param name="accessLevel">Access level to give to user.</param>
+        </member>
+        <member name="T:DotNetBox.AclUpdatePolicy">
+            <summary>
+            Policy governing who can change a shared folder's access control list (ACL). In other words, who can add, remove, or change the privileges of members.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.AclUpdatePolicy.Owner">
+            <summary>
+            Only the owner can update the ACL.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.AclUpdatePolicy.Editors">
+            <summary>
+            Any editor can update the ACL. This may be further restricted to editors on the same team.
+            </summary>
+        </member>
+        <member name="T:DotNetBox.SharedLinkPolicy">
+            <summary>
+            Policy governing who can view shared links.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.SharedLinkPolicy.Anyone">
+            <summary>
+            Links can be shared with anyone.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.SharedLinkPolicy.Members">
+            <summary>
+            Links can only be shared among members of the shared folder.
+            </summary>
+        </member>
+        <member name="T:DotNetBox.MemberPolicy">
+            <summary>
+            Policy governing who can be a member of a shared folder. Only applicable to folders owned by a user on a team.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.MemberPolicy.Team">
+            <summary>
+            Only a teammate can become a member.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.MemberPolicy.Anyone">
+            <summary>
+            Anyone can become a member.
+            </summary>
+        </member>
+        <member name="T:DotNetBox.FolderPolicy">
+            <summary>
+            A set of policies governing membership and privileges for a shared folder.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.FolderPolicy.AclUpdatePolicy">
+            <summary>
+            Who can add and remove members from this shared folder.
+            </summary>
+            <type cref="T:DotNetBox.AclUpdatePolicy"/>
+        </member>
+        <member name="P:DotNetBox.FolderPolicy.SharedLinkPolicy">
+            <summary>
+            Who links can be shared with.
+            </summary>
+            <type cref="T:DotNetBox.SharedLinkPolicy"/>
+        </member>
+        <member name="P:DotNetBox.FolderPolicy.MemberPolicy">
+            <summary>
+            Who can be a member of this shared folder. Only set if the user is a member of a team.
+            </summary>
+            <type cref="T:DotNetBox.MemberPolicy"/>
+        </member>
+        <member name="M:DotNetBox.FolderPolicy.#ctor(DotNetBox.AclUpdatePolicy,DotNetBox.SharedLinkPolicy,System.Nullable{DotNetBox.MemberPolicy})">
+            <summary>
+            Creates a new instance of the FolderPolicy class.
+            </summary>
+            <param name="aclUpdatePolicy">Who can add and remove members from this shared folder.</param>
+            <param name="sharedLinkPolicy">Who links can be shared with.</param>
+            <param name="memberPolicy">Who can be a member of this shared folder. Only set if the user is a member of a team.</param>
+        </member>
+        <member name="M:DotNetBox.FolderPolicy.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the FolderPolicy class from a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.FolderPolicy"/> A new instance of the FolderPolicy class based on the information in the JSON object.</returns>
+        </member>
+        <member name="M:DotNetBox.FolderPolicy.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.FolderSharingInfo">
+            <summary>
+            Information about a folder's sharing status.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.FolderSharingInfo.ReadOnly">
+            <summary>
+            Whether the file is inside a read-only shared folder.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="P:DotNetBox.FolderSharingInfo.ParentSharedFolderId">
+            <summary>
+            Parent shared folder's ID. Set if the folder is contained by a shared folder.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.FolderSharingInfo.SharedFolderId">
+            <summary>
+            If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.FolderSharingInfo.#ctor(System.Boolean,System.String,System.String)">
+            <summary>
+            Creates a new instance of the FolderSharingInfo class.
+            </summary>
+            <param name="readOnly">Whether the parent shared folder is read-only or not.</param>
+            <param name="parentSharedFolderId">Parent shared folder's ID, if applicable.</param>
+            <param name="sharedFolderId">If the current folder is a shared folder, its ID.</param>
+        </member>
+        <member name="M:DotNetBox.FolderSharingInfo.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the FolderSharingInfo class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.FolderSharingInfo"/> A new instance of the FolderSharingInfo class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.FolderSharingInfo.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.GroupInfo">
+            <summary>
+            Information about a membership group.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.GroupInfo.GroupName">
+            <summary>
+            The group's name.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.GroupInfo.GroupId">
+            <summary>
+            The group's unique ID.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.GroupInfo.MemberCount">
+            <summary>
+            The amount of members in the group.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.GroupInfo.SameTeam">
+            <summary>
+            If the group is owned by the current user's team or not.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.GroupInfo.GroupExternalId">
+            <summary>
+            External Id of the group. This is an arbitrary Id that an admin can attach to a group.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.GroupInfo.#ctor(System.String,System.String,System.Int32,System.Boolean,System.String)">
+            <summary>
+            Creates a new instance of the GroupInfo class.
+            </summary>
+            <param name="groupName">Group name.</param>
+            <param name="groupId">Group ID.</param>
+            <param name="memberCount">Amount of members.</param>
+            <param name="sameTeam">If the group is owned by the current user's team or not.</param>
+            <param name="groupExternalId">Group's external ID.</param>
+        </member>
+        <member name="M:DotNetBox.GroupInfo.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the GroupInfo class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.GroupInfo"/> A new instance of the GroupInfo class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.GroupInfo.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.InviteeInfo">
+            <summary>
+            Information on a shared folder's invitee.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.InviteeInfo.Email">
+            <summary>
+            Invited user's email address.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.InviteeInfo.#ctor(System.String)">
+            <summary>
+            Creates a new instance of the InviteeInfo class.
+            </summary>
+            <param name="email">Invited user's email address.</param>
+        </member>
+        <member name="M:DotNetBox.InviteeInfo.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the InviteeInfo class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.InviteeInfo"/> A new instance of the InviteeInfo class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.InviteeInfo.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.InviteeMembershipInfo">
+            <summary>
+            Information about an invited user's access level as a member of a shared folder.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.InviteeMembershipInfo.AccessType">
+            <summary>
+            Access level the user will be given if he accepts the invitation.
+            </summary>
+            <type cref="T:DotNetBox.AccessLevel"/>
+        </member>
+        <member name="P:DotNetBox.InviteeMembershipInfo.Invitee">
+            <summary>
+            Information on the invited user.
+            </summary>
+            <type cref="T:DotNetBox.InviteeInfo"/>
+        </member>
+        <member name="M:DotNetBox.InviteeMembershipInfo.#ctor(DotNetBox.AccessLevel,DotNetBox.InviteeInfo)">
+            <summary>
+            Creates a new instance of the InviteeMembershipInfo class.
+            </summary>
+            <param name="accessType">Access level the user will be given if he accepts.</param>
+            <param name="invitee">Information on the invited user.</param>
+        </member>
+        <member name="M:DotNetBox.InviteeMembershipInfo.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the InviteeMembershipInfo class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.InviteeMembershipInfo"/> A new instance of the InviteeMembershipInfo class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.InviteeMembershipInfo.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.JobStatus">
+            <summary>
+            Status of an asynchronous job.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.JobStatus.Status">
+            <summary>
+            Asynchronous job status.
+            </summary>
+            <type cref="T:DotNetBox.AsyncJobStatus"/>
+        </member>
+        <member name="P:DotNetBox.JobStatus.Error">
+            <summary>
+            Error thrown during the asynchronous operation, if occured.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.JobStatus.#ctor(DotNetBox.AsyncJobStatus,System.String)">
+            <summary>
+            Creates a new instance of the JobStatus class.
+            </summary>
+            <param name="status">Status of the job.</param>
+            <param name="error">Error, if occured.</param>
+        </member>
+        <member name="M:DotNetBox.JobStatus.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the JobStatus class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.JobStatus"/> A new instance of the JobStatus class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.JobStatus.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.LaunchEmptyResult">
+            <summary>
+            Returned when an asynchronous operation starts, 
+            </summary>
+        </member>
+        <member name="P:DotNetBox.LaunchEmptyResult.JobStatus">
+            <summary>
+            Asynchronous job's current status.
+            </summary>
+            <type cref="T:DotNetBox.AsyncJobStatus"/>
+        </member>
+        <member name="P:DotNetBox.LaunchEmptyResult.AsyncJobId">
+            <summary>
+            Asynchronous job's unique ID.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.LaunchEmptyResult.#ctor(DotNetBox.AsyncJobStatus,System.String)">
+            <summary>
+            Creates a new instance of the LaunchEmptyResult class.
+            </summary>
+            <param name="jobStatus">Job's current status.</param>
+            <param name="asyncJobId">Job's ID.</param>
+        </member>
+        <member name="M:DotNetBox.LaunchEmptyResult.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the LaunchEmptyResult class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.LaunchEmptyResult"/> A new instance of the LaunchEmptyResult class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.LaunchEmptyResult.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.LinkMetadata">
+            <summary>
+            Holds information about a shared link.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.LinkMetadata.Url">
+            <summary>
+            URL of the shared link.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.LinkMetadata.Name">
+            <summary>
+            Name of the shared link's target file or folder.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.LinkMetadata.LinkPermissions">
+            <summary>
+            User's access permissions on the link.
+            </summary>
+            <type cref="T:DotNetBox.LinkPermissions"/>
+        </member>
+        <member name="P:DotNetBox.LinkMetadata.LinkId">
+            <summary>
+            Unique ID of the link.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.LinkMetadata.Expires">
+            <summary>
+            Expiry time of the link. Only available to Pro and Business accounts.
+            </summary>
+            <type cref="T:System.DateTime"/>
+        </member>
+        <member name="P:DotNetBox.LinkMetadata.Path">
+            <summary>
+            Path of the shared file/folder in the user's Dropbox. Only present if the link was created by the current user.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.LinkMetadata.TeamMemberInfo">
+            <summary>
+            The team membership information of the link's owner. Only present if the owner is a team member.
+            </summary>
+            <type cref="T:DotNetBox.TeamMemberInfo"/>
+        </member>
+        <member name="P:DotNetBox.LinkMetadata.ContentOwnerTeamInfo">
+            <summary>
+            The team information of the content's owner. Only present if the content's owner is a team member and the content owner's team is different from the link owner's team.
+            </summary>
+            <type cref="T:DotNetBox.Team"/>
+        </member>
+        <member name="M:DotNetBox.LinkMetadata.#ctor(System.String,System.String,DotNetBox.LinkPermissions,System.String,System.Nullable{System.DateTime},System.String,DotNetBox.TeamMemberInfo,DotNetBox.Team)">
+            <summary>
+            Creates a new instance of the LinkMetadata class.
+            </summary>
+            <param name="url">URL of the link.</param>
+            <param name="name">Name of the file/folder the link resolves to.</param>
+            <param name="linkPermissions">The link's permissions.</param>
+            <param name="id">The link's unique ID.</param>
+            <param name="expires">The link's expiry time, if present.</param>
+            <param name="path">Path of the shared file/folder the link resolves to in the user's Dropbox, if applicable.</param>
+            <param name="teamMemberInfo">Team information on the link's owner, if applicable.</param>
+            <param name="contentOwnerTeamInfo">Team information on the content's owner, if applicable.</param>
+        </member>
+        <member name="M:DotNetBox.LinkMetadata.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the LinkMetadata class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.LinkMetadata"/> A new instance of the LinkMetadata class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.LinkMetadata.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.ResolvedVisibility">
+            <summary>
+            The actual access permissions values of shared links after taking into account user preferences and the team and shared folder settings.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.ResolvedVisibility.Public">
+            <summary>
+            Anyone who has received the link can access it. Login is not required.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.ResolvedVisibility.TeamOnly">
+            <summary>
+            Only members of the same team can access the link. Login is required.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.ResolvedVisibility.Password">
+            <summary>
+            A link-specific password is required to access the link. Login is not required.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.ResolvedVisibility.TeamAndPassword">
+            <summary>
+            Only members of the same team who have the link-specific password can access the link. Login is required.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.ResolvedVisibility.SharedFolderOnly">
+            <summary>
+            Only members of the shared folder containing the linked file can access the link. Login is required.
+            </summary>
+        </member>
+        <member name="T:DotNetBox.RequestedVisibility">
+            <summary>
+            The access permission that can be requested by the caller for the shared link.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.RequestedVisibility.Public">
+            <summary>
+            Anyone who has received the link can access it. Login is not required.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.RequestedVisibility.TeamOnly">
+            <summary>
+            Only members of the same team can access the link. Login is required.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.RequestedVisibility.Password">
+            <summary>
+            A link-specific password is required to access the link. Login is not required.
+            </summary>
+        </member>
+        <member name="T:DotNetBox.SharedLinkAccessFailureReason">
+            <summary>
+            Reason for which access to a shared link has failed.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.SharedLinkAccessFailureReason.LoginRequired">
+            <summary>
+            User is not logged in.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.SharedLinkAccessFailureReason.EmailVerifyRequired">
+            <summary>
+            User's email is not verified.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.SharedLinkAccessFailureReason.PasswordRequired">
+            <summary>
+            The link is password protected and no password was specified.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.SharedLinkAccessFailureReason.TeamOnly">
+            <summary>
+            Access is allowed for team members only.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.SharedLinkAccessFailureReason.OwnerOnly">
+            <summary>
+            Access is allowed for the shared link's owner only.
+            </summary>
+        </member>
+        <member name="T:DotNetBox.LinkPermissions">
+            <summary>
+            A shared link's access permissions.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.LinkPermissions.CanRevoke">
+            <summary>
+            Whether the current user can revoke the shared link or not.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="P:DotNetBox.LinkPermissions.ResolvedVisibility">
+            <summary>
+            The current visibility of the link after considering the shared link policies of the team (if applicable) and if it is located in a shared folder or not.
+            </summary>
+            <type cref="T:DotNetBox.ResolvedVisibility"/>
+        </member>
+        <member name="P:DotNetBox.LinkPermissions.RequestedVisibility">
+            <summary>
+            The shared link's requested visibility. This can be overridden by team and shared folder policies.
+            </summary>
+            <type cref="T:DotNetBox.RequestedVisibility"/>
+        </member>
+        <member name="P:DotNetBox.LinkPermissions.RevokeFailureReason">
+            <summary>
+            The failure reason for revoking the link. This field will only be present if CanRevoke is false.
+            </summary>
+            <type cref="T:DotNetBox.SharedLinkAccessFailureReason"/>
+        </member>
+        <member name="M:DotNetBox.LinkPermissions.#ctor(System.Boolean,System.Nullable{DotNetBox.ResolvedVisibility},System.Nullable{DotNetBox.RequestedVisibility},System.Nullable{DotNetBox.SharedLinkAccessFailureReason})">
+            <summary>
+            Creates a new instance of the LinkPermissions class.
+            </summary>
+            <param name="canRevoke">Whether the current user can revoke the link or not.</param>
+            <param name="resolvedVisibility">The shared link's resolved visibility.</param>
+            <param name="requestedVisibility">The shared link's requested visibility.</param>
+            <param name="revokeFailureReason">Why the user cannot revoke the link. Only present if CanRevoke is false.</param>
+        </member>
+        <member name="M:DotNetBox.LinkPermissions.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the LinkPermissions class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.LinkPermissions"/> A new instance of the LinkPermissions class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.LinkPermissions.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.ListRevisionsResult">
+            <summary>
+            Result of a <see cref="M:DotNetBox.SubApis.Files.ListRevisions(System.String,System.Int32)"/> request.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.ListRevisionsResult.IsDeleted">
+            <summary>
+            Whether the file is deleted or not.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="P:DotNetBox.ListRevisionsResult.Entries">
+            <summary>
+            List of revisions made to the file.
+            </summary>
+            <type cref="T:DotNetBox.FileMetadata[]"/>
+        </member>
+        <member name="M:DotNetBox.ListRevisionsResult.#ctor(System.Boolean,DotNetBox.FileMetadata[])">
+            <summary>
+            Creates a new instance of the ListRevisionsResult class.
+            </summary>
+            <param name="isDeleted">Whether the file is deleted or not.</param>
+            <param name="entries">List of revisions made to the file.</param>
+        </member>
+        <member name="M:DotNetBox.ListRevisionsResult.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the ListRevisionsResult class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.ListRevisionsResult"/> A new instance of the ListRevisionsResult class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.ListRevisionsResult.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.ListSharedFoldersResult">
+            <summary>
+            Result of a <see cref="M:DotNetBox.SubApis.Sharing.ListSharedFolders"/> or <see cref="M:DotNetBox.SubApis.Sharing.ListSharedFoldersContinue(System.String)"/> request.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.ListSharedFoldersResult.Entries">
+            <summary>
+            List of user's shared folders.
+            </summary>
+            <type cref="T:DotNetBox.SharedFolderMetadata[]"/>
+        </member>
+        <member name="P:DotNetBox.ListSharedFoldersResult.Cursor">
+            <summary>
+            Present if there are more entries available. Pass the cursor to <see cref="M:DotNetBox.SubApis.Sharing.ListSharedFoldersContinue(System.String)"/> to get remaining entries.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.ListSharedFoldersResult.#ctor(DotNetBox.SharedFolderMetadata[],System.String)">
+            <summary>
+            Creates a new instance of the ListSharedFoldersResult class.
+            </summary>
+            <param name="entries">List of user's shared folders.</param>
+            <param name="cursor">Request cursor.</param>
+        </member>
+        <member name="M:DotNetBox.ListSharedFoldersResult.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the ListSharedFoldersResult class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.ListSharedFoldersResult"/> A new instance of the ListSharedFoldersResult class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.ListSharedFoldersResult.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.SearchMatchType">
+            <summary>
+            How a search match was found.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.SearchMatchType.Filename">
+            <summary>
+            The search query was found in the file's name.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.SearchMatchType.Content">
+            <summary>
+            The search query was found in the file's content.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.SearchMatchType.Both">
+            <summary>
+            The search query was found in both the file's name and content.
+            </summary>
+        </member>
+        <member name="T:DotNetBox.SearchMatch">
+            <summary>
+            Stores information on a search result match.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.SearchMatch.MatchType">
+            <summary>
+            How the match was found (file name, content, or both).
+            </summary>
+            <type cref="T:DotNetBox.SearchMatchType"/>
+        </member>
+        <member name="P:DotNetBox.SearchMatch.Metadata">
+            <summary>
+            Metadata of the found file or folder.
+            </summary>
+            <type cref="T:DotNetBox.Metadata"/>
+        </member>
+        <member name="M:DotNetBox.SearchMatch.#ctor(DotNetBox.SearchMatchType,DotNetBox.Metadata)">
+            <summary>
+            Creates a new instance of the SearchMatch class.
+            </summary>
+            <param name="matchType">How the match was found.</param>
+            <param name="metadata">Metadata of the file/folder.</param>
+        </member>
+        <member name="M:DotNetBox.SearchMatch.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the SearchMatch class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.SearchMatch"/> A new instance of the SearchMatch class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.SearchMatch.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.SearchResult">
+            <summary>
+            Result of a <see cref="M:DotNetBox.SubApis.Files.Search(System.String,System.String,System.Int32,System.Int32,DotNetBox.SearchMode)"/> request.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.SearchResult.Matches">
+            <summary>
+            List of search matches.
+            </summary>
+            <type cref="T:DotNetBox.SearchMatch[]"/>
+        </member>
+        <member name="P:DotNetBox.SearchResult.More">
+            <summary>
+            Whether there are more matches to list or not.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="P:DotNetBox.SearchResult.Start">
+            <summary>
+            Used for paging. Value at which to set the start argument when calling <see cref="M:DotNetBox.SubApis.Files.Search(System.String,System.String,System.Int32,System.Int32,DotNetBox.SearchMode)"/> to see more results.
+            </summary>
+            <type cref="T:System.Int32"/>
+        </member>
+        <member name="M:DotNetBox.SearchResult.#ctor(DotNetBox.SearchMatch[],System.Boolean,System.Int32)">
+            <summary>
+            Creates a new instance of the SearchResult class.
+            </summary>
+            <param name="matches"></param>
+            <param name="more"></param>
+            <param name="start"></param>
+        </member>
+        <member name="M:DotNetBox.SearchResult.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the SearchResult class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.SearchResult"/> A new instance of the SearchResult class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.SearchResult.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.SharedFolderMembers">
+            <summary>
+            Stores information on a shared folder's members (users, groups, and invited members)
+            </summary>
+        </member>
+        <member name="P:DotNetBox.SharedFolderMembers.Users">
+            <summary>
+            List of user members of the shared folder.
+            </summary>
+            <type cref="T:DotNetBox.UserMembershipInfo[]"/>
+        </member>
+        <member name="P:DotNetBox.SharedFolderMembers.Groups">
+            <summary>
+            List of group members of the shared folder.
+            </summary>
+            <type cref="T:DotNetBox.GroupMembershipInfo[]"/>
+        </member>
+        <member name="P:DotNetBox.SharedFolderMembers.Invitees">
+            <summary>
+            List of invited members of the shared folder.
+            </summary>
+            <type cref="T:DotNetBox.InviteeMembershipInfo[]"/>
+        </member>
+        <member name="P:DotNetBox.SharedFolderMembers.Cursor">
+            <summary>
+            Present if there are additional shared folder members that have not been listed yet. Pass to <see cref="M:DotNetBox.SubApis.Sharing.ListSharedFolderMembersContinue(System.String)"/> to get additional members.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.SharedFolderMembers.#ctor(DotNetBox.UserMembershipInfo[],DotNetBox.GroupMembershipInfo[],DotNetBox.InviteeMembershipInfo[],System.String)">
+            <summary>
+            Creates a new instance of the SharedFolderMembers class.
+            </summary>
+            <param name="users">List of users.</param>
+            <param name="groups">List of groups.</param>
+            <param name="invitees">List of invited members.</param>
+            <param name="cursor">Request cursor.</param>
+        </member>
+        <member name="M:DotNetBox.SharedFolderMembers.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the SharedFolderMembers class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.SharedFolderMembers"/> A new instance of the SharedFolderMembers class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.SharedFolderMembers.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.SharedFolderMetadata">
+            <summary>
+            Basic information about a shared folder.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.SharedFolderMetadata.Name">
+            <summary>
+            Name of the shared folder.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.SharedFolderMetadata.SharedFolderId">
+            <summary>
+            Unique ID of the shared folder.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.SharedFolderMetadata.AccessType">
+            <summary>
+            The current user's access level to the shared folder.
+            </summary>
+            <type cref="T:DotNetBox.AccessLevel"/>
+        </member>
+        <member name="P:DotNetBox.SharedFolderMetadata.IsTeamFolder">
+            <summary>
+            Whether the folder is a team folder or not.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="P:DotNetBox.SharedFolderMetadata.Policy">
+            <summary>
+            Policies governing this shared folder.
+            </summary>
+            <type cref="T:DotNetBox.FolderPolicy"/>
+        </member>
+        <member name="P:DotNetBox.SharedFolderMetadata.Path">
+            <summary>
+            Path at which the folder is mounted in the user's Dropbox.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.SharedFolderMetadata.IsMounted">
+            <summary>
+            Whether the folder is mounted in the user's Dropbox or not.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="M:DotNetBox.SharedFolderMetadata.#ctor(System.String,System.String,DotNetBox.AccessLevel,System.Boolean,DotNetBox.FolderPolicy,System.String)">
+            <summary>
+            Creates a new instance of the SharedFolderMetadata class.
+            </summary>
+            <param name="name">Name of the shared folder.</param>
+            <param name="sharedFolderId">ID of the folder.</param>
+            <param name="accessType">Access level the user has for the folder.</param>
+            <param name="isTeamFolder">Whether the folder is a team folder or not.</param>
+            <param name="policy">Folder policies.</param>
+            <param name="path">Path at which the folder is mounted.</param>
+        </member>
+        <member name="M:DotNetBox.SharedFolderMetadata.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the SharedFolderMetadata class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.SharedFolderMetadata"/> A new instance of the SharedFolderMetadata class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.SharedFolderMetadata.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.ShareFolderLaunch">
+            <summary>
+            Returns folder metadata if operation is synchronous, and an async job ID if asynchronous.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.ShareFolderLaunch.AsyncJobId">
+            <summary>
+            Job ID to be passed to the <see cref="M:DotNetBox.SubApis.Sharing.CheckShareJobStatus(System.String)"/> method. Only present if operation is asynchronous.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.ShareFolderLaunch.FolderMetadata">
+            <summary>
+            Folder metadata returned if operation is synchronous.
+            </summary>
+            <type cref="T:DotNetBox.SharedFolderMetadata"/>
+        </member>
+        <member name="M:DotNetBox.ShareFolderLaunch.#ctor(System.String,DotNetBox.SharedFolderMetadata)">
+            <summary>
+            Creates a new instance of the ShareFolderLaunch class.
+            </summary>
+            <param name="asyncJobId">Job ID, if asyncronous.</param>
+            <param name="folderMetadata">Folder metadata, if synchronous.</param>
+        </member>
+        <member name="M:DotNetBox.ShareFolderLaunch.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the ShareFolderLaunch class using data from a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.ShareFolderLaunch"/> A new instance of the ShareFolderLaunch class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.ShareFolderLaunch.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.Team">
+            <summary>
+            Holds basic information on a team.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.Team.Id">
+            <summary>
+            The team's ID.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.Team.Name">
+            <summary>
+            The team's name.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.Team.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new instance of the Team class.
+            </summary>
+            <param name="id">Team ID.</param>
+            <param name="name">Team name.</param>
+        </member>
+        <member name="M:DotNetBox.Team.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the Team class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.Team"/> A new instance of the Team class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.Team.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.TeamMemberInfo">
+            <summary>
+            Information about a team member.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.TeamMemberInfo.TeamInfo">
+            <summary>
+            Team member's team information.
+            </summary>
+            <type cref="T:DotNetBox.Team"/>
+        </member>
+        <member name="P:DotNetBox.TeamMemberInfo.DisplayName">
+            <summary>
+            Team member's display name.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.TeamMemberInfo.MemberId">
+            <summary>
+            Team member's unique ID.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.TeamMemberInfo.#ctor(DotNetBox.Team,System.String,System.String)">
+            <summary>
+            Creates a new instance of the TeamMemberInfo class.
+            </summary>
+            <param name="teamInfo">Member's team information.</param>
+            <param name="displayName">Member's display name.</param>
+            <param name="memberId">Member's ID.</param>
+        </member>
+        <member name="M:DotNetBox.TeamMemberInfo.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the TeamMemberInfo class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.TeamMemberInfo"/> A new instance of the TeamMemberInfo class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.TeamMemberInfo.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.ListSharedLinksResult">
+            <summary>
+            Result of a <see cref="M:DotNetBox.SubApis.Sharing.ListSharedLinks(System.String,System.String)"/> request.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.ListSharedLinksResult.Links">
+            <summary>
+            List of the user's shared links and information regarding them.
+            </summary>
+            <type cref="T:DotNetBox.LinkMetadata[]"/>
+        </member>
+        <member name="P:DotNetBox.ListSharedLinksResult.HasMore">
+            <summary>
+            Whether there are more links to list or not.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="P:DotNetBox.ListSharedLinksResult.Cursor">
+            <summary>
+            Pass to <see cref="M:DotNetBox.SubApis.Sharing.ListSharedLinks(System.String,System.String)"/> without a path to continue listing of links.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.ListSharedLinksResult.#ctor(DotNetBox.LinkMetadata[],System.Boolean,System.String)">
+            <summary>
+            Creates a new instance of the ListSharedLinksResult class.
+            </summary>
+            <param name="links">List of user's links.</param>
+            <param name="hasMore">Whether there are more links to list or not.</param>
+            <param name="cursor">Request cursor.</param>
+        </member>
+        <member name="M:DotNetBox.ListSharedLinksResult.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the ListSharedLinksResult class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.ListSharedLinksResult"/> A new instance of the ListSharedLinksResult class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.ListSharedLinksResult.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.UserInfo">
+            <summary>
+            Information about a user.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.UserInfo.AccountId">
+            <summary>
+            User's unique account ID.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.UserInfo.SameTeam">
+            <summary>
+            Whether the user is on the current user's team or not.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="P:DotNetBox.UserInfo.TeamMemberId">
+            <summary>
+            The team member ID of the user. Only present if SameTeam is true.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.UserInfo.#ctor(System.String,System.Boolean,System.String)">
+            <summary>
+            Creates a new instance of the UserInfo class.
+            </summary>
+            <param name="accountId">User's account ID.</param>
+            <param name="sameTeam">Whether the user is on the same team as the current user or not.</param>
+            <param name="teamMemberId">User's team member ID.</param>
+        </member>
+        <member name="M:DotNetBox.UserInfo.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the UserInfo class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.UserInfo"/> A new instance of the UserInfo class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.UserInfo.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.GroupMembershipInfo">
+            <summary>
+            Information about a group's access level as a member of a shared folder.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.GroupMembershipInfo.AccessType">
+            <summary>
+            Access level the group has on the shared folder.
+            </summary>
+            <type cref="T:DotNetBox.AccessLevel"/>
+        </member>
+        <member name="P:DotNetBox.GroupMembershipInfo.Group">
+            <summary>
+            Information about the group.
+            </summary>
+            <type cref="T:DotNetBox.GroupInfo"/>
+        </member>
+        <member name="M:DotNetBox.GroupMembershipInfo.#ctor(DotNetBox.AccessLevel,DotNetBox.GroupInfo)">
+            <summary>
+            Creates a new instance of the GroupMembershipInfo class.
+            </summary>
+            <param name="accessType">Group's access level.</param>
+            <param name="group">Information on the group.</param>
+        </member>
+        <member name="M:DotNetBox.GroupMembershipInfo.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the GroupMembershipInfo class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.GroupMembershipInfo"/> A new instance of the GroupMembershipInfo class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.GroupMembershipInfo.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.UserMembershipInfo">
+            <summary>
+            Information about a user's membership for a shared folder.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.UserMembershipInfo.AccessType">
+            <summary>
+            User's access level for the shared folder.
+            </summary>
+            <type cref="T:DotNetBox.AccessLevel"/>
+        </member>
+        <member name="P:DotNetBox.UserMembershipInfo.User">
+            <summary>
+            Information about the user.
+            </summary>
+            <type cref="T:DotNetBox.UserInfo"/>
+        </member>
+        <member name="M:DotNetBox.UserMembershipInfo.#ctor(DotNetBox.AccessLevel,DotNetBox.UserInfo)">
+            <summary>
+            Creates a new instance of the UserMembershipInfo class.
+            </summary>
+            <param name="accessType">User's access level.</param>
+            <param name="user">User information.</param>
+        </member>
+        <member name="M:DotNetBox.UserMembershipInfo.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the UserMembershipInfo class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.UserMembershipInfo"/> A new instance of the UserMembershipInfo class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.UserMembershipInfo.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.AsyncJobStatus">
+            <summary>
+            Asynchronous job status.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.AsyncJobStatus.InProgress">
+            <summary>
+            Job is in progress.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.AsyncJobStatus.Completed">
+            <summary>
+            Job has completed successfully.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.AsyncJobStatus.Failed">
+            <summary>
+            Job has failed.
+            </summary>
+        </member>
+        <member name="T:DotNetBox.ShareFolderJobStatus">
+            <summary>
+            Status of a folder sharing process.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.ShareFolderJobStatus.JobStatus">
+            <summary>
+            Current status of the job.
+            </summary>
+            <type cref="T:DotNetBox.AsyncJobStatus"/>
+        </member>
+        <member name="P:DotNetBox.ShareFolderJobStatus.FolderMetadata">
+            <summary>
+            Metadata of the shared folder. Only present if job has completed.
+            </summary>
+            <type cref="T:DotNetBox.SharedFolderMetadata"/>
+        </member>
+        <member name="P:DotNetBox.ShareFolderJobStatus.Error">
+            <summary>
+            Error that occured during sharing process. Only present if job has failed.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.ShareFolderJobStatus.#ctor(DotNetBox.AsyncJobStatus,DotNetBox.SharedFolderMetadata,System.String)">
+            <summary>
+            Creates a new instance of the ShareFolderJobStatus class.
+            </summary>
+            <param name="jobStatus">Job status.</param>
+            <param name="folderMetadata">Shared folder's metadata, if applicable.</param>
+            <param name="error">Error, if applicable.</param>
+        </member>
+        <member name="M:DotNetBox.ShareFolderJobStatus.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the ShareFolderJobStatus class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.ShareFolderJobStatus"/> A new instance of the ShareFolderJobStatus class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.ShareFolderJobStatus.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.AccessLevel">
+            <summary>
+            Access level of a user to a shared folder.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.AccessLevel.Owner">
+            <summary>
+            User is the owner of the shared folder.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.AccessLevel.Editor">
+            <summary>
+            User can edit files in the shared folder.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.AccessLevel.Viewer">
+            <summary>
+            User can only view files in the shared folder.
+            </summary>
+        </member>
+        <member name="T:DotNetBox.SubApis.Files">
+            <summary>
+            Contains all calls to Dropbox's API related to files and file management.
+            </summary>
+        </member>
+        <member name="E:DotNetBox.SubApis.Files.DownloadFileProgressChanged">
+            <summary>
+            Occurs when an asynchronous download's progress has changed.
+            </summary>
+            <type cref="T:DotNetBox.DownloadFileProgressChangedEventHandler"/>
+        </member>
+        <member name="E:DotNetBox.SubApis.Files.UploadFileProgressChanged">
+            <summary>
+            Occurs when an asynchronous upload's progress has changed.
+            </summary>
+            <type cref="T:DotNetBox.UploadFileProgressChangedEventHandler"/>
+        </member>
+        <member name="P:DotNetBox.SubApis.Files.CancellationPending">
+            <summary>
+            Whether a cancellation is pending (after using <see cref="M:DotNetBox.SubApis.Files.Cancel"/>) or not.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="P:DotNetBox.SubApis.Files.IsBusy">
+            <summary>
+            Whether an asynchronous operation is running or not.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.#ctor(System.String)">
+            <summary>
+            Initializes a new Files class.
+            </summary>
+            <param name="accessToken">Access token to use when calling Dropbox's API.</param>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.Cancel">
+            <summary>
+            Cancel the current asynchronous operation.
+            </summary>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.FileExists(System.String)">
+            <summary>
+            Checks whether a file exists or not.
+            </summary>
+            <param name="path">Path of the file.</param>
+            <returns><see cref="T:System.Boolean"/> Whether the file exists or not.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.FolderExists(System.String)">
+            <summary>
+            Checks whether a folder exists or not.
+            </summary>
+            <param name="path">Path of the folder.</param>
+            <returns><see cref="T:System.Boolean"/> Whether the folder exists or not.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.GetMetadata(System.String,System.Boolean)">
+            <summary>
+            Returns the metadata for a file or folder.
+            </summary>
+            <param name="path">The path of a file or folder on  Can also be a rev or id.</param>
+            <param name="includeMediaInfo">If true, FileMetadata.MediaInfo is set for photo and video. The default for this field is False.</param>
+            <returns><see cref="T:DotNetBox.Metadata"/> Metadata for a file or folder. It will be of type FileMetadata, FolderMetadata, or DeletedMetadata</returns>
+            <exception cref="T:DotNetBox.MalformedPathException"/>
+            <exception cref="T:DotNetBox.NotFoundException"/>
+            <exception cref="T:DotNetBox.NotFileException"/>
+            <exception cref="T:DotNetBox.NotFolderException"/>
+            <exception cref="T:DotNetBox.RestrictedContentException"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.ListFolder(System.String,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Returns the contents of a folder.
+            </summary>
+            <param name="path">The path to the folder you want to see the contents of.</param>
+            <param name="recursive">If true, the list folder operation will be applied recursively to all subfolders and the response will contain contents of all subfolders. The default for this field is False.</param>
+            <param name="includeMediaInfo">If true, FileMetadata.MediaInfo is set for photo and video. The default for this field is False.</param>
+            <param name="includeDeleted">If true, the results will include entries for files and folders that used to exist but were deleted. The default for this field is False.</param>
+            <returns><see cref="T:DotNetBox.ListFolderResult"/> Contents of folder.</returns>
+            <exception cref="T:DotNetBox.MalformedPathException"/>
+            <exception cref="T:DotNetBox.NotFoundException"/>
+            <exception cref="T:DotNetBox.NotFileException"/>
+            <exception cref="T:DotNetBox.NotFolderException"/>
+            <exception cref="T:DotNetBox.RestrictedContentException"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.ListFolderContinue(System.String)">
+            <summary>
+            Once a cursor has been retrieved from ListFolder, use this to paginate through all files and retrieve updates to the folder. 
+            </summary>
+            <param name="cursor">The cursor returned by your last call to ListFolder or ListFolderContinue.</param>
+            <returns><see cref="T:DotNetBox.ListFolderResult"/> Contents of folder.</returns>
+            <exception cref="T:DotNetBox.MalformedPathException"/>
+            <exception cref="T:DotNetBox.NotFoundException"/>
+            <exception cref="T:DotNetBox.NotFileException"/>
+            <exception cref="T:DotNetBox.NotFolderException"/>
+            <exception cref="T:DotNetBox.RestrictedContentException"/>
+            <exception cref="T:DotNetBox.CursorInvalidatedException"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.ListFolderGetLatestCursor(System.String,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            A way to quickly get a cursor for the folder's state. Unlike ListFolder, ListFolderGetLatestCursor doesn't return any entries. This endpoint is for apps which only needs to know about new files and modifications and doesn't need to know about files that already exist in the folder.
+            </summary>
+            <param name="path">The path to the folder you want to see the contents of.</param>
+            <param name="recursive">If true, the list folder operation will be applied recursively to all subfolders and the response will contain contents of all subfolders. The default for this field is False.</param>
+            <param name="includeMediaInfo">If true, FileMetadata.MediaInfo is set for photo and video. The default for this field is False.</param>
+            <param name="includeDeleted">If true, the results will include entries for files and folders that used to exist but were deleted. The default for this field is False.</param>
+            <returns><see cref="T:System.String"/> Pass the cursor into ListFolderContinue to see what's changed in the folder since your previous query.</returns>
+            <exception cref="T:DotNetBox.MalformedPathException"/>
+            <exception cref="T:DotNetBox.NotFoundException"/>
+            <exception cref="T:DotNetBox.NotFileException"/>
+            <exception cref="T:DotNetBox.NotFolderException"/>
+            <exception cref="T:DotNetBox.RestrictedContentException"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.ListFolderLongpoll(System.String,System.Int32)">
+            <summary>
+            A longpoll endpoint to wait for changes on an account. In conjunction with list_folder, this call gives you a low-latency way to monitor an account for file changes. The connection will block until there are changes available or a timeout occurs.
+            </summary>
+            <param name="cursor">A cursor as returned by ListFolder or ListFolderContinue</param>
+            <param name="timeout">A timeout in seconds. The request will block for at most this length of time, plus up to 90 seconds of random jitter added to avoid the thundering herd problem. Care should be taken when using this parameter, as some network infrastructure does not support long timeouts. The default for this field is 30.</param>
+            <returns><see cref="T:DotNetBox.ListFolderLongpollResult"/> Whether files have been changed or not.</returns>
+            <exception cref="T:DotNetBox.CursorInvalidatedException"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.Download(System.String,System.String)">
+            <summary>
+            Download a file from a user's 
+            </summary>
+            <param name="path">The path of the file to download.</param>
+            <param name="savePath">The path to where the file will be saved.</param>
+            <returns><see cref="T:DotNetBox.FileMetadata"/> Metadata of the downloaded file.</returns>
+            <exception cref="T:DotNetBox.MalformedPathException"/>
+            <exception cref="T:DotNetBox.NotFoundException"/>
+            <exception cref="T:DotNetBox.NotFileException"/>
+            <exception cref="T:DotNetBox.NotFolderException"/>
+            <exception cref="T:DotNetBox.RestrictedContentException"/>
+            <exception cref="T:DotNetBox.IncorrectOffsetException"/>
+            <exception cref="T:DotNetBox.UploadSessionClosedException"/>
+            <exception cref="T:System.OperationCanceledException"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.Upload(System.String,System.String,DotNetBox.WriteMode,System.Boolean,System.Boolean,System.String)">
+            <summary>
+            Create a new file with the contents provided in the request asynchronously.
+            </summary>
+            <param name="filePath">Path to the file to upload.</param>
+            <param name="path">Path in the user's Dropbox to save the file.</param>
+            <param name="mode">Selects what to do if the file already exists.</param>
+            <param name="autorename">If there's a conflict, as determined by mode, have the Dropbox server try to autorename the file to avoid conflict. The default for this field is False.</param>
+            <param name="mute">Normally, users are made aware of any file modifications in their Dropbox account via notifications in the client software. If True, this tells the clients that this modification shouldn't result in a user notification. The default for this field is False.</param>
+            <param name="rev">Overwrite if the given "rev" matches the existing file's "rev". The autorename strategy is to append the string "conflicted copy" to the file name. Only applies if WriteMode is Update.</param>
+            <exception cref="T:DotNetBox.NotFoundException"/>
+            <exception cref="T:DotNetBox.IncorrectOffsetException"/>
+            <exception cref="T:DotNetBox.UploadSessionClosedException"/>
+            <exception cref="T:DotNetBox.MalformedPathException"/>
+            <exception cref="T:DotNetBox.WriteConflictException"/>
+            <exception cref="T:DotNetBox.WritePermissionException"/>
+            <exception cref="T:DotNetBox.InsufficientSpaceException"/>
+            <exception cref="T:DotNetBox.DisallowedNameException"/>
+            <exception cref="T:System.OperationCanceledException"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.Search(System.String,System.String,System.Int32,System.Int32,DotNetBox.SearchMode)">
+            <summary>
+            Searches for files and folders. 
+            </summary>
+            <param name="path">The path in the user's Dropbox to search. Should probably be a folder.</param>
+            <param name="query">The string to search for. The search string is split on spaces into multiple tokens. For file name searching, the last token is used for prefix matching.</param>
+            <param name="start">The starting index within the search results (used for paging). The default for this field is 0.</param>
+            <param name="maxResults">The maximum number of search results to return. The default for this field is 100.</param>
+            <param name="mode">The search mode (Filename, FilenameAndContent, or DeletedFilename). Note that searching file content is only available for Dropbox Business accounts.</param>
+            <returns><see cref="T:DotNetBox.SearchResult"/> Files and folders that match the search query.</returns>
+            <exception cref="T:DotNetBox.MalformedPathException"/>
+            <exception cref="T:DotNetBox.NotFoundException"/>
+            <exception cref="T:DotNetBox.NotFileException"/>
+            <exception cref="T:DotNetBox.NotFolderException"/>
+            <exception cref="T:DotNetBox.RestrictedContentException"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.CreateFolder(System.String)">
+            <summary>
+            Create a folder at a given path.
+            </summary>
+            <param name="path">Path in the user's Dropbox to create.</param>
+            <returns><see cref="T:DotNetBox.FolderMetadata"/> Metadata of the newly created folder.</returns>
+            <exception cref="T:DotNetBox.MalformedPathException"/>
+            <exception cref="T:DotNetBox.WriteConflictException"/>
+            <exception cref="T:DotNetBox.WritePermissionException"/>
+            <exception cref="T:DotNetBox.InsufficientSpaceException"/>
+            <exception cref="T:DotNetBox.DisallowedNameException"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.Delete(System.String)">
+            <summary>
+            Delete the file or folder at a given path. If the path is a folder, all its contents will be deleted too.
+            </summary>
+            <param name="path">Path in the user's Dropbox to delete.</param>
+            <returns><see cref="T:DotNetBox.Metadata"/> Metadata of the deleted file or folder.</returns>
+            <exception cref="T:DotNetBox.MalformedPathException"/>
+            <exception cref="T:DotNetBox.NotFoundException"/>
+            <exception cref="T:DotNetBox.NotFileException"/>
+            <exception cref="T:DotNetBox.NotFolderException"/>
+            <exception cref="T:DotNetBox.RestrictedContentException"/>
+            <exception cref="T:DotNetBox.WriteConflictException"/>
+            <exception cref="T:DotNetBox.WritePermissionException"/>
+            <exception cref="T:DotNetBox.InsufficientSpaceException"/>
+            <exception cref="T:DotNetBox.DisallowedNameException"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.PermanentlyDelete(System.String)">
+            <summary>
+            Delete the file or folder at a given path. If the path is a folder, all its contents will be deleted too.
+            </summary>
+            <param name="path">Path in the user's Dropbox to delete.</param>
+            <returns><see cref="T:DotNetBox.Metadata"/> Metadata of the deleted file or folder.</returns>
+            <exception cref="T:DotNetBox.MalformedPathException"/>
+            <exception cref="T:DotNetBox.NotFoundException"/>
+            <exception cref="T:DotNetBox.NotFileException"/>
+            <exception cref="T:DotNetBox.NotFolderException"/>
+            <exception cref="T:DotNetBox.RestrictedContentException"/>
+            <exception cref="T:DotNetBox.WriteConflictException"/>
+            <exception cref="T:DotNetBox.WritePermissionException"/>
+            <exception cref="T:DotNetBox.InsufficientSpaceException"/>
+            <exception cref="T:DotNetBox.DisallowedNameException"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.Copy(System.String,System.String)">
+            <summary>
+            Copy a file or folder to a different location in the user's Dropbox. If the source path is a folder, all its contents will be copied.
+            </summary>
+            <param name="fromPath">Path in the user's Dropbox to be copied or moved.</param>
+            <param name="toPath">Path in the user's Dropbox that is the destination.</param>
+            <returns><see cref="T:DotNetBox.Metadata"/> Metadata of the copied (destination) file.</returns>
+            <exception cref="T:DotNetBox.MalformedPathException"/>
+            <exception cref="T:DotNetBox.NotFoundException"/>
+            <exception cref="T:DotNetBox.NotFileException"/>
+            <exception cref="T:DotNetBox.NotFolderException"/>
+            <exception cref="T:DotNetBox.RestrictedContentException"/>
+            <exception cref="T:DotNetBox.WriteConflictException"/>
+            <exception cref="T:DotNetBox.WritePermissionException"/>
+            <exception cref="T:DotNetBox.InsufficientSpaceException"/>
+            <exception cref="T:DotNetBox.DisallowedNameException"/>
+            <exception cref="T:DotNetBox.SharedFolderException"/>
+            <exception cref="T:DotNetBox.RelocationException"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.Move(System.String,System.String)">
+            <summary>
+            Move a file or folder to a different location in the user's Dropbox. If the source path is a folder, all its contents will be moved.
+            </summary>
+            <param name="fromPath">Path in the user's Dropbox to be copied or moved.</param>
+            <param name="toPath">Path in the user's Dropbox that is the destination.</param>
+            <returns><see cref="T:DotNetBox.Metadata"/> Metadata of the moved file.</returns>
+            <exception cref="T:DotNetBox.MalformedPathException"/>
+            <exception cref="T:DotNetBox.NotFoundException"/>
+            <exception cref="T:DotNetBox.NotFileException"/>
+            <exception cref="T:DotNetBox.NotFolderException"/>
+            <exception cref="T:DotNetBox.RestrictedContentException"/>
+            <exception cref="T:DotNetBox.WriteConflictException"/>
+            <exception cref="T:DotNetBox.WritePermissionException"/>
+            <exception cref="T:DotNetBox.InsufficientSpaceException"/>
+            <exception cref="T:DotNetBox.DisallowedNameException"/>
+            <exception cref="T:DotNetBox.SharedFolderException"/>
+            <exception cref="T:DotNetBox.RelocationException"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.GetThumbnail(System.String,System.String,DotNetBox.ThumbnailFormat,DotNetBox.ThumbnailSize)">
+            <summary>
+            Get a thumbnail for an image. This method currently supports files with the following
+            file extensions: jpg, jpeg, png, tiff, tif, gif and bmp. Photos that are larger than 20MB in
+            size won't be converted to a thumbnail.
+            </summary>
+            <param name="path">The path to the image file you want to thumbnail.</param>
+            <param name="savePath">The path at which to save the thumbnail image.</param>
+            <param name="format">The format for the thumbnail image, jpeg (default) or png. For images that are photos, jpeg should be preferred, while png is better for screenshots and digital arts.</param>
+            <param name="size">The size for the thumbnail image.</param>
+            <returns><see cref="T:DotNetBox.FileMetadata"/> Metadata of the file of which a thumbnail was made.</returns>
+            <exception cref="T:DotNetBox.MalformedPathException"/>
+            <exception cref="T:DotNetBox.NotFoundException"/>
+            <exception cref="T:DotNetBox.NotFileException"/>
+            <exception cref="T:DotNetBox.NotFolderException"/>
+            <exception cref="T:DotNetBox.RestrictedContentException"/>
+            <exception cref="T:DotNetBox.ThumbnailException"/>
+            <exception cref="T:DotNetBox.UnsupportedExtensionException"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.GetPreview(System.String,System.String)">
+            <summary>
+            Get a preview for a file in PDF format. Currently previews are only generated for the files with the following extensions: .doc, .docx, .docm, .ppt, .pps, .ppsx, .ppsm, .pptx, .pptm, .xls, .xlsx, .xlsm, .rtf
+            </summary>
+            <param name="path">The path of the file to preview.</param>
+            <param name="savePath">Path at which to save the preview file.</param>
+            <returns><see cref="T:DotNetBox.FileMetadata"/> Metadata of the file of which a preview was made.</returns>
+            <exception cref="T:DotNetBox.MalformedPathException"/>
+            <exception cref="T:DotNetBox.NotFoundException"/>
+            <exception cref="T:DotNetBox.NotFileException"/>
+            <exception cref="T:DotNetBox.NotFolderException"/>
+            <exception cref="T:DotNetBox.RestrictedContentException"/>
+            <exception cref="T:DotNetBox.PreviewException"/>
+            <exception cref="T:DotNetBox.UnsupportedExtensionException"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.ListRevisions(System.String,System.Int32)">
+            <summary>
+            Returns revisions of a file.
+            </summary>
+            <param name="path">The path to the file you want to see the revisions of.</param>
+            <param name="limit">The maximum number of revision entries returned. The default for this field is 10.</param>
+            <returns><see cref="T:DotNetBox.ListRevisionsResult"/> List of revisions applied to the file.</returns>
+            <exception cref="T:DotNetBox.MalformedPathException"/>
+            <exception cref="T:DotNetBox.NotFoundException"/>
+            <exception cref="T:DotNetBox.NotFileException"/>
+            <exception cref="T:DotNetBox.NotFolderException"/>
+            <exception cref="T:DotNetBox.RestrictedContentException"/>
+        </member>
+        <member name="M:DotNetBox.SubApis.Files.Restore(System.String,System.String)">
+            <summary>
+            Restore a file to a specific revision.
+            </summary>
+            <param name="path">The path to the file you want to restore.</param>
+            <param name="rev">The revision to restore for the file. Defaults to previous revision.</param>
+            <returns><see cref="T:DotNetBox.FileMetadata"/> Metadata of the restored file.</returns>
+            <exception cref="T:DotNetBox.MalformedPathException"/>
+            <exception cref="T:DotNetBox.NotFoundException"/>
+            <exception cref="T:DotNetBox.NotFileException"/>
+            <exception cref="T:DotNetBox.NotFolderException"/>
+            <exception cref="T:DotNetBox.RestrictedContentException"/>
+            <exception cref="T:DotNetBox.WriteConflictException"/>
+            <exception cref="T:DotNetBox.WritePermissionException"/>
+            <exception cref="T:DotNetBox.InsufficientSpaceException"/>
+            <exception cref="T:DotNetBox.DisallowedNameException"/>
+            <exception cref="T:DotNetBox.InvalidRevisionException"/>
+        </member>
+        <member name="T:DotNetBox.SubApis.Users">
+            <summary>
+            Contains all calls to Dropbox's API related to user accounts.
+            </summary>
+        </member>
+        <member name="M:DotNetBox.SubApis.Users.#ctor(System.String)">
+            <summary>
+            Initializes a new Users class.
+            </summary>
+            <param name="accessToken">Access token to use when calling Dropbox's API.</param>
+        </member>
+        <member name="M:DotNetBox.SubApis.Users.GetAccount(System.String)">
+            <summary>
+            Get information about a user's account.
+            </summary>
+            <param name="accountId">A user's account identifier.</param>
+            <returns><see cref="T:DotNetBox.BasicAccount"/>Basic information about the specified account.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Users.GetCurrentAccount">
+            <summary>
+            Get information about the current user's account.
+            </summary>
+            <returns><see cref="T:DotNetBox.FullAccount"/>Detailed information about the current user's account.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Users.GetSpaceUsage">
+            <summary>
+            Get the space usage information for the current user's account.
+            </summary>
+            <returns><see cref="T:DotNetBox.SpaceUsage"/>Information about the user's space usage and quota.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Users.GetAccountBatch(System.String[])">
+            <summary>
+            Get information about multiple user accounts. At most 300 accounts may be queried per request.
+            </summary>
+            <param name="accountIds">List of user account identifiers. Should not contain any duplicate account IDs.</param>
+            <returns><see cref="T:DotNetBox.BasicAccount[]"/> List of basic information about every account.</returns>
+        </member>
+        <member name="T:DotNetBox.SubApis.Sharing">
+            <summary>
+            Contains all calls to Dropbox's API related to sharing.
+            </summary>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.#ctor(System.String)">
+            <summary>
+            Initializes a new Sharing class.
+            </summary>
+            <param name="accessToken">Access token to use when calling Dropbox's API.</param>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.HasSharedLink(System.String)">
+            <summary>
+            Check if a file or folder has a shared link.
+            </summary>
+            <param name="path">Path of file/folder.</param>
+            <returns><see cref="T:System.Boolean"/> Whether the file or folder has a shared link or not.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.GetSharedLink(System.String)">
+            <summary>
+            Gets a file or folder's shared link.
+            </summary>
+            <param name="path">Path of file/folder.</param>
+            <returns><see cref="T:DotNetBox.LinkMetadata"/> If the specified file/folder has a shared link, metadata of that link.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.GetSharedFolder(System.String)">
+            <summary>
+            Retrieves a shared folder from its path.
+            </summary>
+            <param name="path">Path of the folder to get.</param>
+            <returns><see cref="T:DotNetBox.SharedFolderMetadata"/></returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.GetSharedLinkMetadata(System.String,System.String,System.String)">
+            <summary>
+            Get the shared link's metadata.
+            </summary>
+            <param name="url">URL of the shared link.</param>
+            <param name="path">If the shared link is to a folder, this parameter can be used to retrieve the metadata for a specific file or sub-folder in this folder. A relative path should be used. This field is optional.</param>
+            <param name="password">If the shared link has a password, this parameter can be used. This field is optional.</param>
+            <returns><see cref="T:DotNetBox.LinkMetadata"/> Metadata of the shared link.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.ListSharedLinks(System.String,System.String)">
+            <summary>
+            List shared links of this user. If no path is given or the path is empty, returns a list of all shared links for the current user.
+            If a non-empty path is given, returns a list of all shared links that allow access to the given path - direct links to the given
+            path and links to parent folders of the given path.
+            </summary>
+            <param name="path">See summary.</param>
+            <param name="cursor">The cursor returned by your last call to ListSharedLinks. This field is optional.</param>
+            <returns><see cref="T:DotNetBox.ListSharedLinksResult"/> List of the user's shared links.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.ModifySharedLinkSettings(System.String,System.Nullable{DotNetBox.RequestedVisibility},System.String,System.Nullable{System.DateTime})">
+            <summary>
+            Modify the shared link's settings. If the requested visibility conflict with the shared links policy of the team or the
+            shared folder(in case the linked file is part of a shared folder) then the LinkPermissions.resolved_visibility of the returned
+            SharedLinkMetadata will reflect the actual visibility of the shared link and the LinkPermissions.requested_visibility will reflect
+            the requested visibility.
+            </summary>
+            <param name="url">URL of the shared link to change its settings.</param>
+            <param name="requestedVisibility">The requested access for this shared link. This field is optional.</param>
+            <param name="linkPassword">If RequestedVisibility is RequestedVisibility.Password this is needed to specify the password to access the link. This field is optional.</param>
+            <param name="expires">Expiration time of the shared link. By default the link won't expire. This field is optional.</param>
+            <returns><see cref="T:DotNetBox.LinkMetadata"/> Metadata of the modified shared link.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.CreateSharedLink(System.String,System.Nullable{DotNetBox.RequestedVisibility},System.String,System.Nullable{System.DateTime})">
+            <summary>
+            Create a shared link with custom settings. If no settings are given then the default visibility is
+            RequestedVisibility.Public (The resolved visibility, though, may depend on other aspects such as team and shared folder settings).
+            </summary>
+            <param name="path">The path to be shared by the shared link.</param>
+            <param name="requestedVisibility">The requested access for this shared link. This field is optional.</param>
+            <param name="linkPassword">If RequestedVisibility is RequestedVisibility.Password this is needed to specify the password to access the link. This field is optional.</param>
+            <param name="expires">Expiration time of the shared link. By default the link won't expire. This field is optional.</param>
+            <returns><see cref="T:DotNetBox.LinkMetadata"/> Metadata of the newly created link.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.RevokeSharedLink(System.String)">
+            <summary>
+            Revoke a shared link. Note that even after revoking a shared link to a file, the file may be accessible if there are
+            shared links leading to any of the file parent folders. To list all shared links that enable access to a specific file,
+            you can use the ListSharedLinks with the file as the ListSharedLinksArg.Path argument.
+            </summary>
+            <param name="url">URL of the shared link.</param>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.DownloadSharedLinkFile(System.String,System.String,System.String,System.String)">
+            <summary>
+            Download the shared link's file from a user's Dropbox.
+            </summary>
+            <param name="savePath">Path to which the file will be saved.</param>
+            <param name="url">URL of the shared link.</param>
+            <param name="path">If the shared link is to a folder, this parameter can be used to retrieve the metadata for a specific file or sub-folder in this folder. A relative path should be used. This field is optional.</param>
+            <param name="linkPassword">If the shared link has a password, this parameter can be used. This field is optional.</param>
+            <returns><see cref="T:DotNetBox.LinkMetadata"/> Metadata of the shared link used to download the file.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.ListSharedFolders">
+            <summary>
+            Return the list of all shared folders the current user has access to. Apps must have full Dropbox access to use this endpoint.
+            Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <returns><see cref="T:DotNetBox.ListSharedFoldersResult"/> List of user's shared folders and cursor if there are more folders. Pass cursor to <see cref="M:DotNetBox.SubApis.Sharing.ListSharedFoldersContinue(System.String)"/> to get additional folders.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.ListSharedFoldersContinue(System.String)">
+            <summary>
+            Once a cursor has been retrieved from <see cref="M:DotNetBox.SubApis.Sharing.ListSharedFolders"/>, use this to paginate through all shared folders. Apps must have full Dropbox
+            access to use this endpoint. Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <param name="cursor"></param>
+            <returns><see cref="T:DotNetBox.ListSharedFoldersResult"/> Continued list of user's shared folders.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.GetSharedFolderMetadata(System.String)">
+            <summary>
+            Returns shared folder metadata by its folder ID. Apps must have full Dropbox access to use this endpoint.
+            Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <param name="sharedFolderId">The ID for the shared folder.</param>
+            <returns><see cref="T:DotNetBox.SharedFolderMetadata"/> Metadata of the shared folder (name, path, policies, etc.)</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.ListSharedFolderMembers(System.String)">
+            <summary>
+            Returns shared folder membership by its folder ID. Apps must have full Dropbox access to use this endpoint.
+            Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <param name="sharedFolderId">The ID for the shared folder</param>
+            <returns><see cref="T:DotNetBox.SharedFolderMembers"/> List of specified shared folder's members (users, groups, and invitees).</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.ListSharedFolderMembersContinue(System.String)">
+            <summary>
+            Once a cursor has been retrieved from ListSharedFolderMembers, use this to paginate through all shared folder members.
+            Apps must have full Dropbox access to use this endpoint.
+            Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <param name="cursor">The cursor returned by your last call to <see cref="M:DotNetBox.SubApis.Sharing.ListSharedFolderMembers(System.String)"/> or <see cref="M:DotNetBox.SubApis.Sharing.ListSharedFolderMembersContinue(System.String)"/>.</param>
+            <returns><see cref="T:DotNetBox.SharedFolderMembers"/> Continued list of specified shared folder's members. </returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.ShareFolder(System.String,System.Boolean,DotNetBox.AclUpdatePolicy,DotNetBox.SharedLinkPolicy,DotNetBox.MemberPolicy)">
+            <summary>
+            Share a folder with collaborators. Most sharing will be completed synchronously.Large folders will be completed asynchronously.
+            To make testing the async case repeatable, set forceAsync. If a AsyncJobId is returned, you'll need to call CheckShareJobStatus
+            until the action completes to get the metadata for the folder. Apps must have full Dropbox access to use this endpoint.
+            Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <param name="path">The path to the folder to share. If it does not exist, then a new one is created.</param>
+            <param name="forceAsync">Whether to force the share to happen asynchronously. The default for this field is False.</param>
+            <param name="aclUpdatePolicy">Who can add and remove members of this shared folder.</param>
+            <param name="sharedLinkPolicy">The policy to apply to shared links created for content inside this shared folder.</param>
+            <param name="memberPolicy">Who can be a member of this shared folder.</param>
+            <returns><see cref="T:DotNetBox.ShareFolderLaunch"/> If asynchronous, returns async job ID under <see cref="P:DotNetBox.ShareFolderLaunch.AsyncJobId"/>. If not, returns <see cref="T:DotNetBox.SharedFolderMetadata"/> under <see cref="P:DotNetBox.ShareFolderLaunch.FolderMetadata"/>.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.CheckShareJobStatus(System.String)">
+            <summary>
+            Returns the status of an asynchronous job for sharing a folder. Apps must have full Dropbox access to use this endpoint.
+            Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <param name="asyncJobId">Id of the asynchronous job. This is the value of a response returned from the method that launched the job.</param>
+            <returns><see cref="T:DotNetBox.ShareFolderJobStatus"/> Current status of the share job (in progress, completed, or failed). If completed, returns <see cref="T:DotNetBox.SharedFolderMetadata"/> under <see cref="P:DotNetBox.ShareFolderJobStatus.FolderMetadata"/>.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.CheckJobStatus(System.String)">
+            <summary>
+            Returns the status of an asynchronous job. Apps must have full Dropbox access to use this endpoint.
+            Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <param name="asyncJobId">Id of the asynchronous job. This is the value of a response returned from the method that launched the job.</param>
+            <returns><see cref="T:DotNetBox.JobStatus"/> Current status of the share job (in progress, completed, or failed).</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.UnshareFolder(System.String,System.Boolean)">
+            <summary>
+            Allows a shared folder owner to unshare the folder. You'll need to call <see cref="M:DotNetBox.SubApis.Sharing.CheckJobStatus(System.String)"/> to determine if the action has completed
+            successfully. Apps must have full Dropbox access to use this endpoint.
+            Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <param name="sharedFolderId">The ID for the shared folder.</param>
+            <param name="leaveCopy">If true, members of this shared folder will get a copy of this folder after it's unshared. Otherwise,
+            it will be removed from their Dropbox. The current user, who is an owner, will always retain their copy. Default value is False.</param>
+            <returns><see cref="T:DotNetBox.LaunchEmptyResult"/> Returns a job ID to be used with <see cref="M:DotNetBox.SubApis.Sharing.CheckJobStatus(System.String)"/> if in progress. If not, just returns <see cref="F:DotNetBox.AsyncJobStatus.Completed"/>.</returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.TransferFolder(System.String,System.String)">
+            <summary>
+            Transfer ownership of a shared folder to a member of the shared folder. Apps must have full Dropbox access to use this endpoint.
+            Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <param name="sharedFolderId">The ID for the shared folder.</param>
+            <param name="dropboxId">A account or team member ID to transfer ownership to.</param>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.UpdateFolderPolicy(System.String,System.Nullable{DotNetBox.AclUpdatePolicy},System.Nullable{DotNetBox.SharedLinkPolicy},System.Nullable{DotNetBox.MemberPolicy})">
+            <summary>
+            Update the sharing policies for a shared folder. Apps must have full Dropbox access to use this endpoint.
+            Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <param name="sharedFolderId">The ID for the shared folder.</param>
+            <param name="aclUpdatePolicy">Who can add and remove members of this shared folder. This field is optional.</param>
+            <param name="sharedLinkPolicy">The policy to apply to shared links created for content inside this shared folder. This field is optional.</param>
+            <param name="memberPolicy">Who can be a member of this shared folder. Only set this if the current user is on a team. This field is optional.</param>
+            <returns><see cref="T:DotNetBox.SharedFolderMetadata"/></returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.AddFolderMember(System.String,DotNetBox.FolderMember[],System.Boolean,System.String)">
+            <summary>
+            Allows an owner or editor(if the ACL update policy allows) of a shared folder to add another member. For the new member to get
+            access to all the functionality for this folder, you will need to call mount_folder on their behalf. Apps must have full Dropbox
+            access to use this endpoint.
+            Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <param name="sharedFolderId">The ID for the shared folder.</param>
+            <param name="members">The intended list of members to add. Added members will receive invites to join the shared folder.</param>
+            <param name="quiet">Whether added members should be notified via email and device notifications of their invite. The default for this field is False.</param>
+            <param name="customMessage">Optional message to display to added members in their invitation. This field is optional.</param>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.RemoveFolderMember(System.String,System.String,System.Boolean)">
+            <summary>
+            Allows an owner or editor(if the ACL update policy allows) of a shared folder to remove another member.
+            Apps must have full Dropboxaccess to use this endpoint.
+            Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <param name="sharedFolderId">The ID for the shared folder.</param>
+            <param name="memberIdentifier">The member to remove from the folder.</param>
+            <param name="leaveCopy">If true, the removed user will keep their copy of the folder after it's unshared, assuming it was mounted. Otherwise, it will be removed from their Dropbox. Also, this must be set to false when kicking a group.</param>
+            <returns><see cref="T:DotNetBox.LaunchEmptyResult"/></returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.UpdateFolderMember(System.String,System.String,DotNetBox.AccessLevel)">
+            <summary>
+            Allows an owner or editor of a shared folder to update another member's permissions.
+            Apps must have full Dropbox access to use this endpoint.
+            Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <param name="sharedFolderId">The ID for the shared folder.</param>
+            <param name="memberIdentifier">The member of the shared folder to update.</param>
+            <param name="accessLevel">The new access level for member. AccessLevel.owner is disallowed.</param>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.MountFolder(System.String)">
+            <summary>
+            Mount a shared folder for a user after they have been added as a member. Once mounted, the shared folder will appear in their Dropbox.
+            Apps must have full Dropbox access to use this endpoint.
+            Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <param name="sharedFolderId">The ID of the shared folder to mount.</param>
+            <returns><see cref="T:DotNetBox.SharedFolderMetadata"/></returns>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.UnmountFolder(System.String)">
+            <summary>
+            Unmounts the designated folder. They can re-mount the folder at a later time using mount_folder.
+            Apps must have full Dropbox access to use this endpoint.
+            Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <param name="sharedFolderId">The ID for the shared folder.</param>
+        </member>
+        <member name="M:DotNetBox.SubApis.Sharing.RelinquishFolderMembership(System.String)">
+            <summary>
+            The current user relinquishes their membership in the designated shared folder and will no longer have access to the folder. A folder
+            owner cannot relinquish membership in their own folder. Apps must have full Dropbox access to use this endpoint.
+            Warning: This endpoint is in beta and is subject to minor but possibly backwards-incompatible changes.
+            </summary>
+            <param name="sharedFolderId">The ID for the shared folder.</param>
+        </member>
+        <member name="T:DotNetBox.UserIdentifierType">
+            <summary>
+            Type of user identifier to use when adding members to a shared folder.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.UserIdentifierType.Email">
+            <summary>
+            Add user using his/her email.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.UserIdentifierType.DropboxId">
+            <summary>
+            Add user using his/her Dropbox account ID
+            </summary>
+        </member>
+        <member name="T:DotNetBox.Dropbox">
+            <summary>
+            Main communication class between this library and Dropbox's API.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.Dropbox.AccessToken">
+            <summary>
+            OAuth 2 access token to be used with Dropbox's API.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.Dropbox.CancellationPending">
+            <summary>
+            Whether a cancellation has been called and the current asynchronous operation is pending cancellation or not.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="P:DotNetBox.Dropbox.IsBusy">
+            <summary>
+            Whether an asynchronous operation is in progress or not.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="M:DotNetBox.Dropbox.Cancel">
+            <summary>
+            Cancel the current cancellable asynchronous operation.
+            </summary>
+        </member>
+        <member name="M:DotNetBox.Dropbox.#ctor(System.String)">
+            <summary>
+            Creates a new instance of the Dropbox class.
+            </summary>
+            <param name="accessToken">Access token to be used to contact Dropbox's API.</param>
+        </member>
+        <member name="M:DotNetBox.Dropbox.SendBasicRequest(System.String,System.Byte[])">
+            <summary>
+            Send a basic request to Dropbox's API, with no authentication. Used mostly for getting an OAuth token.
+            </summary>
+            <param name="url">API endpoint URL.</param>
+            <param name="data">Data to send, usually a string of POST parameters.</param>
+            <returns><see cref="T:System.String"/> The server's response.</returns>
+        </member>
+        <member name="M:DotNetBox.Dropbox.SendRequest(System.String)">
+            <summary>
+            Send an API request to Dropbox.
+            </summary>
+            <param name="url">API endpoint URL.</param>
+            <returns><see cref="T:System.String"/> Request response.</returns>
+        </member>
+        <member name="M:DotNetBox.Dropbox.SendRequest(System.String,System.Int32)">
+            <summary>
+            Send an API request to Dropbox.
+            </summary>
+            <param name="url">API endpoint URL.</param>
+            <param name="timeout">Request timeout.</param>
+            <returns><see cref="T:System.String"/> Request response.</returns>
+        </member>
+        <member name="M:DotNetBox.Dropbox.SendRequest(System.String,System.Byte[])">
+            <summary>
+            Send an API request to Dropbox.
+            </summary>
+            <param name="url">API endpoint URL.</param>
+            <param name="data">Data to POST to endpoint.</param>
+            <returns><see cref="T:System.String"/> Request response.</returns>
+        </member>
+        <member name="M:DotNetBox.Dropbox.SendRequest(System.String,System.Byte[],System.Int32)">
+            <summary>
+            Send an API request to Dropbox.
+            </summary>
+            <param name="url">API endpoint URL.</param>
+            <param name="data">Data to POST to endpoint.</param>
+            <param name="timeout">Request timeout.</param>
+            <returns><see cref="T:System.String"/> Request response.</returns>
+        </member>
+        <member name="M:DotNetBox.Dropbox.SendRequest(System.String,System.Byte[],System.Int32,System.Boolean)">
+            <summary>
+            Send an API request to Dropbox.
+            </summary>
+            <param name="url">API endpoint URL.</param>
+            <param name="data">Data to POST to endpoint.</param>
+            <param name="timeout">Request timeout.</param>
+            <param name="authRequired">Whether authentication should be used or not.</param>
+            <returns><see cref="T:System.String"/> Request response.</returns>
+        </member>
+        <member name="M:DotNetBox.Dropbox.SendDownloadRequest(System.String,System.String,System.String,System.IProgress{DotNetBox.DownloadFileProgressChangedEventArgs})">
+            <summary>
+            Send a download request to Dropbox's API.
+            </summary>
+            <param name="url">API endpoint URL.</param>
+            <param name="args">Request arguments.</param>
+            <param name="saveFilePath">Path at which the file should be saved.</param>
+            <returns><see cref="T:System.String"/> Request response.</returns>
+        </member>
+        <member name="M:DotNetBox.Dropbox.SendChunkUploadRequest(System.IO.Stream,DotNetBox.RequestArgs,System.IProgress{DotNetBox.UploadFileProgressChangedEventArgs})">
+            <summary>
+            Send an upload request to Dropbox's API.
+            </summary>
+            <param name="data">Stream of data to upload.</param>
+            <param name="args">Request arguments.</param>
+            <returns><see cref="T:System.String"/> Request response.</returns>
+        </member>
+        <member name="M:DotNetBox.Dropbox.GetResponse(System.String)">
+            <summary>
+            Convert Dropbox's JSON response to an object.
+            </summary>
+            <param name="response">Server response.</param>
+            <returns><see cref="T:Newtonsoft.Json.Linq.JToken"/> JSON object/array/token</returns>
+        </member>
+        <member name="M:DotNetBox.Dropbox.FilterDropboxError(System.Net.WebException)">
+            <summary>
+            If the server responds, throw an error with the server's error message. If not, throw the exception.
+            </summary>
+            <param name="ex"></param>
+            <returns><see cref="T:System.Exception"/> An exception based on the server's response, either <see cref="T:DotNetBox.DropboxException"/> or <see cref="T:System.Net.WebException"/></returns>
+        </member>
+        <member name="T:DotNetBox.BasicAccount">
+            <summary>
+            Basic information about any account.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.BasicAccount.AccountId">
+            <summary>
+            The user's unique Dropbox ID.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.BasicAccount.Name">
+            <summary>
+            Details of the user's name.
+            </summary>
+            <type cref="T:DotNetBox.Name"/>
+        </member>
+        <member name="P:DotNetBox.BasicAccount.IsTeammate">
+            <summary>
+            Whether this user is a teammate of the current user. If this account is the current user's account, then this will be True.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="M:DotNetBox.BasicAccount.#ctor(System.String,DotNetBox.Name,System.Boolean)">
+            <summary>
+            Creates a new instance of the BasicAccount class.
+            </summary>
+            <param name="accountId">The user's unique Dropbox ID.</param>
+            <param name="name">Details of the user's name.</param>
+            <param name="isTeammate">Whether this user is a teammate of the current user.</param>
+        </member>
+        <member name="M:DotNetBox.BasicAccount.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the BasicAccount class from a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.BasicAccount"/> Basic information about the account based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.BasicAccount.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.DeletedMetadata">
+            <summary>
+            A class containing specific information regarding deleted entries.
+            </summary>
+            <inherits cref="T:DotNetBox.Metadata"/>
+        </member>
+        <member name="M:DotNetBox.DeletedMetadata.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Creates a new instance of the DeletedMetdata class.
+            </summary>
+            <param name="name">Name of the entry.</param>
+            <param name="path">Path of the entry before it was deleted.</param>
+            <param name="parentSharedFolderId">ID of the parent shared folder, if applicable.</param>
+        </member>
+        <member name="M:DotNetBox.DeletedMetadata.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the DeletedMetadata class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.DeletedMetadata"/> A new instance of the DeletedMetadata class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.DeletedMetadata.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.Dimensions">
+            <summary>
+            Stores dimensions of a media file (image/video).
+            </summary>
+        </member>
+        <member name="P:DotNetBox.Dimensions.Width">
+            <summary>
+            Width of the media.
+            </summary>
+            <type cref="T:System.Int64"/>
+        </member>
+        <member name="P:DotNetBox.Dimensions.Height">
+            <summary>
+            Height of the media.
+            </summary>
+            <type cref="T:System.Int64"/>
+        </member>
+        <member name="M:DotNetBox.Dimensions.#ctor(System.Int64,System.Int64)">
+            <summary>
+            Creates a new instance of the Dimensions class.
+            </summary>
+            <param name="width">Width of the media.</param>
+            <param name="height">Height of the media.</param>
+        </member>
+        <member name="M:DotNetBox.Dimensions.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the Dimensions class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.Dimensions"/> A new instance of the Dimensions class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.Dimensions.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.FileMetadata">
+            <summary>
+            A class containing specific information regarding file entries.
+            </summary>
+            <inherits cref="T:DotNetBox.Metadata"/>
+        </member>
+        <member name="P:DotNetBox.FileMetadata.ClientModified">
+            <summary>
+            Time at which the file was modified on the client's side.
+            </summary>
+            <type cref="T:System.DateTime"/>
+        </member>
+        <member name="P:DotNetBox.FileMetadata.ServerModified">
+            <summary>
+            Time at which the file was modified on the server.
+            </summary>
+            <type cref="T:System.DateTime"/>
+        </member>
+        <member name="P:DotNetBox.FileMetadata.Rev">
+            <summary>
+            Revision of the file.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.FileMetadata.Size">
+            <summary>
+            Size of the file, in bytes.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.FileMetadata.Id">
+            <summary>
+            Unique ID of the file.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.FileMetadata.MediaInfo">
+            <summary>
+            Media information. Only applies to videos and images/pictures.
+            </summary>
+            <type cref="T:DotNetBox.MediaInfo"/>
+        </member>
+        <member name="P:DotNetBox.FileMetadata.SharingInfo">
+            <summary>
+            Information about the file's sharing status. Set if this file is contained in a shared folder.
+            </summary>
+            <type cref="T:DotNetBox.FileSharingInfo"/>
+        </member>
+        <member name="M:DotNetBox.FileMetadata.#ctor(System.String,System.String,System.String,System.DateTime,System.DateTime,System.String,System.Int64,System.String,DotNetBox.MediaInfo,DotNetBox.FileSharingInfo)">
+            <summary>
+            Initializes a new instance of the FileMetadata class.
+            </summary>
+            <param name="name">Name of the entry.</param>
+            <param name="path">Path of the entry.</param>
+            <param name="parentSharedFolderId">ID of the parent shared folder, if applicable.</param>
+            <param name="clientModified">Time at which the file was modified on the client's side.</param>
+            <param name="serverModified">Time at which the file was modified on the server's side.</param>
+            <param name="rev">Revision of the file.</param>
+            <param name="size">Size of the file.</param>
+            <param name="id">Unique ID of the file.</param>
+            <param name="mediaInfo">Media information regarding the file.</param>
+            <param name="sharingInfo">Information about the file's sharing status.</param>
+        </member>
+        <member name="M:DotNetBox.FileMetadata.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Create a new instance of the FileMetadata class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.FileMetadata"/> A new instance of the FileMetadata class.</returns>
+        </member>
+        <member name="M:DotNetBox.FileMetadata.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.FolderMetadata">
+            <summary>
+            A class containing specific information regarding folder entries.
+            </summary>
+            <inherits cref="T:DotNetBox.Metadata"/>
+        </member>
+        <member name="P:DotNetBox.FolderMetadata.Id">
+            <summary>
+            Unique ID of the folder.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.FolderMetadata.SharedFolderId">
+            <summary>
+            If the folder is a shared folder, ID of that shared folder.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.FolderMetadata.SharingInfo">
+            <summary>
+            Information about the folder's sharing status. Set if the folder is contained in a shared folder or is a shared folder mount point.
+            </summary>
+            <type cref="T:DotNetBox.FolderSharingInfo"/>
+        </member>
+        <member name="M:DotNetBox.FolderMetadata.#ctor(System.String,System.String,System.String,System.String,System.String,DotNetBox.FolderSharingInfo)">
+            <summary>
+            Initializes a new instance of the FolderMetadata class.
+            </summary>
+            <param name="name">Name of the entry.</param>
+            <param name="path">Path of the entry.</param>
+            <param name="parentSharedFolderId">ID of the parent shared folder, if applicable.</param>
+            <param name="id">Unique ID of the folder.</param>
+            <param name="sharedFolderId">If the folder is shared, ID of the shared folder.</param>
+            <param name="sharingInfo">Information about the folder's sharing status.</param>
+        </member>
+        <member name="M:DotNetBox.FolderMetadata.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Create a new instance of the FolderMetadata class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.FolderMetadata"/> A new instance of the FolderMetadata class.</returns>
+        </member>
+        <member name="M:DotNetBox.FolderMetadata.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.AccountType">
+            <summary>
+            Type of Dropbox account.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.AccountType.Basic">
+            <summary>
+            Basic free account.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.AccountType.Pro">
+            <summary>
+            Subscription-based account.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.AccountType.Business">
+            <summary>
+            Business/work account.
+            </summary>
+        </member>
+        <member name="T:DotNetBox.FullAccount">
+            <summary>
+            Full information about an account.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.FullAccount.AccountId">
+            <summary>
+            Account's unique ID.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.FullAccount.Name">
+            <summary>
+            Information about the user's name.
+            </summary>
+            <type cref="T:DotNetBox.Name"/>
+        </member>
+        <member name="P:DotNetBox.FullAccount.Email">
+            <summary>
+            Email linked to the account.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.FullAccount.Locale">
+            <summary>
+            User's langauge.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.FullAccount.ReferralLink">
+            <summary>
+            User's referral link.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.FullAccount.IsPaired">
+            <summary>
+            Whether the user has linked his personal and work accounts.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="P:DotNetBox.FullAccount.AccountType">
+            <summary>
+            The account type.
+            </summary>
+            <type cref="T:DotNetBox.AccountType"/>
+        </member>
+        <member name="P:DotNetBox.FullAccount.Country">
+            <summary>
+            The user's country of residence.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.FullAccount.#ctor(System.String,DotNetBox.Name,System.String,System.String,System.String,System.Boolean,DotNetBox.AccountType,System.String)">
+            <summary>
+            Creates a new instance of the FullAccount class.
+            </summary>
+            <param name="accountId">Account ID.</param>
+            <param name="name">User's name information.</param>
+            <param name="email">User's email address.</param>
+            <param name="locale">User's language.</param>
+            <param name="referralLink">User's referral link.</param>
+            <param name="isPaired">Whether the user's personal and work account (if he has one) are paired.</param>
+            <param name="accountType">Account type.</param>
+            <param name="country">The user's country of residence.</param>
+        </member>
+        <member name="M:DotNetBox.FullAccount.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the FullAccount class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.FullAccount"/> A new instance of the FullAccount class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.FullAccount.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.GpsCoordinates">
+            <summary>
+            Stores the GPS coordinates at which a media was created.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.GpsCoordinates.Latitude">
+            <summary>
+            Latitude at which the file was created.
+            </summary>
+            <type cref="T:System.Single"/>
+        </member>
+        <member name="P:DotNetBox.GpsCoordinates.Longitude">
+            <summary>
+            Longitude at which the file was created.
+            </summary>
+            <type cref="T:System.Single"/>
+        </member>
+        <member name="M:DotNetBox.GpsCoordinates.#ctor(System.Single,System.Single)">
+            <summary>
+            Creates a new instance of the GpsCoordinates class.
+            </summary>
+            <param name="latitude">Latitude at which the file was created.</param>
+            <param name="longitude">Longitude at which the file was created.</param>
+        </member>
+        <member name="M:DotNetBox.GpsCoordinates.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the GpsCoordinates class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.GpsCoordinates"/> A new instance of the GpsCoordinates class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.GpsCoordinates.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.ListFolderLongpollResult">
+            <summary>
+            Result of a <see cref="M:DotNetBox.SubApis.Files.ListFolderLongpoll(System.String,System.Int32)"/> request.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.ListFolderLongpollResult.Changes">
+            <summary>
+            Whether changes have occured or not. Use <see cref="M:DotNetBox.SubApis.Files.ListFolderContinue(System.String)"/> to see changes.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="P:DotNetBox.ListFolderLongpollResult.Backoff">
+            <summary>
+            If present, wait at least this many seconds before calling <see cref="M:DotNetBox.SubApis.Files.ListFolderLongpoll(System.String,System.Int32)"/> again.
+            </summary>
+            <type cref="T:System.Int32"/>
+        </member>
+        <member name="M:DotNetBox.ListFolderLongpollResult.#ctor(System.Boolean,System.Nullable{System.Int32})">
+            <summary>
+            Creates a new instance of the ListFolderLongpollResult class.
+            </summary>
+            <param name="changes">Whether changes have occured or not.</param>
+            <param name="backoff">Time to wait until next request, if present.</param>
+        </member>
+        <member name="M:DotNetBox.ListFolderLongpollResult.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the ListFolderLongpollResult class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.ListFolderLongpollResult"/> A new instance of the ListFolderLongpollResult class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.ListFolderLongpollResult.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.ListFolderResult">
+            <summary>
+            Result of a <see cref="M:DotNetBox.SubApis.Files.ListFolder(System.String,System.Boolean,System.Boolean,System.Boolean)"/> or <see cref="M:DotNetBox.SubApis.Files.ListFolderContinue(System.String)"/> request.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.ListFolderResult.Entries">
+            <summary>
+            Files and folders present in the folder.
+            </summary>
+            <type cref="T:DotNetBox.Metadata[]"/>
+        </member>
+        <member name="P:DotNetBox.ListFolderResult.Cursor">
+            <summary>
+            Pass the cursor to <see cref="M:DotNetBox.SubApis.Files.ListFolderContinue(System.String)"/> to see what's changed since the last query.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.ListFolderResult.HasMore">
+            <summary>
+            Whether there are more entries to list or not. Pass the cursor to <see cref="M:DotNetBox.SubApis.Files.ListFolderContinue(System.String)"/> to retrieve the rest.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="M:DotNetBox.ListFolderResult.#ctor(DotNetBox.Metadata[],System.String,System.Boolean)">
+            <summary>
+            Creates a new instance of the ListFolderResult class.
+            </summary>
+            <param name="entries">List of files and folders present in the folder.</param>
+            <param name="cursor">Request cursor.</param>
+            <param name="hasMore">Whether there are more entries to list or not.</param>
+        </member>
+        <member name="M:DotNetBox.ListFolderResult.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the ListFolderResult class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.ListFolderResult"/> A new instance of the ListFolderResult class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.ListFolderResult.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.MediaInfo">
+            <summary>
+            Information regarding an image or video.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.MediaInfo.Pending">
+            <summary>
+            Whether Dropbox is still getting media information or not.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="P:DotNetBox.MediaInfo.Metadata">
+            <summary>
+            Metadata of the media (dimensions, duration, etc.)
+            </summary>
+            <type cref="T:DotNetBox.MediaMetadata"/>
+        </member>
+        <member name="M:DotNetBox.MediaInfo.#ctor(System.Boolean,DotNetBox.MediaMetadata)">
+            <summary>
+            Initializes a new MediaInfo class.
+            </summary>
+            <param name="pending">Whether data is still being retrieved or not.</param>
+            <param name="metadata"><see cref="T:DotNetBox.MediaMetadata"/></param>
+        </member>
+        <member name="M:DotNetBox.MediaInfo.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the MediaInfo class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.MediaInfo"/> A new instance of the MediaInfo class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.MediaInfo.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.MediaMetadata">
+            <summary>
+            Metadata concerning media files (images and videos)
+            </summary>
+        </member>
+        <member name="P:DotNetBox.MediaMetadata.Dimensions">
+            <summary>
+            Width and height of the image/video.
+            </summary>
+            <type cref="T:DotNetBox.Dimensions"/>
+        </member>
+        <member name="P:DotNetBox.MediaMetadata.Location">
+            <summary>
+            Location (if any) where the picture/video was taken.
+            </summary>
+            <type cref="T:DotNetBox.GpsCoordinates"/>
+        </member>
+        <member name="P:DotNetBox.MediaMetadata.TimeTaken">
+            <summary>
+            The time at which the picture/video was taken, if present.
+            </summary>
+            <type cref="T:System.DateTime"/>
+        </member>
+        <member name="M:DotNetBox.MediaMetadata.#ctor(DotNetBox.Dimensions,DotNetBox.GpsCoordinates,System.Nullable{System.DateTime})">
+            <summary>
+            Initializes a new MediaMetadata class.
+            </summary>
+            <param name="dimensions">Dimensions of the media, if present.</param>
+            <param name="location">Location at which the media was created, if present.</param>
+            <param name="timeTaken">Time at which the media was created, if present.</param>
+        </member>
+        <member name="M:DotNetBox.MediaMetadata.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the MediaMetadata class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.MediaMetadata"/> A new instance of the MediaMetadata class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.MediaMetadata.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.Metadata">
+            <summary>
+            A class containing general information about a file, folder or deleted entry.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.Metadata.Name">
+            <summary>
+            Name of the entry.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.Metadata.Path">
+            <summary>
+            Path of the entry.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.Metadata.ParentSharedFolderId">
+            <summary>
+            If in a shared folder, shared ID of that folder.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.Metadata.IsFile">
+            <summary>
+            Whether the entry is a file or not.
+            </summary>
+            <noinherit/>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="P:DotNetBox.Metadata.IsFolder">
+            <summary>
+            Whether the entry is a folder or not.
+            </summary>
+            <noinherit/>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="P:DotNetBox.Metadata.IsDeleted">
+            <summary>
+            Whether the entry has been deleted or not.
+            </summary>
+            <noinherit/>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="M:DotNetBox.Metadata.#ctor(System.String,System.String,System.String,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the Metadata class.
+            </summary>
+            <param name="name">Name of the entry.</param>
+            <param name="path">Path of the entry.</param>
+            <param name="parentSharedFolderId">ID of the parent shared folder, if applicable.</param>
+            <param name="isFile">Whether the entry is a file or not.</param>
+            <param name="isFolder">Whether the entry is a folder or not.</param>
+            <param name="isDeleted">Whether the entry has been deleted or not.</param>
+        </member>
+        <member name="M:DotNetBox.Metadata.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Create a Metadata class from JSON.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.Metadata"/> A new Metadata class based on the JSON input.</returns>
+        </member>
+        <member name="M:DotNetBox.Metadata.FromTag(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Get a specific type of Metadata from the tag of a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.Metadata"/> A new Metadata class or subclass specific to the tag specified.</returns>
+        </member>
+        <member name="M:DotNetBox.Metadata.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.Name">
+            <summary>
+            Information about a user's name.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.Name.GivenName">
+            <summary>
+            User's first name.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.Name.Surname">
+            <summary>
+            User's last/family name.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.Name.FamiliarName">
+            <summary>
+            Language-dependent name. Usually a combination of the user's GivenName and Surname.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.Name.DisplayName">
+            <summary>
+            User's display name.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.Name.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates a new instance of the Name class.
+            </summary>
+            <param name="givenName">User's first name.</param>
+            <param name="surname">User's last name.</param>
+            <param name="familiarName">User's (language-dependent) name.</param>
+            <param name="displayName">User's display name.</param>
+        </member>
+        <member name="M:DotNetBox.Name.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the Name class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.Name"/> A new instance of the Name class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.Name.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.PhotoMetadata">
+            <summary>
+            Metadata concerning photos/images.
+            </summary>
+        </member>
+        <member name="M:DotNetBox.PhotoMetadata.#ctor(DotNetBox.Dimensions,DotNetBox.GpsCoordinates,System.Nullable{System.DateTime})">
+            <summary>
+            Initializes a new PhotoMetadata class.
+            </summary>
+            <param name="dimensions">Dimensions of the media, if present.</param>
+            <param name="location">Location at which the media was created, if present.</param>
+            <param name="timeTaken">Time at which the media was created, if present.</param>
+        </member>
+        <member name="M:DotNetBox.PhotoMetadata.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the PhotoMetadata class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.PhotoMetadata"/> A new instance of the PhotoMetadata class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.PhotoMetadata.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.RequestArgs">
+            <summary>
+            Arguments for a request to Dropbox's API. Basically a wrapper for a JObject.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.RequestArgs.Data">
+            <summary>
+            JSON data.
+            </summary>
+            <type cref="T:Newtonsoft.Json.Linq.JObject"/>
+        </member>
+        <member name="M:DotNetBox.RequestArgs.Add(System.String,Newtonsoft.Json.Linq.JToken)">
+            <summary>
+            Adds an argument to the JSON object.
+            </summary>
+            <param name="key">Name of the parameter.</param>
+            <param name="value">Value of the parameter.</param>
+        </member>
+        <member name="M:DotNetBox.RequestArgs.ToByteArray">
+            <summary>
+            Returns the JSON data as a byte array.
+            </summary>
+            <returns><see cref="T:System.Byte[]"/> The JSON data as a byte array.</returns>
+        </member>
+        <member name="M:DotNetBox.RequestArgs.ToString">
+            <summary>
+            Returns the JSON data as a string.
+            </summary>
+            <returns><see cref="T:System.String"/> The JSON data as a string.</returns>
+        </member>
+        <member name="T:DotNetBox.SpaceAllocationType">
+            <summary>
+            Type of space allocation.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.SpaceAllocationType.Individual">
+            <summary>
+            Allocation is for the individual.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.SpaceAllocationType.Team">
+            <summary>
+            Allocation is for the team.
+            </summary>
+        </member>
+        <member name="T:DotNetBox.SpaceAllocation">
+            <summary>
+            Stores information on a user's total space allocation.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.SpaceAllocation.Type">
+            <summary>
+            Type of space allocation. Can be either individual allocation or team allocation.
+            </summary>
+            <type cref="T:DotNetBox.SpaceAllocationType"/>
+        </member>
+        <member name="P:DotNetBox.SpaceAllocation.Allocated">
+            <summary>
+            Space allocated, in bytes.
+            </summary>
+            <type cref="T:System.Int64"/>
+        </member>
+        <member name="M:DotNetBox.SpaceAllocation.#ctor(DotNetBox.SpaceAllocationType,System.Int64)">
+            <summary>
+            Creates a new instance of the SpaceAllocation class.
+            </summary>
+            <param name="type">Type of space allocation.</param>
+            <param name="allocated">Space allocated.</param>
+        </member>
+        <member name="M:DotNetBox.SpaceAllocation.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the SpaceAllocation class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.SpaceAllocation"/> A new instance of the SpaceAllocation class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.SpaceAllocation.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.SpaceUsage">
+            <summary>
+            Information on a user's space usage.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.SpaceUsage.Used">
+            <summary>
+            Space used, in bytes.
+            </summary>
+            <type cref="T:System.Int64"/>
+        </member>
+        <member name="P:DotNetBox.SpaceUsage.Allocation">
+            <summary>
+            Space allocated.
+            </summary>
+            <type cref="T:DotNetBox.SpaceAllocation"/>
+        </member>
+        <member name="M:DotNetBox.SpaceUsage.#ctor(System.Int64,DotNetBox.SpaceAllocation)">
+            <summary>
+            Creates a new instance of the SpaceUsage class.
+            </summary>
+            <param name="used">Space used.</param>
+            <param name="allocation">Space allocated.</param>
+        </member>
+        <member name="M:DotNetBox.SpaceUsage.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the SpaceUsage class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.SpaceUsage"/> A new instance of the SpaceUsage class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.SpaceUsage.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>s
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.VideoMetadata">
+            <summary>
+            Metadata concerning videos.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.VideoMetadata.Duration">
+            <summary>
+            Duration of the video, in milliseconds.
+            </summary>
+            <type cref="T:System.Int64"/>
+        </member>
+        <member name="M:DotNetBox.VideoMetadata.#ctor(DotNetBox.Dimensions,DotNetBox.GpsCoordinates,System.Nullable{System.DateTime},System.Nullable{System.Int64})">
+            <summary>
+            Initializes a new PhotoMetadata class.
+            </summary>
+            <param name="dimensions">Dimensions of the media, if present.</param>
+            <param name="location">Location at which the media was created, if present.</param>
+            <param name="timeTaken">Time at which the media was created, if present.</param>
+            <param name="duration">Duration of the video, in milliseconds.</param>
+        </member>
+        <member name="M:DotNetBox.VideoMetadata.FromJson(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Creates a new instance of the VideoMetadata class using a JSON object.
+            </summary>
+            <param name="json">JSON object.</param>
+            <returns><see cref="T:DotNetBox.VideoMetadata"/> A new instance of the VideoMetadata class based on the JSON object's data.</returns>
+        </member>
+        <member name="M:DotNetBox.VideoMetadata.ToString">
+            <summary>
+            Returns a string containing all of the class' properties.
+            </summary>
+            <returns><see cref="T:System.String"/> A string containing all of the class' properties.</returns>
+        </member>
+        <member name="T:DotNetBox.DownloadFileProgressChangedEventHandler">
+            <summary>
+            Delegate used for the <see cref="E:DotNetBox.SubApis.Files.DownloadFileProgressChanged"/> event.
+            </summary>
+            <param name="e" cref="T:DotNetBox.DownloadFileProgressChangedEventArgs">Progress changed event arguments.</param>
+        </member>
+        <member name="T:DotNetBox.DownloadFileProgressChangedEventArgs">
+            <summary>
+            Arguments for the <see cref="E:DotNetBox.SubApis.Files.DownloadFileProgressChanged"/> event.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.DownloadFileProgressChangedEventArgs.Progress">
+            <summary>
+            Download progress.
+            </summary>
+            <type cref="T:System.Single"/>
+        </member>
+        <member name="P:DotNetBox.DownloadFileProgressChangedEventArgs.BytesReceived">
+            <summary>
+            Amount of bytes received.
+            </summary>
+            <type cref="T:System.Int64"/>
+        </member>
+        <member name="P:DotNetBox.DownloadFileProgressChangedEventArgs.BytesToReceive">
+            <summary>
+            Amount of bytes to receive.
+            </summary>
+            <type cref="T:System.Single"/>
+        </member>
+        <member name="M:DotNetBox.DownloadFileProgressChangedEventArgs.#ctor(System.Single,System.Int64,System.Int64)">
+            <summary>
+            Creates a new instance of the DownloadFileProgressChangedEventArgs class.
+            </summary>
+            <param name="progress">Download progress.</param>
+            <param name="bytesReceived">Bytes received.</param>
+            <param name="bytesToReceive">Bytes to receive.</param>
+        </member>
+        <member name="T:DotNetBox.WriteMode">
+            <summary>
+            Mode to be used when uploading files to Dropbox.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.WriteMode.Add">
+            <summary>
+            Add the file. Use autorename strategy if required and allowed when calling the endpoint.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.WriteMode.Overwrite">
+            <summary>
+            Overwrite the file, if allowed when calling the endpoint.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.WriteMode.Update">
+            <summary>
+            Update the file. Only works if a revision is specified.
+            </summary>
+        </member>
+        <member name="T:DotNetBox.SearchMode">
+            <summary>
+            Mode to use when searching for files and folders.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.SearchMode.Filename">
+            <summary>
+            Search only by file name.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.SearchMode.FilenameAndContent">
+            <summary>
+            Search by file name and content. Only available to business users.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.SearchMode.DeletedFilename">
+            <summary>
+            Search by file name, including deleted files.
+            </summary>
+        </member>
+        <member name="T:DotNetBox.ThumbnailSize">
+            <summary>
+            Image size to use when getting a thumbnail.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.ThumbnailSize.W32H32">
+            <summary>
+            Generate a maximum 32 pixels by 32 pixels sized thumbnail.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.ThumbnailSize.W64H64">
+            <summary>
+            Generate a maximum 64 pixels by 64 pixels sized thumbnail.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.ThumbnailSize.W128H128">
+            <summary>
+            Generate a maximum 128 pixels by 128 pixels sized thumbnail.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.ThumbnailSize.W640H480">
+            <summary>
+            Generate a maximum 640 pixels by 480 pixels sized thumbnail.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.ThumbnailSize.W1024H768">
+            <summary>
+            Generate a maximum 1024 pixels by 768 pixels sized thumbnail.
+            </summary>
+        </member>
+        <member name="T:DotNetBox.ThumbnailFormat">
+            <summary>
+            Image format to use when getting a thumbnail.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.ThumbnailFormat.Jpeg">
+            <summary>
+            Use JPEG/JPG format (mostly for pictures).
+            </summary>
+        </member>
+        <member name="F:DotNetBox.ThumbnailFormat.Png">
+            <summary>
+            Use PNG format (mostly for screenshots, digial art, etc.).
+            </summary>
+        </member>
+        <member name="T:DotNetBox.ResponseType">
+            <summary>
+            Type of response to request when using the <see cref="M:DotNetBox.DropboxClient.GetAuthorizeUrl(DotNetBox.ResponseType,System.String,System.String,DotNetBox.AccountRole,System.Boolean,System.Boolean)"/> method.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.ResponseType.Token">
+            <summary>
+            Use token flow: use redirection to redirect user to another page where the token is further processed to return an access token.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.ResponseType.Code">
+            <summary>
+            Use code flow: ask user to copy code into your app to authorize it by using the <see cref="M:DotNetBox.DropboxClient.AuthorizeCode(System.String,System.String)"/> method.
+            </summary>
+        </member>
+        <member name="T:DotNetBox.AccountRole">
+            <summary>
+            Type of account that the user should have when using the <see cref="M:DotNetBox.DropboxClient.GetAuthorizeUrl(DotNetBox.ResponseType,System.String,System.String,DotNetBox.AccountRole,System.Boolean,System.Boolean)"/> method.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.AccountRole.Personal">
+            <summary>
+            User is required to have a personal account. This matches any Dropbox account.
+            </summary>
+        </member>
+        <member name="F:DotNetBox.AccountRole.Work">
+            <summary>
+            User is required to have a work (business) account.
+            </summary>
+        </member>
+        <member name="T:DotNetBox.DropboxClient">
+            <summary>
+            Main DotNetBox class. The DropboxClient class has wrapper functions and all calls to Dropbox's API.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.DropboxClient.AccessToken">
+            <summary>
+            OAuth 2 access token to be used with Dropbox's API.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.DropboxClient.Users">
+            <summary>
+            Users sub-API instance. Contains all calls related to user accounts.
+            </summary>
+            <type cref="T:DotNetBox.SubApis.Users"/>
+        </member>
+        <member name="P:DotNetBox.DropboxClient.Files">
+            <summary>
+            Files sub-API instance. Contains all calls related to files and file management.
+            </summary>
+            <type cref="T:DotNetBox.SubApis.Files"/>
+        </member>
+        <member name="P:DotNetBox.DropboxClient.Sharing">
+            <summary>
+            Sharing sub-API instance. Contains all calls related to sharing folders and links.
+            </summary>
+            <type cref="T:DotNetBox.SubApis.Sharing"/>
+        </member>
+        <member name="P:DotNetBox.DropboxClient.AppKey">
+            <summary>
+            Dropbox app key. Used to retrieve an access token for the user.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="P:DotNetBox.DropboxClient.AppSecret">
+            <summary>
+            Dropbox app secret. Used to retrieve an access token for the user.
+            </summary>
+            <type cref="T:System.String"/>
+        </member>
+        <member name="M:DotNetBox.DropboxClient.#ctor(System.String)">
+            <summary>
+            Creates a new instance of the DropboxClient class.
+            </summary>
+            <param name="accessToken">OAuth 2 access token to use with Dropbox's API.</param>
+        </member>
+        <member name="M:DotNetBox.DropboxClient.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new instance of the DropboxClient class.
+            </summary>
+            <param name="appKey">Dropbox app key.</param>
+            <param name="appSecret">Dropbox app secret.</param>
+        </member>
+        <member name="M:DotNetBox.DropboxClient.CheckConnection">
+            <summary>
+            Checks whether the user is authorized or not.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DotNetBox.DropboxClient.GetAuthorizeUrl(DotNetBox.ResponseType,System.String,System.String,DotNetBox.AccountRole,System.Boolean,System.Boolean)">
+            <summary>
+            Gets the authorization URL to the authorization page that should be displayed to the user to allow his account to use your app.
+            </summary>
+            <param name="responseType">Response type, either Code or Token. Code presents the user with a code, which he then has to copy into your app and make it go through <see cref="M:DotNetBox.DropboxClient.AuthorizeCode(System.String,System.String)"/>. Token uses redirectUri to redirect to a page where the token will be further processed.</param>
+            <param name="redirectUri">Where to redirect the user after authorization has completed. This must be the exact URI registered in the App Console; even 'localhost' must be listed if it is used for testing. All redirect URIs must be HTTPS except for localhost URIs. A redirect URI is required for the token flow, but optional for the code flow. If the redirect URI is omitted, the code will be presented directly to the user and they will be invited to enter the information in your app.</param>
+            <param name="state">Up to 500 bytes of arbitrary data that will be passed back to your redirect URI. This parameter should be used to protect against cross-site request forgery (CSRF).</param>
+            <param name="requireRole">If this parameter is specified, the user will be asked to authorize with a particular type of Dropbox account, either work for a team account or personal for a personal account. Your app should still verify the type of Dropbox account after authorization since the user could modify or remove the requireRole parameter.</param>
+            <param name="forceReapprove">Whether or not to force the user to approve the app again if they've already done so. If false (default), a user who has already approved the application may be automatically redirected to the URI specified by redirect_uri. If true, the user will not be automatically redirected and will have to approve the app again.</param>
+            <param name="disableSignup">When true (default is false) users will not be able to sign up for a Dropbox account via the authorization page. Instead, the authorization page will show a link to the Dropbox iOS app in the App Store. This is only intended for use when necessary for compliance with App Store policies.</param>
+            <returns><see cref="T:System.String"/> URL to which the user should be redirected.</returns>
+        </member>
+        <member name="M:DotNetBox.DropboxClient.AuthorizeCode(System.String,System.String)">
+            <summary>
+            Get an access token from the code returned by <see cref="M:DotNetBox.DropboxClient.GetAuthorizeUrl(DotNetBox.ResponseType,System.String,System.String,DotNetBox.AccountRole,System.Boolean,System.Boolean)"/>.
+            </summary>
+            <param name="code">Code retrieved from <see cref="M:DotNetBox.DropboxClient.GetAuthorizeUrl(DotNetBox.ResponseType,System.String,System.String,DotNetBox.AccountRole,System.Boolean,System.Boolean)"/>.</param>
+            <param name="redirectUri">If a redirect URL was specified when using <see cref="M:DotNetBox.DropboxClient.GetAuthorizeUrl(DotNetBox.ResponseType,System.String,System.String,DotNetBox.AccountRole,System.Boolean,System.Boolean)"/>, the same URL.</param>
+            <returns><see cref="T:DotNetBox.AuthorizeResponse"/> Response including generated access token, token type (always 'bearer') and client ID.</returns>
+            <exception cref="T:DotNetBox.InvalidGrantException">Thrown when supplied code is not valid.</exception>
+        </member>
+        <member name="T:DotNetBox.DropboxException">
+            <summary>
+            Generic exception that occurs when Dropbox's servers return an error.
+            </summary>
+        </member>
+        <member name="M:DotNetBox.DropboxException.#ctor">
+            <summary>
+            Creates an empty Dropbox exception.
+            </summary>
+        </member>
+        <member name="M:DotNetBox.DropboxException.#ctor(System.String)">
+            <summary>
+            Creates a Dropbox exception with a message.
+            </summary>
+            <param name="message">Exception message.</param>
+        </member>
+        <member name="M:DotNetBox.DropboxException.#ctor(System.String,System.Exception)">
+            <summary>
+            Creates a Dropbox exception with a message and an inner exception.
+            </summary>
+            <param name="message">Exception message.</param>
+            <param name="innerException">Inner exception.</param>
+        </member>
+        <member name="T:DotNetBox.UploadFileCompletedEventHandler">
+            <summary>
+            Delegate used for the <see cref="!:SubApis.Files.UploadFileCompleted"/> event.
+            </summary>
+            <param name="e" cref="T:DotNetBox.UploadFileCompletedEventArgs">Completed event arguments.</param>
+        </member>
+        <member name="T:DotNetBox.UploadFileCompletedEventArgs">
+            <summary>
+            Arguments for the <see cref="!:SubApis.Files.UploadFileCompleted"/> event.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.UploadFileCompletedEventArgs.Response">
+            <summary>
+            Metadata of the uploaded file.
+            </summary>
+            <type cref="T:DotNetBox.FileMetadata"/>
+        </member>
+        <member name="P:DotNetBox.UploadFileCompletedEventArgs.Error">
+            <summary>
+            Error that occured during the upload processed, if occured.
+            </summary>
+            <type cref="T:System.Exception"/>
+        </member>
+        <member name="P:DotNetBox.UploadFileCompletedEventArgs.Cancelled">
+            <summary>
+            Whether the operation was cancelled or not.
+            </summary>
+            <type cref="T:System.Boolean"/>
+        </member>
+        <member name="M:DotNetBox.UploadFileCompletedEventArgs.#ctor(DotNetBox.FileMetadata,System.Exception,System.Boolean)">
+            <summary>
+            Creates a new instance of the UploadFileCompletedEventArgs class.
+            </summary>
+            <param name="response">Metadata of the uploaded file.</param>
+            <param name="error">Error, if occured.</param>
+            <param name="cancelled">Whether the operation was cancelled or not.</param>
+        </member>
+        <member name="T:DotNetBox.UploadFileProgressChangedEventHandler">
+            <summary>
+            Delegate used for the <see cref="E:DotNetBox.SubApis.Files.UploadFileProgressChanged"/> event.
+            </summary>
+            <param name="e" cref="T:DotNetBox.UploadFileProgressChangedEventArgs">Progress changed event arguments.</param>
+        </member>
+        <member name="T:DotNetBox.UploadFileProgressChangedEventArgs">
+            <summary>
+            Arguments for the <see cref="E:DotNetBox.SubApis.Files.UploadFileProgressChanged"/> event.
+            </summary>
+        </member>
+        <member name="P:DotNetBox.UploadFileProgressChangedEventArgs.Progress">
+            <summary>
+            Upload progress.
+            </summary>
+            <type cref="T:System.Single"/>
+        </member>
+        <member name="P:DotNetBox.UploadFileProgressChangedEventArgs.BytesSent">
+            <summary>
+            Amount of bytes sent.
+            </summary>
+            <type cref="T:System.Int64"/>
+        </member>
+        <member name="P:DotNetBox.UploadFileProgressChangedEventArgs.BytesToSend">
+            <summary>
+            Amount of bytes to send.
+            </summary>
+            <type cref="T:System.Int64"/>
+        </member>
+        <member name="M:DotNetBox.UploadFileProgressChangedEventArgs.#ctor(System.Single,System.Int64,System.Int64)">
+            <summary>
+            Creates a new instance of the UploadFileProgressChangedEventArgs class.
+            </summary>
+            <param name="progress">Upload progress.</param>
+            <param name="bytesSent">Bytes sent.</param>
+            <param name="bytesToSend">Bytes to send.</param>
+        </member>
+    </members>
+</doc>

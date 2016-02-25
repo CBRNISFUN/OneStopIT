@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Useful.Utilities</id>
+    <version>1.0.3</version>
+    <title>Useful Utilities</title>
+    <authors>J4S0Nc</authors>
+    <owners>J4S0Nc</owners>
+    <projectUrl>http://xiopod.net/useful.utilities/</projectUrl>
+    <iconUrl>http://xiopod.net/favicon.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Collection of utility classes for dealing with Windows services, IIS, WMI, Registry, x509 certs, Files, security, network shares, GAC files, and a few other things. Most utilities can be ran locally or remotely.</description>
+    <summary>Collection of utility classes for dealing with Windows services, IIS, WMI, Registry, x509 certs, Files, security, network shares, GAC files. Most utilities can be ran locally or remotely</summary>
+    <releaseNotes>-Renamed ComputerManger to ComputerManager (fixed typo)
+-Renamed IISServer to IisManager, replaced public constructors with connect method
+-Added Impersonation class to security manager
+-Added RunAs function to wrap impersonation
+-Added IisVersion function to IisManger
+-Added ExecuteScalarAsInt to Database class
+-Added FeatureInfo class and FeaturesAndRoles enum (maps to Win32_ServerFeature objects / ids)
+-Added ToBytes/FromBytes methods to ObjectCopier class
+-Added CryptoManager 
+
+Please see project web site for more detail. http://xiopod.net/useful.utilities/</releaseNotes>
+    <language />
+    <tags>Utility Utilities Remote WMI Registry Services IIS Network Shares GAC x509 LSA</tags>
+  </metadata>
+</package>

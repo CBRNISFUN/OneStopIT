@@ -128,3 +128,15 @@ Other features no idea where they go
 
 	Show tools in <time> when complete
 	Connect to Ninite One/Pro
+
+	In uninstaller, upload all found programs to Virus Total
+
+	
+
+Check for invalid activeX/Com Objects, file extesnions, shell extesnions, openwith entries, shared dlls, applications keys/paths, fonts, uninstall entries, shellmuicache entries, autorun entries, services, shortcuts, junk files (from UVK: $$$|chk|dmp|dump|hdmp|log|mdmp|nch|old|temp|tmp|wri), restore points?????
+
+Research Immunization
+
+
+
+Add Threatexpert filename and MD5 report to file thingy

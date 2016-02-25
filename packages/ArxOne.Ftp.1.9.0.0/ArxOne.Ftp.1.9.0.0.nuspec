@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>ArxOne.Ftp</id>
+    <version>1.9.0.0</version>
+    <title>ArxOne Ftp</title>
+    <authors>Arx One</authors>
+    <owners>Arx One</owners>
+    <licenseUrl>http://opensource.org/licenses/mit-license.php</licenseUrl>
+    <projectUrl>https://github.com/ArxOne/FTP</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/ArxOne/FTP/master/Icon/ArxOne.Ftp.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A simple FTP/FTPS/FTPES client. Multi-connection and thread-safe. Uses high-level methods but also supports direct command sending.</description>
+    <summary>FTP client library</summary>
+    <copyright>Copyright Arx One 2015</copyright>
+    <tags>ftp ftps ftpes client</tags>
+  </metadata>
+</package>

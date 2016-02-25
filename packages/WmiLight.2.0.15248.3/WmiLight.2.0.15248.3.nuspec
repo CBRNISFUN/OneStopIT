@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>WmiLight</id>
+    <version>2.0.15248.3</version>
+    <authors>Martin Kuschnik</authors>
+    <owners>Martin Kuschnik</owners>
+    <licenseUrl>https://raw.githubusercontent.com/MartinKuschnik/WmiLight/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/MartinKuschnik/WmiLight</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A simple and light wmi framework.</description>
+    <copyright>Copyright 2015 Martin Kuschnik</copyright>
+    <tags>WmiLight WMI Windows Management Instrumentation windows c#</tags>
+  </metadata>
+</package>
