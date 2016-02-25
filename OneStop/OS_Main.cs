@@ -17,6 +17,7 @@
 //Developers: staticextasy, CBRN_IS_FUN (Garren King) - Find us on http://www.reddit.com/r/OneStopIT
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -2080,7 +2081,7 @@ namespace OneStop
         private Button button2;
         private Button button1;
         private ListBox listBox3;
-        private ListBox listBox2;
+        private ListBox lbProgramSelect;
         private ListBox lbOsmCategories;
         private ComboBox ddlInfoNetworkAdapters;
         private Label lblDescription;
@@ -2374,7 +2375,7 @@ namespace OneStop
             this.lblOsmProgramSelect = new System.Windows.Forms.Label();
             this.lblOsmCategories = new System.Windows.Forms.Label();
             this.listBox3 = new System.Windows.Forms.ListBox();
-            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.lbProgramSelect = new System.Windows.Forms.ListBox();
             this.lbOsmCategories = new System.Windows.Forms.ListBox();
             this.tpTronCli = new System.Windows.Forms.TabPage();
             this.tpTronSettings = new System.Windows.Forms.TabControl();
@@ -2417,6 +2418,10 @@ namespace OneStop
             this.tpSystemInfo = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpSystemReport = new System.Windows.Forms.TabPage();
+            this.label21 = new System.Windows.Forms.Label();
+            this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.tpNetwork = new System.Windows.Forms.TabPage();
             this.netBox = new System.Windows.Forms.TextBox();
             this.clearSslBTN = new System.Windows.Forms.Button();
@@ -2579,10 +2584,6 @@ namespace OneStop
             this.ddlInfoNetworkAdapters = new System.Windows.Forms.ComboBox();
             this.lblInfoAdapterDesc = new System.Windows.Forms.Label();
             this.ofdTron = new System.Windows.Forms.OpenFileDialog();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
             this.tsBottomToolbar.SuspendLayout();
             this.menuPrimary.SuspendLayout();
             this.tcPrimaryTabs.SuspendLayout();
@@ -4498,20 +4499,20 @@ namespace OneStop
             this.tpOneStopMain.Controls.Add(this.lblOsmProgramSelect);
             this.tpOneStopMain.Controls.Add(this.lblOsmCategories);
             this.tpOneStopMain.Controls.Add(this.listBox3);
-            this.tpOneStopMain.Controls.Add(this.listBox2);
+            this.tpOneStopMain.Controls.Add(this.lbProgramSelect);
             this.tpOneStopMain.Controls.Add(this.lbOsmCategories);
             this.tpOneStopMain.Location = new System.Drawing.Point(4, 22);
             this.tpOneStopMain.Name = "tpOneStopMain";
             this.tpOneStopMain.Size = new System.Drawing.Size(746, 391);
             this.tpOneStopMain.TabIndex = 11;
-            this.tpOneStopMain.Text = "OneStop Main";
+            this.tpOneStopMain.Text = "OneStop Auto";
             this.tpOneStopMain.UseVisualStyleBackColor = true;
             // 
             // lblOsmExecuteOrder
             // 
             this.lblOsmExecuteOrder.AutoSize = true;
             this.lblOsmExecuteOrder.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOsmExecuteOrder.Location = new System.Drawing.Point(497, 10);
+            this.lblOsmExecuteOrder.Location = new System.Drawing.Point(482, 11);
             this.lblOsmExecuteOrder.Name = "lblOsmExecuteOrder";
             this.lblOsmExecuteOrder.Size = new System.Drawing.Size(98, 15);
             this.lblOsmExecuteOrder.TabIndex = 7;
@@ -4521,7 +4522,7 @@ namespace OneStop
             // 
             this.lblOsmProgramSelect.AutoSize = true;
             this.lblOsmProgramSelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOsmProgramSelect.Location = new System.Drawing.Point(265, 11);
+            this.lblOsmProgramSelect.Location = new System.Drawing.Point(216, 10);
             this.lblOsmProgramSelect.Name = "lblOsmProgramSelect";
             this.lblOsmProgramSelect.Size = new System.Drawing.Size(106, 15);
             this.lblOsmProgramSelect.TabIndex = 6;
@@ -4531,7 +4532,7 @@ namespace OneStop
             // 
             this.lblOsmCategories.AutoSize = true;
             this.lblOsmCategories.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOsmCategories.Location = new System.Drawing.Point(30, 10);
+            this.lblOsmCategories.Location = new System.Drawing.Point(5, 10);
             this.lblOsmCategories.Name = "lblOsmCategories";
             this.lblOsmCategories.Size = new System.Drawing.Size(135, 15);
             this.lblOsmCategories.TabIndex = 5;
@@ -4540,18 +4541,18 @@ namespace OneStop
             // listBox3
             // 
             this.listBox3.FormattingEnabled = true;
-            this.listBox3.Location = new System.Drawing.Point(505, 29);
+            this.listBox3.Location = new System.Drawing.Point(485, 29);
             this.listBox3.Name = "listBox3";
-            this.listBox3.Size = new System.Drawing.Size(189, 316);
+            this.listBox3.Size = new System.Drawing.Size(243, 316);
             this.listBox3.TabIndex = 2;
             // 
-            // listBox2
+            // lbProgramSelect
             // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(273, 29);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(189, 316);
-            this.listBox2.TabIndex = 1;
+            this.lbProgramSelect.FormattingEnabled = true;
+            this.lbProgramSelect.Location = new System.Drawing.Point(219, 29);
+            this.lbProgramSelect.Name = "lbProgramSelect";
+            this.lbProgramSelect.Size = new System.Drawing.Size(243, 342);
+            this.lbProgramSelect.TabIndex = 1;
             // 
             // lbOsmCategories
             // 
@@ -4562,7 +4563,8 @@ namespace OneStop
             "Hardware Testing",
             "Backup Tasks",
             "Prep For Malware Removal",
-            "Temp File Cleanup",
+            "File Cleanup",
+            "Extended File Cleanup",
             "De-Bloat",
             "Disinfect",
             "Repair",
@@ -4572,11 +4574,13 @@ namespace OneStop
             "System Tweaks",
             "Apply Branding",
             "Networking",
-            "Manual Tools"});
-            this.lbOsmCategories.Location = new System.Drawing.Point(38, 29);
+            "Manual Tools",
+            "Other"});
+            this.lbOsmCategories.Location = new System.Drawing.Point(8, 29);
             this.lbOsmCategories.Name = "lbOsmCategories";
-            this.lbOsmCategories.Size = new System.Drawing.Size(189, 225);
+            this.lbOsmCategories.Size = new System.Drawing.Size(189, 342);
             this.lbOsmCategories.TabIndex = 0;
+            this.lbOsmCategories.SelectedIndexChanged += new System.EventHandler(this.lbOsmCategories_SelectedIndexChanged);
             // 
             // tpTronCli
             // 
@@ -5082,6 +5086,87 @@ namespace OneStop
             this.tpSystemReport.TabIndex = 1;
             this.tpSystemReport.Text = "System Report";
             this.tpSystemReport.UseVisualStyleBackColor = true;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(319, 31);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(49, 13);
+            this.label21.TabIndex = 3;
+            this.label21.Text = "Software";
+            // 
+            // checkedListBox2
+            // 
+            this.checkedListBox2.ColumnWidth = 150;
+            this.checkedListBox2.FormattingEnabled = true;
+            this.checkedListBox2.Items.AddRange(new object[] {
+            "**Software Inventory",
+            "Codecs",
+            "Date/Time Info",
+            "Display",
+            "Microsoft Office Data",
+            "Operating System",
+            "Product Keys",
+            "Registry",
+            "Restore Points",
+            "Scheduled Tasks",
+            "Service Packs",
+            "Services",
+            "Shadow Copy",
+            "Startup",
+            "Updates"});
+            this.checkedListBox2.Location = new System.Drawing.Point(319, 50);
+            this.checkedListBox2.MultiColumn = true;
+            this.checkedListBox2.Name = "checkedListBox2";
+            this.checkedListBox2.Size = new System.Drawing.Size(141, 304);
+            this.checkedListBox2.TabIndex = 2;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(6, 31);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(53, 13);
+            this.label20.TabIndex = 1;
+            this.label20.Text = "Hardware";
+            // 
+            // checkedListBox1
+            // 
+            this.checkedListBox1.ColumnWidth = 150;
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Items.AddRange(new object[] {
+            "**Hardware Inventory",
+            "1394 (Firewire) Controllers",
+            "BIOS",
+            "Busses",
+            "Chassis and Tags",
+            "Devices with Failures",
+            "Fans/Cooling",
+            "Hard Drives",
+            "IDE Controller",
+            "Infrared Device",
+            "Keyboard",
+            "Memory",
+            "Monitor",
+            "Motherboard",
+            "Mouse and Pointers",
+            "Network Adapters",
+            "Other Disks",
+            "PCMCIA",
+            "Power Supply",
+            "Printer",
+            "Processor",
+            "Serial Port",
+            "Sound",
+            "Tape Drive",
+            "USB",
+            "Video Devices"});
+            this.checkedListBox1.Location = new System.Drawing.Point(6, 50);
+            this.checkedListBox1.MultiColumn = true;
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(304, 304);
+            this.checkedListBox1.TabIndex = 0;
             // 
             // tpNetwork
             // 
@@ -6689,87 +6774,6 @@ namespace OneStop
             // 
             this.ofdTron.FileName = "Tron.bat";
             // 
-            // checkedListBox1
-            // 
-            this.checkedListBox1.ColumnWidth = 150;
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Items.AddRange(new object[] {
-            "**Hardware Inventory",
-            "1394 (Firewire) Controllers",
-            "BIOS",
-            "Busses",
-            "Chassis and Tags",
-            "Devices with Failures",
-            "Fans/Cooling",
-            "Hard Drives",
-            "IDE Controller",
-            "Infrared Device",
-            "Keyboard",
-            "Memory",
-            "Monitor",
-            "Motherboard",
-            "Mouse and Pointers",
-            "Network Adapters",
-            "Other Disks",
-            "PCMCIA",
-            "Power Supply",
-            "Printer",
-            "Processor",
-            "Serial Port",
-            "Sound",
-            "Tape Drive",
-            "USB",
-            "Video Devices"});
-            this.checkedListBox1.Location = new System.Drawing.Point(6, 50);
-            this.checkedListBox1.MultiColumn = true;
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(304, 304);
-            this.checkedListBox1.TabIndex = 0;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(6, 31);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(53, 13);
-            this.label20.TabIndex = 1;
-            this.label20.Text = "Hardware";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(319, 31);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(49, 13);
-            this.label21.TabIndex = 3;
-            this.label21.Text = "Software";
-            // 
-            // checkedListBox2
-            // 
-            this.checkedListBox2.ColumnWidth = 150;
-            this.checkedListBox2.FormattingEnabled = true;
-            this.checkedListBox2.Items.AddRange(new object[] {
-            "**Software Inventory",
-            "Codecs",
-            "Date/Time Info",
-            "Display",
-            "Microsoft Office Data",
-            "Operating System",
-            "Product Keys",
-            "Registry",
-            "Restore Points",
-            "Scheduled Tasks",
-            "Service Packs",
-            "Services",
-            "Shadow Copy",
-            "Startup",
-            "Updates"});
-            this.checkedListBox2.Location = new System.Drawing.Point(319, 50);
-            this.checkedListBox2.MultiColumn = true;
-            this.checkedListBox2.Name = "checkedListBox2";
-            this.checkedListBox2.Size = new System.Drawing.Size(141, 304);
-            this.checkedListBox2.TabIndex = 2;
-            // 
             // OsMain
             // 
             this.ClientSize = new System.Drawing.Size(754, 531);
@@ -7756,6 +7760,304 @@ namespace OneStop
         {
             var OS_BrowserIE = new OS_Browser();
             OS_BrowserIE.Show();
+        }
+
+        private void lbOsmCategories_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Needs to automatically do the pre-run, run once and set safemode on reboot, normal mode on end. Disable sleep and enable
+            //Need to add function to exclude disks from some programs
+
+            if (lbOsmCategories.SelectedItem.ToString() == @"Create Restore Point")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("Restore: Create New Restore Point - OneStop");
+                if (Properties.Settings.Default.str_Shop_Name != null)
+                    Programlist.Add("Restore: Create New Restore Point" + Properties.Settings.Default.str_Shop_Name);
+
+                lbProgramSelect.DataSource = Programlist;
+            }
+            if (lbOsmCategories.SelectedItem.ToString() == @"Reporting/Audit")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("Logs/Reports: Email to Default Email");
+                Programlist.Add("Logs/Reports: Upload to Ftp");
+                Programlist.Add("Logs/Reports: Upload to Dropbox");
+                Programlist.Add("Logs/Reports: Zip and Save");
+                Programlist.Add("Reporting: Full Report");
+                
+                lbProgramSelect.DataSource = Programlist;
+            }
+            if (lbOsmCategories.SelectedItem.ToString() == @"Hardware Testing")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("Test: SMART Check");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+
+                lbProgramSelect.DataSource = Programlist;
+            }
+            if (lbOsmCategories.SelectedItem.ToString() == @"Backup Tasks")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("Backup: Registry");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                lbProgramSelect.DataSource = Programlist;
+            }
+            if (lbOsmCategories.SelectedItem.ToString() == @"Prep For Malware Removal")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("Prep: RKill");
+                Programlist.Add("Prep: ProcessKiller");
+                Programlist.Add("Prep: McAffee Stinger");
+                Programlist.Add("Prep: TDSS Killer");
+                Programlist.Add("");
+                lbProgramSelect.DataSource = Programlist;
+            }
+            if (lbOsmCategories.SelectedItem.ToString() == @"File Cleanup")
+            {
+            //https://support.microsoft.com/en-us/kb/253597
+                List<string> Programlist = new List<string>();
+                Programlist.Add("Cleanup: Antivirus: ESET AV Remover");
+                Programlist.Add("Cleanup: Browser: Auslogics Browser Care");
+                Programlist.Add("Cleanup: Browser: IE: Clean and Reset");
+                Programlist.Add("Cleanup: Browser: IE: Delete Browser Helper Objects");
+                Programlist.Add("Cleanup: Browser: IE: Delete Toolbar Registry Keys");
+                Programlist.Add("Cleanup: Cleanmgr: All");
+                Programlist.Add("Cleanup: Cleanmgr: Chkdisk Lost File Fragments");
+                Programlist.Add("Cleanup: Cleanmgr: Clear Recycle Bin");
+                Programlist.Add("Cleanup: Cleanmgr: Compress Old Files");
+                Programlist.Add("Cleanup: Cleanmgr: Content Indexer Catalog Files");
+                Programlist.Add("Cleanup: Cleanmgr: Downloaded Program Files (ActiveX / Java)");
+                Programlist.Add("Cleanup: Cleanmgr: Offline Files");
+                Programlist.Add("Cleanup: Cleanmgr: Temporary Files");
+                Programlist.Add("Cleanup: Cleanmgr: Temporary Internet Files");
+                Programlist.Add("Cleanup: Cleanmgr: Temporary Offline Files");
+                Programlist.Add("Cleanup: Cleanmgr: Temporary Setup Files");
+                Programlist.Add("Cleanup: Duplicates: Download Folder");
+                Programlist.Add("Cleanup: General: /u/Vocatus TempFileCleanup.bat");
+                Programlist.Add("Cleanup: General: BleachBit (all)");
+                Programlist.Add("Cleanup: General: BleachBit (manual)");
+                Programlist.Add("Cleanup: General: CCleaner (all)");
+                Programlist.Add("Cleanup: General: CCleaner (manual)");
+                Programlist.Add("Cleanup: Registry: Auslogics Registry Cleaner");
+                Programlist.Add("Cleanup: System: Clear Windows Event Logs (w/backup)");
+                Programlist.Add("Cleanup: System: Delete $NTUninst");
+                Programlist.Add("Cleanup: System: Purge All Restore Points before Today");
+                Programlist.Add("Cleanup: System: Purge Volume Shadow Service");
+                Programlist.Add("Cleanup: USB: Unused/Not Present");
+                Programlist.Add("Cleanup: Bleachbit: Adobe Reader: Cache");
+                Programlist.Add("Cleanup: Bleachbit: Adobe Reader: Recent");
+                Programlist.Add("Cleanup: Bleachbit: Adobe Reader: Temp");
+                Programlist.Add("Cleanup: Bleachbit: Chrome: Cache");
+                Programlist.Add("Cleanup: Bleachbit: Chrome: Clean Database Fragmentation");
+                Programlist.Add("Cleanup: Bleachbit: Chrome: Cookies");
+                Programlist.Add("Cleanup: Bleachbit: Chrome: DOM Storage");
+                Programlist.Add("Cleanup: Bleachbit: Chrome: Form History");
+                Programlist.Add("Cleanup: Bleachbit: Chrome: History");
+                Programlist.Add("Cleanup: Bleachbit: Chrome: Passwords");
+                Programlist.Add("Cleanup: Bleachbit: Chrome: Search Engines");
+                Programlist.Add("Cleanup: Bleachbit: Chrome: Session");
+                Programlist.Add("Cleanup: Bleachbit: Clipboard");
+                Programlist.Add("Cleanup: Bleachbit: Deepscan: .DS_Store");
+                Programlist.Add("Cleanup: Bleachbit: Deepscan: Backup Files");
+                Programlist.Add("Cleanup: Bleachbit: Deepscan: Temp. Files");
+                Programlist.Add("Cleanup: Bleachbit: Deepscan: Thumbs.db");
+                Programlist.Add("Cleanup: Bleachbit: Filezilla: Recent");
+                Programlist.Add("Cleanup: Bleachbit: Firefox: Backup Files");
+                Programlist.Add("Cleanup: Bleachbit: Firefox: Cache");
+                Programlist.Add("Cleanup: Bleachbit: Firefox: Clean Database Fragmentation");
+                Programlist.Add("Cleanup: Bleachbit: Firefox: Cookies");
+                Programlist.Add("Cleanup: Bleachbit: Firefox: Crash Reports");
+                Programlist.Add("Cleanup: Bleachbit: Firefox: DOM Storage");
+                Programlist.Add("Cleanup: Bleachbit: Firefox: Download History");
+                Programlist.Add("Cleanup: Bleachbit: Firefox: Form History");
+                Programlist.Add("Cleanup: Bleachbit: Firefox: Passwords");
+                Programlist.Add("Cleanup: Bleachbit: Firefox: Session Restore");
+                Programlist.Add("Cleanup: Bleachbit: Firefox: Site Preferences");
+                Programlist.Add("Cleanup: Bleachbit: Firefox: URL History");
+                Programlist.Add("Cleanup: Bleachbit: Flash: Cache");
+                Programlist.Add("Cleanup: Bleachbit: Flash: Cookies");
+                Programlist.Add("Cleanup: Bleachbit: IE: Cookies");
+                Programlist.Add("Cleanup: Bleachbit: IE: Form History");
+                Programlist.Add("Cleanup: Bleachbit: IE: History");
+                Programlist.Add("Cleanup: Bleachbit: IE: Temporary Files");
+                Programlist.Add("Cleanup: Bleachbit: Java: Cache");
+                Programlist.Add("Cleanup: Bleachbit: LibreOffice: Cache");
+                Programlist.Add("Cleanup: Bleachbit: LibreOffice: History");
+                Programlist.Add("Cleanup: Bleachbit: Log Files");
+                Programlist.Add("Cleanup: Bleachbit: memory.dmp");
+                Programlist.Add("Cleanup: Bleachbit: Microsoft Office: Debug Logs");
+                Programlist.Add("Cleanup: Bleachbit: Microsoft Office: Recently Used");
+                Programlist.Add("Cleanup: Bleachbit: Microsoft Updates Uninstallers");
+                Programlist.Add("Cleanup: Bleachbit: MUI Memory");
+                Programlist.Add("Cleanup: Bleachbit: OpenOffice: Cache");
+                Programlist.Add("Cleanup: Bleachbit: OpenOffice: Recently Used");
+                Programlist.Add("Cleanup: Bleachbit: Paint: Recently Used");
+                Programlist.Add("Cleanup: Bleachbit: Prefetch Memory");
+                Programlist.Add("Cleanup: Bleachbit: Recycle Bin");
+                Programlist.Add("Cleanup: Bleachbit: Skype: Chat Logs");
+                Programlist.Add("Cleanup: Bleachbit: Skype: Installers");
+                Programlist.Add("Cleanup: Bleachbit: System Logs");
+                Programlist.Add("Cleanup: Bleachbit: TeamViewer: Logs");
+                Programlist.Add("Cleanup: Bleachbit: TeamViewer: Recently Used");
+                Programlist.Add("Cleanup: Bleachbit: Temp Files");
+                Programlist.Add("Cleanup: Bleachbit: Thunderbird: Cache");
+                Programlist.Add("Cleanup: Bleachbit: Thunderbird: Clean Database Fragmentation");
+                Programlist.Add("Cleanup: Bleachbit: Thunderbird: Cookies");
+                Programlist.Add("Cleanup: Bleachbit: Thunderbird: Index");
+                Programlist.Add("Cleanup: Bleachbit: Thunderbird: Password");
+                Programlist.Add("Cleanup: Bleachbit: VLC: Recently Used");
+                Programlist.Add("Cleanup: Bleachbit: Winamp: Recently Used");
+                Programlist.Add("Cleanup: Bleachbit: Windows Explorer: Most Recently Used");
+                Programlist.Add("Cleanup: Bleachbit: Windows Explorer: Recent Docs List");
+                Programlist.Add("Cleanup: Bleachbit: Windows Explorer: Run");
+                Programlist.Add("Cleanup: Bleachbit: Windows Explorer: Search History");
+                Programlist.Add("Cleanup: Bleachbit: Windows Explorer: Thumbnails");
+                Programlist.Add("Cleanup: Bleachbit: WinRar:  Recently Used");
+                Programlist.Add("Cleanup: Bleachbit: WinZip: Recently Used");
+                Programlist.Add("Cleanup: Bleachbit: WordPad: Recently Used");
+
+
+                //IF Bleachbit containes /cleaners/winapp2.ini, iterate through list and append
+                lbProgramSelect.DataSource = Programlist;
+            }
+            if (lbOsmCategories.SelectedItem.ToString() == @"De-Bloat")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                lbProgramSelect.DataSource = Programlist;
+            }
+            if (lbOsmCategories.SelectedItem.ToString() == @"Disinfect")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                lbProgramSelect.DataSource = Programlist;
+            }
+            if (lbOsmCategories.SelectedItem.ToString() == @"Repair")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("Repair: ");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                lbProgramSelect.DataSource = Programlist;
+            }
+            if (lbOsmCategories.SelectedItem.ToString() == @"Patch / Updates / Install")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                lbProgramSelect.DataSource = Programlist;
+            }
+            if (lbOsmCategories.SelectedItem.ToString() == @"Optimize")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                lbProgramSelect.DataSource = Programlist;
+            }
+            if (lbOsmCategories.SelectedItem.ToString() == @"Windows Repair")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("Repair: Set System Time via NTP");
+                Programlist.Add("Repair: Check/Repair WMI");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                lbProgramSelect.DataSource = Programlist;
+            }
+            if (lbOsmCategories.SelectedItem.ToString() == @"System Tweaks")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("Tweak: Reduce System Restore Space");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                lbProgramSelect.DataSource = Programlist;
+            }
+            if (lbOsmCategories.SelectedItem.ToString() == @"Apply Branding")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                lbProgramSelect.DataSource = Programlist;
+            }
+            if (lbOsmCategories.SelectedItem.ToString() == @"Networking")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                lbProgramSelect.DataSource = Programlist;
+            }
+            if (lbOsmCategories.SelectedItem.ToString() == @"Manual Tools")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                lbProgramSelect.DataSource = Programlist;
+            }
+            if (lbOsmCategories.SelectedItem.ToString() == @"Other")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                Programlist.Add("");
+                lbProgramSelect.DataSource = Programlist;
+            }
+
+            if (lbOsmCategories.SelectedItem.ToString() == @"Extended File Cleanup")
+            {
+                List<string> Programlist = new List<string>();
+                Programlist.Add("**IF WINAPP2.INI is found, options load here**");
+                lbProgramSelect.DataSource = Programlist;
+            }
+
+
+
         }
 
 
