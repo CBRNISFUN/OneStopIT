@@ -28,6 +28,7 @@ using System.Net.Sockets;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using OneStop.Properties;
+using WmiLight;
 
 namespace OneStop
 {
@@ -176,6 +177,10 @@ namespace OneStop
         private CheckedListBox checkedListBox2;
         private Label label20;
         private CheckedListBox checkedListBox1;
+        private TabPage tpsysinfo;
+        private TreeView tvCategories;
+        private TextBox tbSysInfoOutput;
+        private Button button15;
         private Button winsockRepBTN;
 #endregion
 
@@ -183,6 +188,10 @@ namespace OneStop
         private void OS_Main_Load(object sender, EventArgs e)
         {
             #region Startup
+            
+            //Load the console form
+            //var OS_Console = new OS_Console(null);
+            //OS_Console.Show();
 
             StartProgressMarquee();
 
@@ -1389,7 +1398,7 @@ namespace OneStop
             {
                 if (mode == 1 || mode == 0)
                 {
-                    tbConsole.AppendText(@"OneStopIT - The Open Source All-In-One tool for technicians." +
+                    string strGPL =@"OneStopIT - The Open Source All-In-One tool for technicians." +
                                           Environment.NewLine +
                                           "Copyright (C)2016 CollectiveIT.org" +
                                           Environment.NewLine +
@@ -1416,7 +1425,13 @@ namespace OneStop
                                           "along with this program.  If not, see <http://www.gnu.org/licenses/>." +
                                           Environment.NewLine +
                                           "Developers: staticextasy, CBRN_IS_FUN (Garren King) - Find us on reddit.com/r/OneStopIT" +
-                                          Environment.NewLine);
+                                          Environment.NewLine;
+                    
+                    tbConsole.AppendText(strGPL);
+
+                    //OS_Console.OS_ConsoleAdd(strGPL);
+                    //var OS_Console = new OS_Console(strGPL);
+                    //OS_Console.Show();
                 }
             }
 
@@ -2115,6 +2130,10 @@ namespace OneStop
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("About");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Windows", new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("System Folders");
             this.tsBottomToolbar = new System.Windows.Forms.ToolStrip();
             this.pbCurrentProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripSeparator01 = new System.Windows.Forms.ToolStripSeparator();
@@ -2417,6 +2436,9 @@ namespace OneStop
             this.tpTime = new System.Windows.Forms.TabPage();
             this.tpSystemInfo = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tpsysinfo = new System.Windows.Forms.TabPage();
+            this.tbSysInfoOutput = new System.Windows.Forms.TextBox();
+            this.tvCategories = new System.Windows.Forms.TreeView();
             this.tpSystemReport = new System.Windows.Forms.TabPage();
             this.label21 = new System.Windows.Forms.Label();
             this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
@@ -2584,6 +2606,7 @@ namespace OneStop
             this.ddlInfoNetworkAdapters = new System.Windows.Forms.ComboBox();
             this.lblInfoAdapterDesc = new System.Windows.Forms.Label();
             this.ofdTron = new System.Windows.Forms.OpenFileDialog();
+            this.button15 = new System.Windows.Forms.Button();
             this.tsBottomToolbar.SuspendLayout();
             this.menuPrimary.SuspendLayout();
             this.tcPrimaryTabs.SuspendLayout();
@@ -2594,6 +2617,7 @@ namespace OneStop
             this.tpLaunchTron.SuspendLayout();
             this.tpSystemInfo.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tpsysinfo.SuspendLayout();
             this.tpSystemReport.SuspendLayout();
             this.tpNetwork.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -5065,6 +5089,7 @@ namespace OneStop
             // 
             // tabControl1
             // 
+            this.tabControl1.Controls.Add(this.tpsysinfo);
             this.tabControl1.Controls.Add(this.tpSystemReport);
             this.tabControl1.Controls.Add(this.tpNetwork);
             this.tabControl1.Location = new System.Drawing.Point(0, 4);
@@ -5072,6 +5097,45 @@ namespace OneStop
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(745, 386);
             this.tabControl1.TabIndex = 0;
+            // 
+            // tpsysinfo
+            // 
+            this.tpsysinfo.Controls.Add(this.button15);
+            this.tpsysinfo.Controls.Add(this.tbSysInfoOutput);
+            this.tpsysinfo.Controls.Add(this.tvCategories);
+            this.tpsysinfo.Location = new System.Drawing.Point(4, 22);
+            this.tpsysinfo.Name = "tpsysinfo";
+            this.tpsysinfo.Padding = new System.Windows.Forms.Padding(3);
+            this.tpsysinfo.Size = new System.Drawing.Size(737, 360);
+            this.tpsysinfo.TabIndex = 2;
+            this.tpsysinfo.Text = "System Info";
+            this.tpsysinfo.UseVisualStyleBackColor = true;
+            // 
+            // tbSysInfoOutput
+            // 
+            this.tbSysInfoOutput.Location = new System.Drawing.Point(202, 7);
+            this.tbSysInfoOutput.Multiline = true;
+            this.tbSysInfoOutput.Name = "tbSysInfoOutput";
+            this.tbSysInfoOutput.Size = new System.Drawing.Size(529, 347);
+            this.tbSysInfoOutput.TabIndex = 1;
+            // 
+            // tvCategories
+            // 
+            this.tvCategories.CheckBoxes = true;
+            this.tvCategories.Location = new System.Drawing.Point(6, 6);
+            this.tvCategories.Name = "tvCategories";
+            treeNode1.Name = "nodeOS";
+            treeNode1.Text = "About";
+            treeNode2.Name = "nodeWindows";
+            treeNode2.Text = "Windows";
+            treeNode3.Name = "nodeSysFolders";
+            treeNode3.Text = "System Folders";
+            this.tvCategories.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode2,
+            treeNode3});
+            this.tvCategories.Size = new System.Drawing.Size(189, 318);
+            this.tvCategories.TabIndex = 0;
+            this.tvCategories.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvCategories_AfterSelect);
             // 
             // tpSystemReport
             // 
@@ -5084,7 +5148,7 @@ namespace OneStop
             this.tpSystemReport.Padding = new System.Windows.Forms.Padding(3);
             this.tpSystemReport.Size = new System.Drawing.Size(737, 360);
             this.tpSystemReport.TabIndex = 1;
-            this.tpSystemReport.Text = "System Report";
+            this.tpSystemReport.Text = "Generate HTML Report";
             this.tpSystemReport.UseVisualStyleBackColor = true;
             // 
             // label21
@@ -6774,6 +6838,15 @@ namespace OneStop
             // 
             this.ofdTron.FileName = "Tron.bat";
             // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(6, 330);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(189, 23);
+            this.button15.TabIndex = 2;
+            this.button15.Text = "Save Checked as Report";
+            this.button15.UseVisualStyleBackColor = true;
+            // 
             // OsMain
             // 
             this.ClientSize = new System.Drawing.Size(754, 531);
@@ -6820,6 +6893,8 @@ namespace OneStop
             this.tpLaunchTron.PerformLayout();
             this.tpSystemInfo.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
+            this.tpsysinfo.ResumeLayout(false);
+            this.tpsysinfo.PerformLayout();
             this.tpSystemReport.ResumeLayout(false);
             this.tpSystemReport.PerformLayout();
             this.tpNetwork.ResumeLayout(false);
@@ -7767,6 +7842,8 @@ namespace OneStop
             //Needs to automatically do the pre-run, run once and set safemode on reboot, normal mode on end. Disable sleep and enable
             //Need to add function to exclude disks from some programs
 
+            
+
             if (lbOsmCategories.SelectedItem.ToString() == @"Create Restore Point")
             {
                 List<string> Programlist = new List<string>();
@@ -8060,8 +8137,88 @@ namespace OneStop
 
         }
 
+        private void tvCategories_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            tbSysInfoOutput.Text = "";
+            
+            TreeNode node1 = tvCategories.SelectedNode;
+            string tn = node1.Name.ToString();
+            
+            if (tn == "nodeOS")
+            {
+                using (WmiConnection con = new WmiConnection())
+                {
+                    foreach (WmiObject so in con.CreateQuery("SELECT * FROM Win32_OperatingSystem"))
+                    {
+                        sio("Boot Info --");                  
+                        if (so["BootDevice"] != null) { sio("Boot Device: " + so["BootDevice"].ToString()); }
+                        
+                        sio("SIO_BR");
+                        sio("Build Information --");
+                        if (so["CSDVersion"] != null) { sio("Latest Service Pack: " + so["CSDVersion"].ToString()); }
+                        if (so["BuildNumber"] != null) { sio("Build Number" + so["BuildNumber"].ToString()); }
+                        if (so["BuildType"] != null) { sio("Build Type:" + so["BuildType"].ToString()); }
+                        if (so["Caption"] != null) { sio("Caption: " + so["Caption"].ToString()); }
+                        
+                        sio("SIO_BR");
+                        sio("Localization Information --");
+                        if (so["CountryCode"] != null) { sio("Country Code: " + so["CountryCode"].ToString()); }
+                        if (so["CurrentTimeZone"] != null) { sio("Minutes Different GMT: " + so["CurrentTimeZone"].ToString()); }
+                        
+                        sio("SIO_BR");
+                        sio("Class Name Information --");
+                        if (so["CodeSet"] != null) { sio("Code Set: " + so["CodeSet"].ToString()); }
+                        if (so["CreationClassName"] != null) { sio("Creation ClassName: " + so["CreationClassName"].ToString()); }
+                        if (so["CSCreationClassName"] != null) { sio("CSCreation ClassName: " + so["CSCreationClassName"].ToString()); }
+                        if (so["CSName"] != null) { sio("CSName: " + so["CSName"].ToString()); }
 
 
+                        sio("SIO_BR");
+                        sio("Data Execution Prevention Information --");
+                        if (so["DataExecutionPrevention_32BitApplications"] != null) { sio("DEP for 32 Bit Apps: " + so["DataExecutionPrevention_32BitApplications"].ToString()); }
+                        if (so["DataExecutionPrevention_Available"] != null) { sio("DEP Hardware Support: " + so["DataExecutionPrevention_Available"].ToString()); }
+                        if (so["DataExecutionPrevention_Drivers"] != null) { sio("DEP Drivers: " + so["DataExecutionPrevention_Drivers"].ToString()); }
+                        if (so["DataExecutionPrevention_SupportPolicy"] != null)
+                        {
+                            int mode = Convert.ToInt32(so["DataExecutionPrevention_SupportPolicy"]);
+                            if (mode == 0)
+                            {
+                                sio("DEP Policy: Always Off");
+                            }
+                            if (mode == 1)
+                            {
+                                sio("DEP Policy: Always On");
+                            }
+                            if (mode == 2)
+                            {
+                                sio("DEP Policy: Opt In");
+                            }
+                            if (mode == 3)
+                            {
+                                sio("DEP Policy: Opt Out");
+                            }
+                            
+                            
+                        }
+                        //if (so["CSDVersion"] != null) { sio("Latest Service Pack: " + so["CSDVersion"].ToString()); }
+                        //if (so["CSDVersion"] != null) { sio("Latest Service Pack: " + so["CSDVersion"].ToString()); }
+                    }
+                }
+            }
+        }
 
+        public void sio(string input)
+        {
+            //string input = objin.ToString();
+
+            if (input == "SIO_BR")
+            {
+                tbSysInfoOutput.AppendText(Environment.NewLine);
+            }
+            else
+            { 
+            tbSysInfoOutput.AppendText(input + Environment.NewLine);
+            }
+        }
     }
 }
