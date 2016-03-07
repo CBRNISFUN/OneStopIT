@@ -26,6 +26,8 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Windows.Forms;
+using CsvHelper;
+using CsvHelper.Configuration;
 using Microsoft.Win32;
 using OneStop.Properties;
 using WmiLight;
@@ -170,17 +172,15 @@ namespace OneStop
         private TabPage tpLogging;
         private TabPage tpNetwork;
         private TabPage tpServers;
-        private TabPage tpSystemReport;
         private ToolStripMenuItem forceLogoffToolStripMenuItem;
         private ToolStripMenuItem oneStopToolInternalBrowserToolStripMenuItem;
-        private Label label21;
-        private CheckedListBox checkedListBox2;
-        private Label label20;
-        private CheckedListBox checkedListBox1;
         private TabPage tpsysinfo;
         private TreeView tvCategories;
         private TextBox tbSysInfoOutput;
         private Button button15;
+        private TabPage tabPage1;
+        private Button button16;
+        private ToolStripMenuItem websitesToolStripMenuItem;
         private Button winsockRepBTN;
 #endregion
 
@@ -342,14 +342,17 @@ namespace OneStop
             LoadMenuatStart();
 
             var strCurrentDirectory = Directory.GetCurrentDirectory();
-            var strScriptsDirectory = strCurrentDirectory + "\\Scripts";
-            var strDocsDirectory = strCurrentDirectory + "\\Documents";
+            var strScriptsDirectory = strCurrentDirectory + "\\Config\\Scripts";
+            var strDocsDirectory = strCurrentDirectory + "\\Config\\Documents";
 
             //enumerate scripts Quick Launch
             EnumerateScripts(strScriptsDirectory);
 
             //Enumerate Docs Quick Launch
             EnumerateDocs(strDocsDirectory);
+
+            //Enumerate Custom Websites Quick Launch
+            EnumerateWebsites();
 
             OSConsole("Loading Customization Settings", intStartupMode);
             //Load Settings Panel
@@ -2130,10 +2133,10 @@ namespace OneStop
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("About");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Windows", new System.Windows.Forms.TreeNode[] {
-            treeNode1});
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("System Folders");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("About");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Windows", new System.Windows.Forms.TreeNode[] {
+            treeNode7});
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("System Folders");
             this.tsBottomToolbar = new System.Windows.Forms.ToolStrip();
             this.pbCurrentProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripSeparator01 = new System.Windows.Forms.ToolStripSeparator();
@@ -2437,13 +2440,9 @@ namespace OneStop
             this.tpSystemInfo = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpsysinfo = new System.Windows.Forms.TabPage();
+            this.button15 = new System.Windows.Forms.Button();
             this.tbSysInfoOutput = new System.Windows.Forms.TextBox();
             this.tvCategories = new System.Windows.Forms.TreeView();
-            this.tpSystemReport = new System.Windows.Forms.TabPage();
-            this.label21 = new System.Windows.Forms.Label();
-            this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
-            this.label20 = new System.Windows.Forms.Label();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.tpNetwork = new System.Windows.Forms.TabPage();
             this.netBox = new System.Windows.Forms.TextBox();
             this.clearSslBTN = new System.Windows.Forms.Button();
@@ -2606,7 +2605,9 @@ namespace OneStop
             this.ddlInfoNetworkAdapters = new System.Windows.Forms.ComboBox();
             this.lblInfoAdapterDesc = new System.Windows.Forms.Label();
             this.ofdTron = new System.Windows.Forms.OpenFileDialog();
-            this.button15 = new System.Windows.Forms.Button();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button16 = new System.Windows.Forms.Button();
+            this.websitesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsBottomToolbar.SuspendLayout();
             this.menuPrimary.SuspendLayout();
             this.tcPrimaryTabs.SuspendLayout();
@@ -2618,7 +2619,6 @@ namespace OneStop
             this.tpSystemInfo.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tpsysinfo.SuspendLayout();
-            this.tpSystemReport.SuspendLayout();
             this.tpNetwork.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
@@ -2720,6 +2720,7 @@ namespace OneStop
             this.qlToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.scriptsToolStripMenuItem,
             this.documentsToolStripMenuItem,
+            this.websitesToolStripMenuItem,
             this.toolStripSeparator23});
             this.qlToolStripMenuItem.Name = "qlToolStripMenuItem";
             this.qlToolStripMenuItem.Size = new System.Drawing.Size(34, 20);
@@ -4519,6 +4520,7 @@ namespace OneStop
             // 
             // tpOneStopMain
             // 
+            this.tpOneStopMain.Controls.Add(this.button16);
             this.tpOneStopMain.Controls.Add(this.lblOsmExecuteOrder);
             this.tpOneStopMain.Controls.Add(this.lblOsmProgramSelect);
             this.tpOneStopMain.Controls.Add(this.lblOsmCategories);
@@ -4575,7 +4577,7 @@ namespace OneStop
             this.lbProgramSelect.FormattingEnabled = true;
             this.lbProgramSelect.Location = new System.Drawing.Point(219, 29);
             this.lbProgramSelect.Name = "lbProgramSelect";
-            this.lbProgramSelect.Size = new System.Drawing.Size(243, 342);
+            this.lbProgramSelect.Size = new System.Drawing.Size(243, 316);
             this.lbProgramSelect.TabIndex = 1;
             // 
             // lbOsmCategories
@@ -5090,7 +5092,6 @@ namespace OneStop
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tpsysinfo);
-            this.tabControl1.Controls.Add(this.tpSystemReport);
             this.tabControl1.Controls.Add(this.tpNetwork);
             this.tabControl1.Location = new System.Drawing.Point(0, 4);
             this.tabControl1.Name = "tabControl1";
@@ -5111,6 +5112,15 @@ namespace OneStop
             this.tpsysinfo.Text = "System Info";
             this.tpsysinfo.UseVisualStyleBackColor = true;
             // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(6, 330);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(189, 23);
+            this.button15.TabIndex = 2;
+            this.button15.Text = "Save Checked as Report";
+            this.button15.UseVisualStyleBackColor = true;
+            // 
             // tbSysInfoOutput
             // 
             this.tbSysInfoOutput.Location = new System.Drawing.Point(202, 7);
@@ -5124,113 +5134,18 @@ namespace OneStop
             this.tvCategories.CheckBoxes = true;
             this.tvCategories.Location = new System.Drawing.Point(6, 6);
             this.tvCategories.Name = "tvCategories";
-            treeNode1.Name = "nodeOS";
-            treeNode1.Text = "About";
-            treeNode2.Name = "nodeWindows";
-            treeNode2.Text = "Windows";
-            treeNode3.Name = "nodeSysFolders";
-            treeNode3.Text = "System Folders";
+            treeNode7.Name = "nodeOS";
+            treeNode7.Text = "About";
+            treeNode8.Name = "nodeWindows";
+            treeNode8.Text = "Windows";
+            treeNode9.Name = "nodeSysFolders";
+            treeNode9.Text = "System Folders";
             this.tvCategories.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2,
-            treeNode3});
+            treeNode8,
+            treeNode9});
             this.tvCategories.Size = new System.Drawing.Size(189, 318);
             this.tvCategories.TabIndex = 0;
             this.tvCategories.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvCategories_AfterSelect);
-            // 
-            // tpSystemReport
-            // 
-            this.tpSystemReport.Controls.Add(this.label21);
-            this.tpSystemReport.Controls.Add(this.checkedListBox2);
-            this.tpSystemReport.Controls.Add(this.label20);
-            this.tpSystemReport.Controls.Add(this.checkedListBox1);
-            this.tpSystemReport.Location = new System.Drawing.Point(4, 22);
-            this.tpSystemReport.Name = "tpSystemReport";
-            this.tpSystemReport.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSystemReport.Size = new System.Drawing.Size(737, 360);
-            this.tpSystemReport.TabIndex = 1;
-            this.tpSystemReport.Text = "Generate HTML Report";
-            this.tpSystemReport.UseVisualStyleBackColor = true;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(319, 31);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(49, 13);
-            this.label21.TabIndex = 3;
-            this.label21.Text = "Software";
-            // 
-            // checkedListBox2
-            // 
-            this.checkedListBox2.ColumnWidth = 150;
-            this.checkedListBox2.FormattingEnabled = true;
-            this.checkedListBox2.Items.AddRange(new object[] {
-            "**Software Inventory",
-            "Codecs",
-            "Date/Time Info",
-            "Display",
-            "Microsoft Office Data",
-            "Operating System",
-            "Product Keys",
-            "Registry",
-            "Restore Points",
-            "Scheduled Tasks",
-            "Service Packs",
-            "Services",
-            "Shadow Copy",
-            "Startup",
-            "Updates"});
-            this.checkedListBox2.Location = new System.Drawing.Point(319, 50);
-            this.checkedListBox2.MultiColumn = true;
-            this.checkedListBox2.Name = "checkedListBox2";
-            this.checkedListBox2.Size = new System.Drawing.Size(141, 304);
-            this.checkedListBox2.TabIndex = 2;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(6, 31);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(53, 13);
-            this.label20.TabIndex = 1;
-            this.label20.Text = "Hardware";
-            // 
-            // checkedListBox1
-            // 
-            this.checkedListBox1.ColumnWidth = 150;
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Items.AddRange(new object[] {
-            "**Hardware Inventory",
-            "1394 (Firewire) Controllers",
-            "BIOS",
-            "Busses",
-            "Chassis and Tags",
-            "Devices with Failures",
-            "Fans/Cooling",
-            "Hard Drives",
-            "IDE Controller",
-            "Infrared Device",
-            "Keyboard",
-            "Memory",
-            "Monitor",
-            "Motherboard",
-            "Mouse and Pointers",
-            "Network Adapters",
-            "Other Disks",
-            "PCMCIA",
-            "Power Supply",
-            "Printer",
-            "Processor",
-            "Serial Port",
-            "Sound",
-            "Tape Drive",
-            "USB",
-            "Video Devices"});
-            this.checkedListBox1.Location = new System.Drawing.Point(6, 50);
-            this.checkedListBox1.MultiColumn = true;
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(304, 304);
-            this.checkedListBox1.TabIndex = 0;
             // 
             // tpNetwork
             // 
@@ -5666,6 +5581,7 @@ namespace OneStop
             this.tabControl2.Controls.Add(this.tpServers);
             this.tabControl2.Controls.Add(this.tpIntegration);
             this.tabControl2.Controls.Add(this.tpLogging);
+            this.tabControl2.Controls.Add(this.tabPage1);
             this.tabControl2.Location = new System.Drawing.Point(0, 3);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
@@ -6838,14 +6754,30 @@ namespace OneStop
             // 
             this.ofdTron.FileName = "Tron.bat";
             // 
-            // button15
+            // tabPage1
             // 
-            this.button15.Location = new System.Drawing.Point(6, 330);
-            this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(189, 23);
-            this.button15.TabIndex = 2;
-            this.button15.Text = "Save Checked as Report";
-            this.button15.UseVisualStyleBackColor = true;
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(738, 366);
+            this.tabPage1.TabIndex = 5;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button16
+            // 
+            this.button16.Location = new System.Drawing.Point(219, 347);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(103, 23);
+            this.button16.TabIndex = 8;
+            this.button16.Text = "Add A Program";
+            this.button16.UseVisualStyleBackColor = true;
+            // 
+            // websitesToolStripMenuItem
+            // 
+            this.websitesToolStripMenuItem.Name = "websitesToolStripMenuItem";
+            this.websitesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.websitesToolStripMenuItem.Text = "Websites";
             // 
             // OsMain
             // 
@@ -6895,8 +6827,6 @@ namespace OneStop
             this.tabControl1.ResumeLayout(false);
             this.tpsysinfo.ResumeLayout(false);
             this.tpsysinfo.PerformLayout();
-            this.tpSystemReport.ResumeLayout(false);
-            this.tpSystemReport.PerformLayout();
             this.tpNetwork.ResumeLayout(false);
             this.tpNetwork.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -7378,6 +7308,57 @@ namespace OneStop
                 OSConsole("Executing DLL Command: " + path, intCMDCommandMode);
                 Process.Start("CMD.exe", " /c " + path);
             }
+            else if (mode == "blind")
+            {
+                try
+                {
+                    Process proc = new Process();
+                    proc.StartInfo.FileName = path;
+                    proc.StartInfo.UseShellExecute = true;
+                    proc.Start(); 
+                }
+                catch (Exception e)
+                {
+                    OSConsole("Caught Exception: " + e, intVerboseErrorMode);
+                }
+                OSConsole(output, 1);
+            }
+            else if (mode == "prompt_blind_open")
+            {
+                //k
+                OSConsole("Executing System Command: " + args, intCMDCommandMode);
+
+                try
+                {
+                    var startInfo = new ProcessStartInfo();
+                    startInfo.RedirectStandardOutput = false;
+                    startInfo.RedirectStandardError = false;
+                    startInfo.FileName = path;
+                    if (args != null)
+                    {
+                        startInfo.Arguments = " /k " + args;
+                    }
+                    startInfo.UseShellExecute = false;
+
+                    var process = new Process();
+                    process.StartInfo = startInfo;
+                    process.EnableRaisingEvents = true;
+
+                    process.Start();
+
+                    if (wait)
+                    {
+                        process.WaitForExit();
+                    }
+
+                    output = process.StandardOutput.ReadToEnd();
+                }
+                catch (Exception e)
+                {
+                    OSConsole("Caught Exception: " + e, intVerboseErrorMode);
+                }
+                OSConsole(output, 1);
+            }
             else if (mode == "prompt_open")
             {
                 //k
@@ -7462,8 +7443,54 @@ namespace OneStop
                     OSConsole("Caught Exception: " + e, intVerboseErrorMode);
                 }
             }
+            else if (mode == "prompt_blind_close")
+            {
+                // c
+                OSConsole("Executing System Command: " + args, intCMDCommandMode);
+                try
+                {
+                    var startInfo = new ProcessStartInfo();
+                    startInfo.RedirectStandardOutput = false;
+                    startInfo.RedirectStandardError = false;
+                    startInfo.FileName = path;
+                    if (args != null)
+                    {
+                        startInfo.Arguments = " /c " + args;
+                    }
+                    startInfo.UseShellExecute = false;
 
+                    var process = new Process();
+                    process.StartInfo = startInfo;
+                    process.EnableRaisingEvents = true;
 
+                    process.Start();
+
+                    if (wait)
+                    {
+                        process.WaitForExit();
+                    }
+
+                    output = process.StandardOutput.ReadToEnd();
+
+                    if (process.HasExited)
+                    {
+                        if (process.ExitCode == 0)
+                        {
+                            OSConsole(output, intCMDCommandMode);
+                            OSConsole("Exited successfully", intCMDCommandMode);
+                        }
+                        else
+                        {
+                            OSConsole(output, intVerboseErrorMode);
+                            OSConsole("Exited with code: " + process.ExitCode, intVerboseErrorMode);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    OSConsole("Caught Exception: " + e, intVerboseErrorMode);
+                }
+            }
             else
             {
                 try
@@ -7553,6 +7580,37 @@ namespace OneStop
             {
                 OSConsole("Exeption Thrown: Enumerating Documents Directory - Unknown", intVerboseErrorMode);
             }
+        }
+
+        private void EnumerateWebsites()
+        {
+            try
+            {
+                StreamReader reader = File.OpenText(Directory.GetCurrentDirectory() + "\\Config\\customwebsites.csv");
+                var csv = new CsvReader(reader);
+                while (csv.Read())
+                {
+                    string namefield = csv.GetField<string>("Name");
+                    //Create item in current instance
+                    ToolStripItem subItem = new ToolStripMenuItem();
+                    subItem.Click += MenuClicked;
+                    subItem.Text = namefield;
+                    websitesToolStripMenuItem.DropDownItems.Add(subItem);
+                }
+            }
+            catch (UnauthorizedAccessException uaEx)
+            {
+                OSConsole("Exeption Thrown: Enumerating Websites -" + uaEx.Message, intVerboseErrorMode);
+            }
+            catch (PathTooLongException pathEx)
+            {
+                OSConsole("Exeption Thrown: Enumerating Websites -" + pathEx.Message, intVerboseErrorMode);
+            }
+            catch
+            {
+                OSConsole("Exeption Thrown: Enumerating Websites - Unknown", intVerboseErrorMode);
+            }
+
         }
 
         public void CreateMenuItem(string strName)
@@ -7846,32 +7904,22 @@ namespace OneStop
 
             if (lbOsmCategories.SelectedItem.ToString() == @"Create Restore Point")
             {
-                List<string> Programlist = new List<string>();
-                Programlist.Add("Restore: Create New Restore Point - OneStop");
-                if (Properties.Settings.Default.str_Shop_Name != null)
-                    Programlist.Add("Restore: Create New Restore Point" + Properties.Settings.Default.str_Shop_Name);
+                string strCategory = @"Create Restore Point";
+                var Programlist = GenerateOnestopItems(strCategory);
+                if(!String.IsNullOrEmpty(Programlist.ToString())){ lbProgramSelect.DataSource = Programlist;}
+              
 
-                lbProgramSelect.DataSource = Programlist;
             }
             if (lbOsmCategories.SelectedItem.ToString() == @"Reporting/Audit")
             {
-                List<string> Programlist = new List<string>();
-                Programlist.Add("Logs/Reports: Email to Default Email");
-                Programlist.Add("Logs/Reports: Upload to Ftp");
-                Programlist.Add("Logs/Reports: Upload to Dropbox");
-                Programlist.Add("Logs/Reports: Zip and Save");
-                Programlist.Add("Reporting: Full Report");
-                
+                string strCategory = @"Reporting/Audit";
+                var Programlist = GenerateOnestopItems(strCategory);
                 lbProgramSelect.DataSource = Programlist;
             }
             if (lbOsmCategories.SelectedItem.ToString() == @"Hardware Testing")
             {
                 List<string> Programlist = new List<string>();
-                Programlist.Add("Test: SMART Check");
-                Programlist.Add("");
-                Programlist.Add("");
-                Programlist.Add("");
-                Programlist.Add("");
+
 
                 lbProgramSelect.DataSource = Programlist;
             }
@@ -8137,6 +8185,24 @@ namespace OneStop
 
         }
 
+        private static List<string> GenerateOnestopItems(string strCategory)
+        {
+            List<string> Programlist = new List<string>();
+            StreamReader reader = File.OpenText(Directory.GetCurrentDirectory() + "\\Config\\programlist.csv");
+            var csv = new CsvReader(reader);
+            while (csv.Read())
+            {
+                var catfield = csv.GetField<string>("Category");
+                var namefield = csv.GetField<string>("Program Name");
+
+                if (catfield == strCategory)
+                {
+                    Programlist.Add(namefield);
+                }
+            }
+            return Programlist;
+        }
+
         private void tvCategories_AfterSelect(object sender, TreeViewEventArgs e)
         {
             tbSysInfoOutput.Text = "";
@@ -8200,6 +8266,8 @@ namespace OneStop
                             
                             
                         }
+
+
                         //if (so["CSDVersion"] != null) { sio("Latest Service Pack: " + so["CSDVersion"].ToString()); }
                         //if (so["CSDVersion"] != null) { sio("Latest Service Pack: " + so["CSDVersion"].ToString()); }
                     }
